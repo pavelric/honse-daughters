@@ -1,0 +1,22 @@
+{
+  "data": {
+    "attest": false,
+    "is_tutorial": false,
+    "nonce": "",
+    "resource_version": "10002900",
+    "terms_updated": false
+  },
+  "data_headers": {
+    "result_code": 1,
+    "server_list": {
+      "resource_server": "assets-umamusume-en.akamaized.net/dl/vertical/",
+      "resource_server_cf": "assets-umamusume-en.akamaized.net/dl/vertical/",
+      "resource_server_ingame": "assets-umamusume-en.akamaized.net/dl/vertical/",
+      "resource_server_login": "assets-umamusume-en.akamaized.net/dl/vertical/"
+    },
+    "servertime": 1762857531,
+    "sid": "ea1ccf53dae2903a302b0bec5997357c1762857531",
+    "viewer_id": 768249940320
+  },
+  "response_code": 1
+}
