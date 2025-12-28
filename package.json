@@ -2,12 +2,14 @@
   "name": "honsedaughter",
   "version": "1.0.0",
   "description": "A work-in-progress server emulator for the global version of a horse racing game.",
-  "main": "index.js",
+  "main": "dist/server.js",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npx tsc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npm run build && node --env-file=.env dist/server.js"
   },
   "keywords": [],
   "author": "",

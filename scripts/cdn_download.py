@@ -1,190 +1,323 @@
 # This script downloads the contents of the game's live CDN server for the purpose of emulating the CDN for Honse Daughters
 
-import requests
 import os
-import json
+import asyncio
+import aiohttp
+import lz4.frame
+import apsw
+import struct
+import logging
+from dataclasses import dataclass
+from pathlib import Path
+from typing import List
 from progress.bar import IncrementalBar
 from math import floor
 from threading import Thread, enumerate, current_thread
 
-#CDN_URL = "http://patch.wdfp.kakaogames.com/Live/2.0.0"
 """
 Have to dug this up more to ensure it's the right one.
 This is the resource server URL sent by the game on the initial connection/signup process, so chances are decent.
-TODO: need to figure out how are assets stored on the CDN server.
+TODO: need to figure out how are assets stored on the Global CDN server.
+Met with forbidden access errors, need to figure out how to get around it.
 """
-CDN_URL = "http://assets-umamusume-en.akamaized.net/dl/vertical/"
+EN_CDN_URL = "http://assets-umamusume-en.akamaized.net/dl/vertical"
+JP_CDN_URL = "https://prd-storage-game-umamusume.akamaized.net/dl"
+resVer = "10003850"
+
+
+"""
+ASSETS_ENDPOINT = JP_CDN_URL + '/Android/assetbundles/{0:.2}/{0}'
+GENERIC_ENDPOINT = JP_CDN_URL + '/Generic/{0:.2}/{0}'
+MANIFEST_ENDPOINT = JP_CDN_URL + '/Manifest/{0:.2}/{0}'
+            
+In the meanwhile, these URLs seem to work with the (Android?) JP meta file.
+"manifest" or "manifest2" or "manifest3" => "https://prd-storage-app-umamusume.akamaized.net/dl/resources/Manifest",
+                    _ => "https://prd-storage-game-umamusume.akamaized.net/dl/resources/Windows/assetbundles"
+                    "https://prd-storage-game-umamusume.akamaized.net/dl/resources/Android/assetbundles"
+                } : "https://prd-storage-game-umamusume.akamaized.net/dl/resources/Generic";
+"""
 
 ROOT = os.path.dirname(os.path.realpath(__file__))
 OUTPUT_DIR = os.path.join(ROOT, "..", ".cdn")
-TEMP_DIR = os.path.join(ROOT, "..", ".cdn_temp")
+ASSET_LISTS_DIR = os.path.join(ROOT, "..", "assets/asset_lists")
+
 if not os.path.exists(OUTPUT_DIR):
     os.makedirs(OUTPUT_DIR)
-if not os.path.exists(TEMP_DIR):
-    os.makedirs(TEMP_DIR)
 
+# Constants from data_download.py
+BLOB_TABLE = 'a'
+BLOB_TABLE_PATH = 'n'
+BLOB_TABLE_HASH = 'h'
+BLOB_TABLE_KIND = 'm'
 
-ASSET_LISTS_DIR = os.path.join(ROOT, "..", "assets/asset_lists")
+# Keys from utils.py
+DB_BASE_KEY = b'\xF1\x70\xCE\xA4\xDF\xCE\xA3\xE1\xA5\xD8\xC7\x0B\xD1\x00\x00\x00'
+DB_KEY = b'\x6D\x5B\x65\x33\x63\x36\x63\x25\x54\x71\x2D\x73\x50\x53\x63\x38\x6D\x34\x37\x7B\x35\x63\x70\x23\x37\x34\x53\x29\x73\x43\x36\x33'
+
+@dataclass
+class BlobRow:
+    path: str
+    hash: str
+    kind: str
+    language: str  # 'en' or 'jp'
+    platform: str  # 'android' or 'windows'
+    source_filename: str = ''
+
+    def __str__(self):
+        return self.path
+
+def dict_factory(cursor, row):
+    description = [d[0] for d in cursor.get_description()]
+    return {key: value for key, value in zip(description, row)}
+
+def _derive_decryption_key(key, base_key):
+    key = bytearray(key)
+    if len(base_key) < 13:
+        raise ValueError("Invalid Base Key length.")
+    for i in range(len(key)):
+        key[i] ^= base_key[i % 13]
+    return bytes(key)
+
+def get_meta_conn(db_path):
+    conn = apsw.Connection(str(db_path))
+    conn.row_trace = dict_factory
+    
+    # Try to query the table directly to check if it's already decrypted
+    try:
+        next(conn.execute(f'SELECT count(*) FROM sqlite_master WHERE type="table" AND name="{BLOB_TABLE}"'))
+
+        conn.execute(f'SELECT * FROM "{BLOB_TABLE}" LIMIT 1')
+        print(f"File {db_path} appears to be decrypted, skipping decryption.")
+        return conn
+    except Exception:
+        pass
+
+    conn.close()
+    conn = apsw.Connection(str(db_path))
+    conn.row_trace = dict_factory
+    
+    final_key = _derive_decryption_key(DB_KEY, DB_BASE_KEY)
+    conn.pragma("cipher", "chacha20")
+    conn.pragma("hexkey", final_key.hex())
+    return conn
+
+# game's meta file from appdata, adapted to server & device
 asset_lists_paths = {
+    "en-windows": [
+        os.path.join(ASSET_LISTS_DIR, "en-windows-meta")
+    ],
     "en-android": [
-        os.path.join(ASSET_LISTS_DIR, "en-android-full.json"), 
-        os.path.join(ASSET_LISTS_DIR, "en-android-short.json")
+        os.path.join(ASSET_LISTS_DIR, "en-android-meta")
     ],
-    "ko-android": [
-        os.path.join(ASSET_LISTS_DIR, "ko-android-full.json"), 
-        os.path.join(ASSET_LISTS_DIR, "ko-android-short.json")
+    "jp-windows": [
+        os.path.join(ASSET_LISTS_DIR, "jp-windows-meta")
     ],
-    "th-android": [
-        os.path.join(ASSET_LISTS_DIR, "th-android-full.json"), 
-        os.path.join(ASSET_LISTS_DIR, "th-android-short.json")
+    "jp-android": [
+        os.path.join(ASSET_LISTS_DIR, "jp-android-meta")
     ],
-    "en-ios": [
-        os.path.join(ASSET_LISTS_DIR, "en-ios-full.json")
-    ],
-    "ko-ios": [
-        os.path.join(ASSET_LISTS_DIR, "ko-ios-full.json")
-    ],
-    "th-ios": [
-        os.path.join(ASSET_LISTS_DIR, "th-ios-full.json")
-    ]
 }
 
-files_lists = {
-    "en-android": "/en/entities/2.1.125-android_medium.csv",
-    "ko-android": "/ko/entities/2.1.121-android_medium.csv",
-    "th-android": "/th/entities/2.1.124-android_medium.csv",
-    "en-ios": "/en/entities/2.1.125-ios_medium.csv",
-    "ko-ios": "/ko/entities/2.1.121-ios_medium.csv",
-    "th-ios": "/th/entities/2.1.124-ios_medium.csv"
-}
+def get_asset_blobs(languages=[]) -> List[BlobRow]:
+    blobs = []
+    limit = 200
+    
+    for lang_key in languages:
+        # Parse language and platform from key (e.g. "en-windows")
+        parts = lang_key.split('-')
+        if len(parts) >= 2:
+            language = parts[0]
+            platform = parts[1]
+        else:
+            language = 'jp' # Default fallback
+            platform = 'windows'
 
-def get_asset_locations(languages = []):
-    location_size_map = {}
-    for lang in languages:
-        paths = asset_lists_paths.get(lang) or []
-
-        # load the asset lists
+        paths = asset_lists_paths.get(lang_key) or []
         for path in paths:
-            asset_list = None
-            with open(path, 'r') as file:
-                asset_list = json.load(file)
+            if not os.path.exists(path):
+                print(f"Warning: Asset list file not found: {path}")
+                continue
+            
+            source_filename = os.path.basename(path)
 
             try:
-                for data in asset_list['full']['archive']:
-                    location_size_map[data['location'].replace('{$cdnAddress}', '')] = data['size']
+                conn = get_meta_conn(path)
+                
+                # Check total blobs
+                try:
+                    total_blobs = next(conn.execute(f'SELECT COUNT(*) FROM "{BLOB_TABLE}"'))['COUNT(*)']
+                except Exception as e:
+                    # Fallback if table doesn't exist or query fails
+                    print(f"Error querying table {BLOB_TABLE} in {path}: {e}")
+                    conn.close()
+                    continue
 
-                # add diff locations
-                for diff_data in asset_list['diff']:
-                    for data in diff_data['archive']:
-                        location_size_map[data['location'].replace('{$cdnAddress}', '')] = data['size']
+                offset = 0
+                while offset < total_blobs:
+                    rows_fetched = 0
+                    for row in conn.execute(f'SELECT "{BLOB_TABLE_PATH}" as n, "{BLOB_TABLE_HASH}" as h, "{BLOB_TABLE_KIND}" as m FROM "{BLOB_TABLE}" LIMIT {limit} OFFSET {offset}'):
+                        blob_row = BlobRow(
+                            path=row['n'], 
+                            hash=row['h'], 
+                            kind=row['m'],
+                            language=language,
+                            platform=platform,
+                            source_filename=source_filename
+                        )
+                        
+                        if blob_row.path.startswith('//'):
+                            blob_row.path = f'{blob_row.kind}/{blob_row.path[2:]}'
+                        
+                        blobs.append(blob_row)
+                        rows_fetched += 1
+                    
+                    if rows_fetched == 0:
+                        break
+                    offset += rows_fetched
+                
+                conn.close()
+            except Exception as e:
+                print(f"Error parsing asset list {path}: {e}")
+                
+    return blobs
 
-            except Exception as error:
-                print(f"Error when parsing asset list data. Error: {error}")
+async def save_blob_row(session: aiohttp.ClientSession, blob_row: BlobRow, bar: IncrementalBar):
+    # Construct URL based on language and kind
+    base_url = EN_CDN_URL if blob_row.language == 'en' else JP_CDN_URL
+    base_url = base_url.rstrip('/')
+    
+    # endpoints Format: 
+    #   {Base}/{Platform}/assetbundles/{hash:.2}/{hash} for assets
+    #   {Base}/Generic/{hash:.2}/{hash} for master/generic
+    #   {Base}/Manifest/{hash:.2}/{hash} for manifest
+    
+    # Platform capitalization (Windows/Android)
+    platform_cap = blob_row.platform.capitalize()
+    
+    assets_endpoint = base_url + f'/resources/{platform_cap}/assetbundles/{{0:.2}}/{{0}}'
+    generic_endpoint = base_url + '/resources/Generic/{0:.2}/{0}'
+    manifest_endpoint = base_url + '/resources/Manifest/{0:.2}/{0}'
+    manifest3_endpoint = base_url + f'/{resVer}/manifests/manifestdat/root.manifest.bsv.lz4'
+    
+    # Logic from data_download.py
+    if blob_row.kind == 'master':
+        endpoint = generic_endpoint
+        url = endpoint.format(blob_row.hash)
+    elif blob_row.kind in ('sound', 'movie', 'font'):
+        endpoint = generic_endpoint
+        url = endpoint.format(blob_row.hash)
+    elif blob_row.kind in ('manifest', 'manifest2'):
+        endpoint = manifest_endpoint
+        url = endpoint.format(blob_row.hash)
+    elif blob_row.kind == 'manifest3':
+        url = manifest3_endpoint
+    else:
+        endpoint = assets_endpoint
+        url = endpoint.format(blob_row.hash)
 
-        # load file list
-        file_list = files_lists.get(lang) or None
-        if file_list:
-            location_size_map[file_list] = 0
+    # Determine output path based on URL structure (mimicking CDN)
+    # Remove base_url from url to get relative path
+    # e.g. url: https://.../Generic/hash -> relative_path: Generic/hash
+    
+    relative_path_from_url = url.replace(base_url, "").lstrip('/')
+    
+    # We do NOT decompress if we are emulating the CDN, as the client expects compressed assets (if they are compressed on CDN).
+    # The CDN file structure usually doesn't have extensions for hashed files, but might for manifests.
+    
+    output_path = Path(OUTPUT_DIR, blob_row.source_filename, relative_path_from_url)
+    
+    if output_path.exists():
+        bar.next()
+        return
 
-    return location_size_map
+    try:
+        async with session.get(url) as resp:
+            if resp.status == 403:
+                # Log error as per data_download.py
+                print(f'\nFailed to download (403): {url}')
+                bar.next()
+                return
+            
+            if resp.status != 200:
+                print(f'\nFailed to download ({resp.status}): {url}')
+                bar.next()
+                return
 
-def download_assets(start, end, locations, bar, output_dir=OUTPUT_DIR):
-    for location_n in range(start, end):
-        try:
-            location = locations[location_n]
-            output_path = os.path.join(output_dir, location.removeprefix('/'))
-            if not os.path.exists(output_path):
-                blob = requests.get(f'{CDN_URL}{location}').content
-
-                with open(output_path, 'wb') as file:
-                    file.write(blob)
-
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            
+            with output_path.open('wb') as f:
+                while True:
+                    chunk = await resp.content.read(1024 * 4)
+                    if not chunk:
+                        break
+                    f.write(chunk)
+            
             bar.next()
-        except Exception as error:
-            print(f"Error when download asset {location}. Error: {error}")
+    except Exception as e:
+        print(f"\nError downloading {blob_row.path}: {e}")
+        bar.next()
 
-def download_assets_multithread(locations, thread_count=6, output_dir=OUTPUT_DIR):
-    location_count = len(locations)
-    thread_count = min(location_count, thread_count)
-    locations_per_thread = floor(location_count / thread_count)
-
-    bar = IncrementalBar('Downloading CDN Assets', suffix="%(index)d/%(max)d (%(percent)d%%) - [%(elapsed_td)s / %(eta_td)s]", max=len(locations))
-
-    # create directories
-    for location in locations:
-        output_path = os.path.join(output_dir, location.removeprefix('/'))
-        file_output_dir = os.path.dirname(output_path)
-        if not os.path.exists(file_output_dir):
-            os.makedirs(file_output_dir)
-
-    for thread_n in range(thread_count):
-        start = locations_per_thread * thread_n
-        end = location_count if thread_n == (thread_count - 1) else min(location_count, start + locations_per_thread)
-        thread = Thread(target=download_assets, kwargs={
-            'start': start, 
-            'end': end, 
-            'locations': locations, 
-            'bar': bar,
-            'output_dir': output_dir
-        })
-        thread.daemon = True
-        thread.start()
-
-    # wait for the threads to all finish
-    for thread in enumerate():
-        if thread is current_thread():
-            continue
-        thread.join()
-
-    # finish the bar
+async def download_assets_async(blobs: List[BlobRow]):
+    bar = IncrementalBar('Downloading CDN Assets', max=len(blobs))
+    
+    async with aiohttp.ClientSession() as session:
+        # Limit concurrency to avoid overwhelming the server or local resources
+        semaphore = asyncio.Semaphore(30) 
+        
+        async def bounded_download(blob):
+            async with semaphore:
+                await save_blob_row(session, blob, bar)
+        
+        tasks = [bounded_download(blob) for blob in blobs]
+        await asyncio.gather(*tasks)
+    
     bar.finish()
 
+if __name__ == '__main__':
+    # get user input
+    platform_choice = input('Enter the platform to download the CDN for. \nPlatform [ALL/android/windows]:')
+    match platform_choice:
+        case 'windows':
+            platform_choice = 'windows'
+        case 'android':
+            platform_choice = 'android'
+        case _:
+            platform_choice = 'all'
 
-# get user input
-platform_choice = input('Enter the platform to download the CDN for. \nPlatform [ALL/android/ios]:')
-match platform_choice:
-    case 'ios':
-        platform_choice = 'ios'
-    case 'android':
-        platform_choice = 'android'
-    case _:
-        platform_choice = 'all'
+    print(f'Selected platform "{platform_choice}".\n')
 
-print(f'Selected platform "{platform_choice}".\n')
+    lang_choice = input('Enter the language code for the CDN you wish to download. \nLanguage Code [ALL/en/jp]:')
+    match lang_choice:
+        case 'en':
+            lang_choice = 'en'
+        case 'jp':
+            lang_choice = 'jp'
+        case _:
+            lang_choice = 'all'
 
+    print(f'Selected language "{lang_choice}".\n')
 
-lang_choice = input('Enter the language code for the CDN you wish to download. \nLanguage Code [ALL/en/ko/th]:')
-match lang_choice:
-    case 'en':
-        lang_choice = 'en'
-    case 'ko':
-        lang_choice = 'ko'
-    case 'th':
-        lang_choice = 'th'
-    case _:
-        lang_choice = 'all'
+    languages = []
+    for lang in asset_lists_paths.keys():
+        if ( lang_choice == 'all' or lang.startswith(lang_choice)) and ( platform_choice == 'all' or lang.endswith(platform_choice) ):
+            languages.append(lang)
 
-print(f'Selected language "{lang_choice}".\n')
+    # get the assets
+    print("Parsing asset lists...")
+    blobs = get_asset_blobs(languages)
 
-languages = []
-for lang, _ in asset_lists_paths.items():
-    if ( lang_choice == 'all' or lang.startswith(lang_choice)) and ( platform_choice == 'all' or lang.endswith(platform_choice) ):
-        languages.append(lang)
-
-# get the assets
-asset_locations_map = get_asset_locations(languages)
-
-locations = []
-total_size = 0
-for location, size in asset_locations_map.items():
-    locations.append(location)
-    total_size += size
-
-choice = input(f'The download will be {round(total_size / 1e+9, 2)} GB. Continue? \n[Y/n]:')
-match choice:
-    case 'n':
+    if not blobs:
+        print("No assets found. Check if asset list files exist in assets/asset_lists.")
         exit()
 
-if (len(locations) > 0):
-    download_assets_multithread(locations)
-    print("CDN Downloaded Successfully to '.cdn'")
+    choice = input(f'Found {len(blobs)} files. Continue? \n[Y/n]:')
+    match choice:
+        case 'n':
+            exit()
+
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    try:
+        loop.run_until_complete(download_assets_async(blobs))
+        print("CDN Downloaded Successfully to '.cdn'")
+    finally:
+        loop.close()

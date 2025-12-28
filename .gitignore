@@ -1,7 +1,12 @@
 node_modules
 .requestsexamples
+# might wanna avoid too many files
+.cdn
 .cdn_temp
+.inputs
 .env
-decryptor.py
+.venv
 SaveData.db
 Plan.md
+dist
+out
