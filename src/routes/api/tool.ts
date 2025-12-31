@@ -1,24 +1,13 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { generateViewerId } from "../../utils";
-import { generateDataHeaders } from "../../utils";
+import { generateDataHeaders, RequestCommon } from "../../utils";
 import { computeResponseSid } from "../../crypto";
 import { pack, unpack } from 'msgpackr';
+import { createAccount, createSession, ensurePlayerExists, getAccountByUdid, getAccountByViewerId, verifySession } from "../../data/honseData";
 
-
-interface PreSignupBody {
-    nonce: string,
-    attest: boolean
-    country_list: CountryInfo[]
-    enable_steam_account: boolean //false
-}
 
 interface CountryInfo {
     country: string,
     country_type: number,
-}
-
-interface SignupBody {
-    auth_key: string,
 }
 
 
@@ -62,10 +51,10 @@ const routes = async (fastify: FastifyInstance) => {
             "data": {
                 "attest": false,
                 "nonce": "",
-                "country_list": [
-                    { country: "France", country_type: 1 },
-                    { country: "United Kingdom", country_type: 1 },
-                    { country: "United States", country_type: 1 }
+                "country_list": [ //CountryInfo[]
+                    { country: "Europe", country_type: 1 },
+                    { country: "America", country_type: 1 },
+                    { country: "Asia", country_type: 1 }
                 ]
             },
             "data_headers": generateDataHeaders({
@@ -88,15 +77,31 @@ const routes = async (fastify: FastifyInstance) => {
     fastify.post("/signup", (request: FastifyRequest, reply: FastifyReply) => {
         const body = request.body
 
+        const udid = request.umaHeader?.udid
+        if (!udid) return reply.status(400).send({ 
+            "error": "Bad Request",
+            "message": "UDID is required"
+        })
+        
+        let account = getAccountByUdid(udid);
+        if (!account) {
+            account = createAccount(udid);
+        } else {
+            ensurePlayerExists(account);
+        }
+        
+        const session = createSession(account);
+
         reply.header("content-type", "application/x-msgpack; charset=utf-8")
         console.log("Request Body:", body)
 
         var response = {
             "data": {
-                "auth_key": "az21254da545da81d5ad5484da515ad8a11e8d"
+                "auth_key": session.auth_key,
+                "viewer_id": account.viewer_id
             },
             "data_headers": generateDataHeaders({
-                sid: request.umaHeader?.sid ? computeResponseSid(request.umaHeader.sid) : undefined,
+                viewer_id: account.viewer_id,
                 server_list: {
                     "resource_server": `assets-umamusume-en.akamaized.net/dl/vertical/`,
                     "resource_server_cf": `assets-umamusume-en.akamaized.net/dl/vertical/`,
@@ -112,8 +117,60 @@ const routes = async (fastify: FastifyInstance) => {
         reply.status(200).send(response)
     })
 
+    fastify.post("/start_session", (request: FastifyRequest, reply: FastifyReply) => {
+        const body = request.body as RequestCommon
 
+        // Use viewer_id instead of udid
+        const viewerId = body.viewer_id
+        if (!viewerId) return reply.status(400).send({ 
+            "error": "Bad Request",
+            "message": "viewer_id is required"
+        })
 
+        // Check if account exists
+        const account = getAccountByViewerId(viewerId.toString());
+        if (!account) {
+             return reply.status(404).send({ 
+                "error": "Not Found",
+                "message": "Account not found"
+            })
+        }
+        
+        // Verify existing session or create new one
+        let session = verifySession(viewerId.toString());
+        if (!session) {
+            session = createSession(account);
+        }
+
+        reply.header("content-type", "application/x-msgpack; charset=utf-8")
+        console.log("Request Body:", body)
+
+        var response = {
+            "data": {
+                "attest": false,
+                "is_tutorial": true,
+                "nonce": "",
+                "resource_version": "10003850", // hardcode it for now
+                "terms_updated": false,
+                "auth_key": session.auth_key // oops?
+            },
+            "data_headers": generateDataHeaders({
+                sid: request.umaHeader?.sid ? computeResponseSid(request.umaHeader.sid) : undefined,
+                viewer_id: viewerId,
+                server_list: {
+                    "resource_server": `assets-umamusume-en.akamaized.net/dl/vertical/`,
+                    "resource_server_cf": `assets-umamusume-en.akamaized.net/dl/vertical/`,
+                    "resource_server_ingame": `assets-umamusume-en.akamaized.net/dl/vertical/`,
+                    "resource_server_login": `assets-umamusume-en.akamaized.net/dl/vertical/`
+                }
+            }),
+            response_code: 1
+        }
+        
+        console.log("Response: ", response)
+
+        reply.status(200).send(response)
+    })
 
 }
 

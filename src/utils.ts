@@ -31,6 +31,20 @@ export function getDateFromServerTime(serverTime: number): Date {
     return new Date(serverTime * 1000)
 }
 
+export function formatTimestamp(date: Date = new Date()): string {
+    const y = date.getFullYear()
+    const m = String(date.getMonth() + 1).padStart(2, '0')
+    const d = String(date.getDate()).padStart(2, '0')
+    const hh = String(date.getHours()).padStart(2, '0')
+    const mm = String(date.getMinutes()).padStart(2, '0')
+    const ss = String(date.getSeconds()).padStart(2, '0')
+    return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+}
+
+export function formatServerTimestamp(): string {
+    return formatTimestamp(getDateFromServerTime(getServerTime()))
+}
+
 /**
  * Generates a random viewer ID using the crypto library.
  * 
@@ -53,8 +67,14 @@ export interface DataHeaders {
     server_list?: any // "ServerList" object or string URL
 }
 
-interface NotificationInfo {
-    unread_information_exists: number
+export interface NotificationInfo {
+    unread_information_exists?: number
+    add_present_num?: number,
+    room_match_race_result_num?: number,
+}
+
+export interface RequestCommon {
+    viewer_id: number
 }
 
 /**
@@ -82,7 +102,11 @@ export function generateDataHeaders(
     for (const field of fields) {
         const customValue = customValues[field]
         const defaultValue = defaultHeaders[field]
-        headers[field] = customValue === undefined ? defaultValue : customValue
+        const value = customValue === undefined ? defaultValue : customValue
+        
+        if (value !== undefined) {
+            headers[field] = value
+        }
     }
 
     return headers

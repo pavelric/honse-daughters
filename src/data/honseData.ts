@@ -1,0 +1,834 @@
+import getDatabase, { Database } from './index';
+import { Account, Session, Player, TeamStadiumBorderLine, UserTeamStadiumRanking, UserDirectoryCard, LovePointInfo, RewardItemInfo, UserCharaList, UserCharaProfile, UserTrainedChara } from './types';
+import { generateViewerId, getServerTime, formatServerTimestamp } from '../utils';
+import { generateAuthKey } from '../crypto';
+import { getDefaultPlayerData } from './utils';
+import { DEFAULT_CARDS, DEFAULT_CHARAS, DEFAULT_ITEMS, DEFAULT_SUPPORT_CARDS, DEFAULT_TRAINED_CHARAS, DEFAULT_TEAM_DATA, DEFAULT_CHARA_PROFILES, DEFAULT_USER_PROFILE, TUTORIAL_FINISH_TRAINED_CHARA, DEFAULT_SUPPORT_CARD_DATA_ARRAY } from './defaults';
+
+const db = getDatabase(Database.HONSE_DATA);
+
+export function getAccountByUdid(udid: string): Account | undefined {
+    return db.prepare('SELECT * FROM accounts WHERE udid = ?').get(udid) as Account | undefined;
+}
+
+export function createAccount(udid: string): Account {
+    // Generate a unique viewer_id
+    // utils.generateViewerId returns a number, but we store as string in DB and types
+    let viewerId = generateViewerId();
+    
+    // Ensure uniqueness (though unlikely to collide with randomInt)
+    while (db.prepare('SELECT 1 FROM accounts WHERE viewer_id = ?').get(viewerId)) {
+        viewerId = generateViewerId();
+    }
+
+    const player: Omit<Player, 'id'> = getDefaultPlayerData(viewerId);
+    
+    const now = formatServerTimestamp();
+    
+    const result = db.prepare(`
+        INSERT INTO accounts (viewer_id, udid, first_login_time)
+        VALUES (?, ?, ?)
+    `).run(viewerId, udid, now);
+
+    const accountId = result.lastInsertRowid as number;
+
+    db.prepare(`
+        INSERT INTO players (account_id, viewer_id, coin, fcoin, optin_user_birth, rp, tp, tutorial_step)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `).run(accountId, player.viewer_id, player.coin, player.fcoin, player.optin_user_birth, player.rp, player.tp, player.tutorial_step);
+
+    // Initialize User Profile
+    db.prepare(`
+        INSERT INTO user_profiles (
+            viewer_id, account_id, name, comment, birth_day, sex, 
+            rank_score, fan, tutorial_step, 
+            create_time, register_time, update_time, last_ticket_natural_recovery_time,
+            leader_chara_id, leader_chara_dress_id, partner_chara_id, support_card_id,
+            best_team_evaluation_point, honor_id,
+            bonus_trainer_point, current_rp, directory_level, last_information_checked_time,
+            max_rp_add_val, rp_max_recovery_time, single_mode_play_count,
+            team_stadium_win_count, total_login_day_count, total_login_day_count_check_time,
+            tp_max_recovery_time, trainer_point
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `).run(
+        viewerId, accountId, 
+        DEFAULT_USER_PROFILE.name, DEFAULT_USER_PROFILE.comment, "", DEFAULT_USER_PROFILE.sex,
+        DEFAULT_USER_PROFILE.rank_score, DEFAULT_USER_PROFILE.fan, DEFAULT_USER_PROFILE.tutorial_step,
+        now, now, now, now,
+        DEFAULT_USER_PROFILE.leader_chara_id, DEFAULT_USER_PROFILE.leader_chara_dress_id, DEFAULT_USER_PROFILE.partner_chara_id, DEFAULT_USER_PROFILE.support_card_id,
+        DEFAULT_USER_PROFILE.best_team_evaluation_point, DEFAULT_USER_PROFILE.honor_id,
+        DEFAULT_USER_PROFILE.bonus_trainer_point, DEFAULT_USER_PROFILE.current_rp, DEFAULT_USER_PROFILE.directory_level, DEFAULT_USER_PROFILE.last_information_checked_time,
+        DEFAULT_USER_PROFILE.max_rp_add_val, DEFAULT_USER_PROFILE.rp_max_recovery_time, DEFAULT_USER_PROFILE.single_mode_play_count,
+        DEFAULT_USER_PROFILE.team_stadium_win_count, DEFAULT_USER_PROFILE.total_login_day_count, DEFAULT_USER_PROFILE.total_login_day_count_check_time,
+        DEFAULT_USER_PROFILE.tp_max_recovery_time, DEFAULT_USER_PROFILE.trainer_point
+    );
+
+    // Initialize Default Cards
+    const insertCard = db.prepare(`
+        INSERT INTO user_cards (viewer_id, card_id, rarity, talent_level, create_time, skill_data)
+        VALUES (?, ?, ?, ?, ?, ?)
+    `);
+    for (const card of DEFAULT_CARDS) {
+        insertCard.run(viewerId, card.card_id, card.rarity, card.talent_level, now, JSON.stringify([]));
+    }
+
+    // Initialize Default Charas
+    const insertChara = db.prepare(`
+        INSERT INTO user_charas (viewer_id, chara_id, dress_id, mini_dress_id, love_point, max_grade, fan, training_num)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `);
+    for (const chara of DEFAULT_CHARAS) {
+        insertChara.run(viewerId, chara.chara_id, chara.dress_id, chara.mini_dress_id, chara.love_point, chara.max_grade, chara.fan, chara.training_num);
+    }
+
+    // Initialize Default Chara Profiles
+    const insertCharaProfile = db.prepare(`
+        INSERT INTO user_chara_profiles (viewer_id, chara_id, data_id, new_flag)
+        VALUES (?, ?, ?, ?)
+    `);
+    for (const profile of DEFAULT_CHARA_PROFILES) {
+        insertCharaProfile.run(viewerId, profile.chara_id, profile.data_id, profile.new_flag);
+    }
+
+    // Initialize Default Items
+    const insertItem = db.prepare(`
+        INSERT INTO user_items (viewer_id, item_id, number)
+        VALUES (?, ?, ?)
+    `);
+    for (const item of DEFAULT_ITEMS) {
+        insertItem.run(viewerId, item.item_id, item.number);
+    }
+
+    // Initialize Default Support Cards
+    const insertSupportCard = db.prepare(`
+        INSERT INTO user_support_cards (viewer_id, support_card_id, exp, limit_break_count, favorite_flag, create_time)
+        VALUES (?, ?, ?, ?, ?, ?)
+    `);
+    for (const sc of DEFAULT_SUPPORT_CARDS) {
+        insertSupportCard.run(viewerId, sc.support_card_id, sc.exp, 0, 0, now);
+    }
+
+    // Initialize Default Decks (10 empty decks)
+    const insertDeck = db.prepare(`
+        INSERT INTO user_decks (viewer_id, deck_id, name, cards, possess_time, stock)
+        VALUES (?, ?, ?, ?, ?, ?)
+    `);
+    for (let i = 1; i <= 10; i++) {
+        insertDeck.run(viewerId, i, `Deck ${i}`, JSON.stringify([0, 0, 0, 0, 0]), now, 0);
+    }
+
+    // Initialize Default Trained Charas
+    const insertTrainedChara = db.prepare(`
+        INSERT INTO user_trained_charas (
+            viewer_id, trained_chara_id, card_id, chara_seed, rank, rank_score, speed, stamina, power, guts, wiz,
+            rarity, running_style, scenario_id, route_id, wins, register_time, create_time,
+            skill_array, race_result_list, factor_info_array, support_card_list,
+            arrive_route_race_id, factor_id_array, fans, is_locked, is_saved, nickname_id, nickname_id_array,
+            owner_trained_chara_id, proper_distance_long, proper_distance_short, proper_distance_middle, proper_distance_mile,
+            proper_ground_dirt, proper_ground_turf, proper_running_style_nige, proper_running_style_oikomi,
+            proper_running_style_sashi, proper_running_style_senko, race_cloth_id, single_mode_chara_id,
+            succession_chara_array, succession_history_array, succession_num, succession_trained_chara_id_1,
+            succession_trained_chara_id_2, talent_level, use_type, win_saddle_id_array, owner_viewer_id, chara_grade
+        ) VALUES (
+            ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
+            ?, ?, ?, ?, ?, ?, ?,
+            ?, ?, ?, ?,
+            ?, ?, ?, ?, ?, ?, ?,
+            ?, ?, ?, ?, ?,
+            ?, ?, ?, ?,
+            ?, ?, ?, ?,
+            ?, ?, ?, ?,
+            ?, ?, ?, ?,
+            ?, ?
+        )
+    `);
+    
+    // We need to map trained_chara_id to the actual DB ID if we want to reference it later
+    // For now, let's just insert them. The DB will assign IDs.
+    // However, the JSON has `trained_chara_id` which are likely auto-incremented DB IDs.
+    // Since this is a new account, they will likely be 1, 2, 3... if the table is empty or per-user?
+    // Wait, `user_trained_charas` has `trained_chara_id` as PRIMARY KEY. This is global.
+    // So we can't force it to be 1, 2, 3 unless we are the first user.
+    // We should let SQLite assign the ID, and then update our `team_data` with the assigned ID.
+    
+    const trainedCharaIdMap = new Map<number, number>(); // local index -> db id
+
+    for (let i = 0; i < DEFAULT_TRAINED_CHARAS.length - 1; i++) {
+        const tc = DEFAULT_TRAINED_CHARAS[i];
+        insertTrainedChara.run(
+            viewerId, tc.trained_chara_id, tc.card_id, tc.chara_seed, tc.rank, tc.rank_score,
+            tc.speed, tc.stamina, tc.power, tc.guts, tc.wiz,
+            tc.rarity, tc.running_style, tc.scenario_id, tc.route_id, tc.wins,
+            now, now,
+            JSON.stringify(tc.skill_array || []), 
+            JSON.stringify(tc.race_result_list || []), 
+            JSON.stringify(tc.factor_info_array || []), 
+            JSON.stringify(tc.support_card_list || []),
+            tc.arrive_route_race_id,
+            JSON.stringify(tc.factor_id_array || []),
+            tc.fans,
+            tc.is_locked,
+            tc.is_saved,
+            tc.nickname_id,
+            JSON.stringify(tc.nickname_id_array || []),
+            tc.owner_trained_chara_id,
+            tc.proper_distance_long,
+            tc.proper_distance_short,
+            tc.proper_distance_middle,
+            tc.proper_distance_mile,
+            tc.proper_ground_dirt,
+            tc.proper_ground_turf,
+            tc.proper_running_style_nige,
+            tc.proper_running_style_oikomi,
+            tc.proper_running_style_sashi,
+            tc.proper_running_style_senko,
+            tc.race_cloth_id,
+            tc.single_mode_chara_id,
+            JSON.stringify(tc.succession_chara_array || []),
+            JSON.stringify(tc.succession_history_array || []),
+            tc.succession_num,
+            tc.succession_trained_chara_id_1,
+            tc.succession_trained_chara_id_2,
+            tc.talent_level,
+            tc.use_type,
+            JSON.stringify(tc.win_saddle_id_array || []),
+            tc.owner_viewer_id,
+            tc.chara_grade
+        );
+        trainedCharaIdMap.set(tc.trained_chara_id, tc.trained_chara_id);
+    }
+
+    // Initialize Default Team Data
+    const insertTeamData = db.prepare(`
+        INSERT INTO user_team_data (viewer_id, distance_type, member_id, running_style, trained_chara_id)
+        VALUES (?, ?, ?, ?, ?)
+    `);
+    
+    for (const td of DEFAULT_TEAM_DATA) {
+        // map the dummy trained_chara_id to the real one if it exists
+        const realTrainedCharaId = td.trained_chara_id > 0 ? trainedCharaIdMap.get(td.trained_chara_id) || 0 : 0;
+        insertTeamData.run(viewerId, td.distance_type, td.member_id, td.running_style, realTrainedCharaId);
+    }
+    
+    return {
+        id: accountId,
+        viewer_id: viewerId,
+        udid: udid,
+        first_login_time: now
+    };
+}
+
+export function getAccountByViewerId(viewerId: string): Account | undefined {
+    return db.prepare('SELECT * FROM accounts WHERE viewer_id = ?').get(viewerId) as Account | undefined;
+}
+
+export function getSessionByViewerId(viewerId: string): Session | undefined {
+    return db.prepare('SELECT * FROM sessions WHERE viewer_id = ? ORDER BY expires DESC LIMIT 1').get(viewerId) as Session | undefined;
+}
+
+export function verifySession(viewerId: string): Session | undefined {
+    const session = getSessionByViewerId(viewerId);
+    if (!session) return undefined;
+    
+    if (session.expires < getServerTime()) {
+        // Session expired
+        // Optionally delete it? db.prepare('DELETE FROM sessions WHERE auth_key = ?').run(session.auth_key);
+        return undefined;
+    }
+    
+    return session;
+}
+
+export function createSession(account: Account): Session {
+    const authKey = generateAuthKey();
+    const expiresTimestamp = getServerTime() + (60 * 30); // 30 minutes
+    
+    db.prepare(`
+        INSERT INTO sessions (auth_key, account_id, viewer_id, expires)
+        VALUES (?, ?, ?, ?)
+    `).run(authKey, account.id, account.viewer_id, expiresTimestamp);
+    
+    return {
+        auth_key: authKey,
+        expires: expiresTimestamp,
+        accountId: account.id,
+        viewer_id: account.viewer_id
+    };
+}
+
+
+export function getPlayer(viewerId: number | string): Player | null {
+    const player = db.prepare(`
+    SELECT id, viewer_id, coin, fcoin, optin_user_birth, rp, tp, tutorial_step
+    FROM players
+    WHERE viewer_id = ?
+    `).get(viewerId.toString()) as Player | undefined
+
+    if (player === undefined) return null
+
+    return player
+}
+
+export function ensurePlayerExists(account: Account): void {
+    const existing = db.prepare('SELECT 1 FROM players WHERE viewer_id = ?').get(account.viewer_id)
+    if (existing) return
+
+    const player: Omit<Player, 'id'> = getDefaultPlayerData(account.viewer_id);
+    db.prepare(`
+        INSERT INTO players (account_id, viewer_id, coin, fcoin, optin_user_birth, rp, tp, tutorial_step)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `).run(account.id, player.viewer_id, player.coin, player.fcoin, player.optin_user_birth, player.rp, player.tp, player.tutorial_step);
+}
+
+export function getPlayerBorderline(viewerId: number | string): TeamStadiumBorderLine {
+    const playerClass = getPlayerTeamStadiumData(viewerId).team_class
+    
+    const rawEntries = db.prepare(`
+    SELECT demotion_point, demotion_rank, keep_point, keep_rank, promotion_point, promotion_rank
+    FROM team_stadium_data
+    WHERE team_class = ?
+    `).all(playerClass.toString()) as TeamStadiumBorderLine[]
+    
+    return { // hardcode it for now
+        "demotion_point": 0,
+        "demotion_rank": 0,
+        "keep_point": 1000,
+        "keep_rank": 1000,
+        "promotion_point": 5000,
+        "promotion_rank": 100
+    }
+}
+
+export function getPaymentItemList(): any {
+    return {
+        "data": [
+            {
+                "charge_num": 60,
+                "disp_order": 120,
+                "end_time": 2524611600,
+                "formatted_price": "Free",
+                "free_num": 0,
+                "id": 1,
+                "item_pack_id": 0,
+                "limit_num": 0,
+                "limit_type": 0,
+                "number_of_product_purchased": 0,
+                "price": 0,
+                "recommended_flag": 0,
+                "start_time": 1577840400,
+                "store_product_id": "com.cygames.umamusume.item1001"
+            },
+            {
+                "charge_num": 210,
+                "disp_order": 110,
+                "end_time": 2524611600,
+                "formatted_price": "Free",
+                "free_num": 0,
+                "id": 2,
+                "item_pack_id": 0,
+                "limit_num": 0,
+                "limit_type": 0,
+                "number_of_product_purchased": 0,
+                "price": 0,
+                "recommended_flag": 0,
+                "start_time": 1577840400,
+                "store_product_id": "com.cygames.umamusume.item1002"
+            },
+            {
+                "charge_num": 350,
+                "disp_order": 100,
+                "end_time": 2524611600,
+                "formatted_price": "Free",
+                "free_num": 0,
+                "id": 3,
+                "item_pack_id": 0,
+                "limit_num": 0,
+                "limit_type": 0,
+                "number_of_product_purchased": 0,
+                "price": 0,
+                "recommended_flag": 0,
+                "start_time": 1577840400,
+                "store_product_id": "com.cygames.umamusume.item1003"
+            },
+            {
+                "charge_num": 700,
+                "disp_order": 90,
+                "end_time": 2524611600,
+                "formatted_price": "Free",
+                "free_num": 0,
+                "id": 4,
+                "item_pack_id": 0,
+                "limit_num": 0,
+                "limit_type": 0,
+                "number_of_product_purchased": 0,
+                "price": 0,
+                "recommended_flag": 0,
+                "start_time": 1577840400,
+                "store_product_id": "com.cygames.umamusume.item1004"
+            },
+            {
+                "charge_num": 1500,
+                "disp_order": 80,
+                "end_time": 2524611600,
+                "formatted_price": "Free",
+                "free_num": 0,
+                "id": 5,
+                "item_pack_id": 0,
+                "limit_num": 0,
+                "limit_type": 0,
+                "number_of_product_purchased": 0,
+                "price": 0,
+                "recommended_flag": 0,
+                "start_time": 1577840400,
+                "store_product_id": "com.cygames.umamusume.item1005"
+            },
+            {
+                "charge_num": 2500,
+                "disp_order": 70,
+                "end_time": 2524611600,
+                "formatted_price": "Free",
+                "free_num": 0,
+                "id": 6,
+                "item_pack_id": 0,
+                "limit_num": 0,
+                "limit_type": 0,
+                "number_of_product_purchased": 0,
+                "price": 0,
+                "recommended_flag": 0,
+                "start_time": 1577840400,
+                "store_product_id": "com.cygames.umamusume.item1006"
+            },
+            {
+                "charge_num": 5000,
+                "disp_order": 60,
+                "end_time": 2524611600,
+                "formatted_price": "Free",
+                "free_num": 0,
+                "id": 7,
+                "item_pack_id": 0,
+                "limit_num": 0,
+                "limit_type": 0,
+                "number_of_product_purchased": 0,
+                "price": 0,
+                "recommended_flag": 0,
+                "start_time": 1577840400,
+                "store_product_id": "com.cygames.umamusume.item1007"
+            },
+            {
+                "charge_num": 7500,
+                "disp_order": 40,
+                "end_time": 2524611600,
+                "formatted_price": "Free",
+                "free_num": 0,
+                "id": 8,
+                "item_pack_id": 0,
+                "limit_num": 3,
+                "limit_type": 1,
+                "number_of_product_purchased": 0,
+                "price": 0,
+                "recommended_flag": 1,
+                "start_time": 1577840400,
+                "store_product_id": "com.cygames.umamusume.item2001"
+            },
+            {
+                "charge_num": 1500,
+                "disp_order": 50,
+                "end_time": 2524611600,
+                "formatted_price": "Free",
+                "free_num": 0,
+                "id": 20,
+                "item_pack_id": 0,
+                "limit_num": 2,
+                "limit_type": 1,
+                "number_of_product_purchased": 0,
+                "price": 0,
+                "recommended_flag": 1,
+                "start_time": 1577840400,
+                "store_product_id": "com.cygames.umamusume.item2002"
+            },
+            {
+                "charge_num": 7500,
+                "disp_order": 5,
+                "end_time": 1765378799,
+                "formatted_price": "Free",
+                "free_num": 0,
+                "id": 23,
+                "item_pack_id": 0,
+                "limit_num": 3,
+                "limit_type": 1,
+                "number_of_product_purchased": 0,
+                "price": 0,
+                "recommended_flag": 1,
+                "start_time": 1762207200,
+                "store_product_id": "com.cygames.umamusume.item2004"
+            },
+            {
+                "charge_num": 600,
+                "disp_order": 10,
+                "end_time": 2524611600,
+                "formatted_price": "Free",
+                "free_num": 0,
+                "id": 3001,
+                "item_pack_id": 9000,
+                "limit_num": 1,
+                "limit_type": 1,
+                "number_of_product_purchased": 0,
+                "price": 0,
+                "recommended_flag": 0,
+                "start_time": 1577840400,
+                "store_product_id": "com.cygames.umamusume.item3001"
+            },
+            {
+                "charge_num": 1500,
+                "disp_order": 15,
+                "end_time": 2524611600,
+                "formatted_price": "Free",
+                "free_num": 0,
+                "id": 3002,
+                "item_pack_id": 9001,
+                "limit_num": 1,
+                "limit_type": 1,
+                "number_of_product_purchased": 0,
+                "price": 0,
+                "recommended_flag": 0,
+                "start_time": 1577840400,
+                "store_product_id": "com.cygames.umamusume.item3002"
+            },
+            {
+                "charge_num": 1500,
+                "disp_order": 20,
+                "end_time": 2524611600,
+                "formatted_price": "Free",
+                "free_num": 0,
+                "id": 3003,
+                "item_pack_id": 9002,
+                "limit_num": 1,
+                "limit_type": 1,
+                "number_of_product_purchased": 0,
+                "price": 0,
+                "recommended_flag": 0,
+                "start_time": 1577840400,
+                "store_product_id": "com.cygames.umamusume.item3003"
+            },
+            {
+                "charge_num": 500,
+                "disp_order": 30,
+                "end_time": 2524611600,
+                "formatted_price": "Free",
+                "free_num": 0,
+                "id": 16,
+                "item_pack_id": 0,
+                "limit_num": 0,
+                "limit_type": 3,
+                "number_of_product_purchased": 0,
+                "price": 0,
+                "recommended_flag": 0,
+                "start_time": 1577840400,
+                "store_product_id": "com.cygames.umamusume.item4002"
+            }
+        ],
+        "last_checked_time": 0,
+        "season_pack_info": {
+            "notice_status": 0,
+            "product_master_id": 0,
+            "repurchase_time": 0,
+            "season_end_time": 0
+        }
+    }
+}
+
+export function updateTutorialStep(viewerId: number | string, step: number): void {
+    db.prepare(`
+        UPDATE players
+        SET tutorial_step = ?
+        WHERE viewer_id = ?
+    `).run(step, viewerId.toString());
+
+    db.prepare(`
+        UPDATE user_profiles
+        SET tutorial_step = ?
+        WHERE viewer_id = ?
+    `).run(step, viewerId.toString());
+}
+
+export function getPlayerTeamStadiumData(viewerId: number | string): UserTeamStadiumRanking {
+    const player = getPlayer(viewerId)
+
+    
+    
+    return { // hardcode it for now
+        "best_point": 0,
+        "rank": 0,
+        "team_class": 1,
+        "term_id": 20260301,
+        "viewer_id": player?.viewer_id ?? 0
+    }
+}
+
+export function getUserProfile(viewerId: number | string): any {
+    return db.prepare('SELECT * FROM user_profiles WHERE viewer_id = ?').get(viewerId);
+}
+
+export function getUserCards(viewerId: number | string): any[] {
+    return db.prepare('SELECT * FROM user_cards WHERE viewer_id = ?').all(viewerId);
+}
+
+export function getUserCharas(viewerId: number | string): any[] {
+    return db.prepare('SELECT * FROM user_charas WHERE viewer_id = ?').all(viewerId);
+}
+
+export function getUserCharaProfiles(viewerId: number | string): any[] {
+    return db.prepare('SELECT * FROM user_chara_profiles WHERE viewer_id = ?').all(viewerId);
+}
+
+export function getUserItems(viewerId: number | string): any[] {
+    return db.prepare('SELECT * FROM user_items WHERE viewer_id = ?').all(viewerId);
+}
+
+export function getUserSupportCards(viewerId: number | string): any[] {
+    return db.prepare('SELECT * FROM user_support_cards WHERE viewer_id = ?').all(viewerId);
+}
+
+export function getUserDecks(viewerId: number | string): any[] {
+    return db.prepare('SELECT * FROM user_decks WHERE viewer_id = ?').all(viewerId);
+}
+
+export function getUserTrainedCharas(viewerId: number | string): any[] {
+    return db.prepare('SELECT * FROM user_trained_charas WHERE viewer_id = ?').all(viewerId);
+}
+
+export function getUserTeamData(viewerId: number | string): any[] {
+    return db.prepare('SELECT * FROM user_team_data WHERE viewer_id = ?').all(viewerId);
+}
+
+export function updatePlayerSingleModeFinish(viewerId: number | string): any {
+    const viewerIdStr = viewerId.toString();
+    const now = formatServerTimestamp();
+
+    const player = getPlayer(viewerId);
+    if (!player) return null;
+    console.log("player.tutorial_step:", player.tutorial_step)
+
+    if (player.tutorial_step < 1000) {
+        const tc = { ...TUTORIAL_FINISH_TRAINED_CHARA };
+        tc.viewer_id = typeof viewerId === 'string' ? parseInt(viewerId) : viewerId;
+        tc.create_time = now;
+        tc.register_time = now;
+
+        const maxIdResult = db.prepare('SELECT MAX(trained_chara_id) as max_id FROM user_trained_charas WHERE viewer_id = ?').get(viewerIdStr) as { max_id: number };
+        const nextId = (maxIdResult.max_id || 0) + 1;
+        tc.trained_chara_id = nextId;
+        
+        const insertTrainedChara = db.prepare(`
+            INSERT INTO user_trained_charas (
+                viewer_id, trained_chara_id, card_id, chara_seed, rank, rank_score, speed, stamina, power, guts, wiz,
+                rarity, running_style, scenario_id, route_id, wins, register_time, create_time,
+                skill_array, race_result_list, factor_info_array, support_card_list,
+                arrive_route_race_id, factor_id_array, fans, is_locked, is_saved, nickname_id, nickname_id_array,
+                owner_trained_chara_id, proper_distance_long, proper_distance_short, proper_distance_middle, proper_distance_mile,
+                proper_ground_dirt, proper_ground_turf, proper_running_style_nige, proper_running_style_oikomi,
+                proper_running_style_sashi, proper_running_style_senko, race_cloth_id, single_mode_chara_id,
+                succession_chara_array, succession_history_array, succession_num, succession_trained_chara_id_1,
+                succession_trained_chara_id_2, talent_level, use_type, win_saddle_id_array, owner_viewer_id, chara_grade
+            ) VALUES (
+                @viewer_id, @trained_chara_id, @card_id, @chara_seed, @rank, @rank_score, @speed, @stamina, @power, @guts, @wiz,
+                @rarity, @running_style, @scenario_id, @route_id, @wins, @register_time, @create_time,
+                @skill_array, @race_result_list, @factor_info_array, @support_card_list,
+                @arrive_route_race_id, @factor_id_array, @fans, @is_locked, @is_saved, @nickname_id, @nickname_id_array,
+                @owner_trained_chara_id, @proper_distance_long, @proper_distance_short, @proper_distance_middle, @proper_distance_mile,
+                @proper_ground_dirt, @proper_ground_turf, @proper_running_style_nige, @proper_running_style_oikomi,
+                @proper_running_style_sashi, @proper_running_style_senko, @race_cloth_id, @single_mode_chara_id,
+                @succession_chara_array, @succession_history_array, @succession_num, @succession_trained_chara_id_1,
+                @succession_trained_chara_id_2, @talent_level, @use_type, @win_saddle_id_array, @owner_viewer_id, @chara_grade
+            )
+        `);
+        
+        const insertData = {
+            ...tc,
+            skill_array: JSON.stringify(tc.skill_array),
+            race_result_list: JSON.stringify(tc.race_result_list),
+            factor_info_array: JSON.stringify(tc.factor_info_array),
+            support_card_list: JSON.stringify(tc.support_card_list),
+            factor_id_array: JSON.stringify(tc.factor_id_array),
+            nickname_id_array: JSON.stringify(tc.nickname_id_array),
+            succession_chara_array: JSON.stringify(tc.succession_chara_array),
+            succession_history_array: JSON.stringify(tc.succession_history_array),
+            win_saddle_id_array: JSON.stringify(tc.win_saddle_id_array)
+        };
+        
+        insertTrainedChara.run(insertData);
+        const newTrainedCharaId = nextId;
+
+        const updateChara = db.prepare(`
+            UPDATE user_charas 
+            SET fan = ?, love_point = ?, max_grade = ?
+            WHERE viewer_id = ? AND chara_id = ?
+        `);
+        updateChara.run(743, 11, 1, viewerIdStr, 1009);
+        
+        const insertProfile = db.prepare(`
+            INSERT OR REPLACE INTO user_chara_profiles (viewer_id, chara_id, data_id, new_flag)
+            VALUES (?, ?, ?, ?)
+        `);
+        insertProfile.run(viewerIdStr, 1009, 2, 1);
+
+        const item59 = db.prepare('SELECT number FROM user_items WHERE viewer_id = ? AND item_id = ?').get(viewerIdStr, 59) as any;
+        const currentNum = item59 ? item59.number : 0;
+        const newNum = currentNum + 500;
+        
+        db.prepare(`
+            INSERT OR REPLACE INTO user_items (viewer_id, item_id, number)
+            VALUES (?, ?, ?)
+        `).run(viewerIdStr, 59, newNum);
+
+        const directoryCard = {
+            card_id: tc.card_id,
+            directory_ranking: 1,
+            trained_chara: { ...tc }
+        };
+        
+        const lovePointInfo: LovePointInfo = {
+            chara_id: 1009,
+            love_point_after: 11,
+            love_point_before: 0
+        };
+        
+        const newCharaProfileArray = [
+            { chara_id: 1009, data_id: 2, new_flag: 1 }
+        ];
+        
+        const rewardItemInfo: RewardItemInfo = {
+            add_card_bonus_info: null,
+            add_card_list: [],
+            add_chara_list: [],
+            add_cloth_list: [],
+            add_fcoin: 0,
+            add_honor_list: [],
+            add_item_list: [{ item_id: 59, number: 500 }],
+            add_music_list: [],
+            add_piece_list: [],
+            add_present_num: 0,
+            add_story_id_array: [],
+            add_support_card_list: [],
+            add_support_card_num_array: [],
+            add_total_fan: 0,
+            force_update_honor_id: 0,
+            new_chara_profile_array: []
+        };
+        
+        const updatedChara = db.prepare('SELECT * FROM user_charas WHERE viewer_id = ? AND chara_id = ?').get(viewerIdStr, 1009) as any;
+        const updateUserCharaInfo: UserCharaList = {
+            chara_id: updatedChara.chara_id,
+            dress_id: updatedChara.dress_id,
+            fan: updatedChara.fan,
+            love_point: updatedChara.love_point,
+            max_grade: updatedChara.max_grade,
+            mini_dress_id: updatedChara.mini_dress_id,
+            training_num: updatedChara.training_num
+        };
+
+        const supportCardDataArray = DEFAULT_SUPPORT_CARD_DATA_ARRAY.map(card => ({
+            ...card,
+            viewer_id: typeof viewerId === 'string' ? parseInt(viewerId) : viewerId,
+            create_time: now,
+            possess_time: now
+        }));
+
+
+        const currentDate = new Date();
+        const dateNum = parseInt(currentDate.getFullYear().toString() + (currentDate.getMonth() + 1).toString().padStart(2, '0') + currentDate.getDate().toString().padStart(2, '0'));
+
+        const updateSuccession = db.prepare(`
+            UPDATE user_trained_charas
+            SET succession_history_array = ?, succession_num = ?
+            WHERE viewer_id = ? AND trained_chara_id = ?
+        `);
+
+        const successionHistory2 = [
+            {
+                "circle_name": "",
+                "date": dateNum,
+                "history_type": 1,
+                "id": 10001,
+                "rental_viewer_id": Number(viewerIdStr),
+                "succession_card_id": 100901,
+                "trained_chara_id": 2, // This seems to be the target ID? Or reference? In the example it says "trained_chara_id": 2 inside the object.
+                "user_name": "",
+                "viewer_id": Number(viewerIdStr)
+            }
+        ];
+        updateSuccession.run(JSON.stringify(successionHistory2), 1, viewerIdStr, 2);
+        const successionHistory4 = [
+            {
+                ...successionHistory2[0],
+                "id": 10002,
+                "trained_chara_id": 4
+            }
+        ];
+        successionHistory4[0].id = 10002;
+        updateSuccession.run(JSON.stringify(successionHistory4), 1, viewerIdStr, 4);
+
+        
+        const dbTrainedCharas = getUserTrainedCharas(viewerId);
+        
+        const trainedCharaList = dbTrainedCharas.map((tc: any) => ({
+             ...tc,
+             skill_array: JSON.parse(tc.skill_array),
+             race_result_list: JSON.parse(tc.race_result_list),
+             factor_info_array: JSON.parse(tc.factor_info_array),
+             support_card_list: JSON.parse(tc.support_card_list),
+             factor_id_array: JSON.parse(tc.factor_id_array),
+             nickname_id_array: JSON.parse(tc.nickname_id_array),
+             succession_chara_array: JSON.parse(tc.succession_chara_array),
+             succession_history_array: JSON.parse(tc.succession_history_array),
+             win_saddle_id_array: JSON.parse(tc.win_saddle_id_array),
+        }));
+
+        return {
+            directory_card_array: [directoryCard],
+            directory_ranking: 1,
+            limited_shop_info: [],
+            love_point_info: lovePointInfo,
+            new_chara_profile_array: newCharaProfileArray,
+            reward_item_info: rewardItemInfo,
+            support_card_data_array: supportCardDataArray,
+            trained_chara: trainedCharaList,
+            trained_chara_id: Number(newTrainedCharaId),
+            update_user_chara_info: updateUserCharaInfo
+        };
+
+    } else {
+        return {
+             directory_card_array: [],
+             directory_ranking: 1,
+             limited_shop_info: [],
+             love_point_info: { chara_id: 0, love_point_after: 0, love_point_before: 0 },
+             new_chara_profile_array: [],
+             reward_item_info: { 
+                 add_card_bonus_info: null,
+                 add_card_list: [],
+                 add_chara_list: [],
+                 add_cloth_list: [],
+                 add_fcoin: 0,
+                 add_honor_list: [],
+                 add_item_list: [],
+                 add_music_list: [],
+                 add_piece_list: [],
+                 add_present_num: 0,
+                 add_story_id_array: [],
+                 add_support_card_list: [],
+                 add_support_card_num_array: [],
+                 add_total_fan: 0,
+                 force_update_honor_id: 0,
+                 new_chara_profile_array: []
+             },
+             support_card_data_array: [],
+             trained_chara: [],
+             trained_chara_id: 0,
+             update_user_chara_info: { 
+                 chara_id: 0, dress_id: 0, fan: 0, love_point: 0, max_grade: 0, mini_dress_id: 0, training_num: 0
+             }
+        };
+    }
+}
+

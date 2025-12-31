@@ -1,4 +1,4 @@
-import { createCipheriv, createDecipheriv, randomInt, createHash } from 'crypto';
+import { createCipheriv, createDecipheriv, randomInt, randomBytes, createHash } from 'crypto';
 import { pack, unpack } from 'msgpackr';
 
 // Constants
@@ -8,7 +8,7 @@ const UDID_LENGTH = 16;
 const EN_SALT = "co!=Y;(UQCGxJ_n82";
 
 export function computeResponseSid(sid: string): string {
-    return createHash('md5').update(sid + EN_SALT).digest('hex');
+    return createHash('sha256').update(sid + EN_SALT).digest('hex').substring(0, 42);
 }
 
 export interface UmaHeader {
@@ -66,11 +66,21 @@ export function decryptRequest(base64Payload: string): DecryptedRequest {
     offset += UDID_LENGTH;
     
     // The rest of the header contains authKey and random32Bytes. 
-    // The breakdown isn't strictly defined by length in the doc, but we can store the rest.
+    // [authKey] + [random32Bytes]
     const remainingHeader = headerBuffer.subarray(offset);
+    
+    // random32Bytes is 32 bytes at the end
+    if (remainingHeader.length < 32) {
+        throw new Error("Header remainder too short to contain random32Bytes");
+    }
+
+    const authKeyLength = remainingHeader.length - 32;
+    const authKey = remainingHeader.subarray(0, authKeyLength);
+    const randomBytes = remainingHeader.subarray(authKeyLength);
 
     const sid = binarySid.toString('hex');
     const udid = binaryUdid.toString('hex'); // 32 chars
+    console.log(`udid: ${udid}`);
 
     // 3. Extract Key (last 32 bytes)
     const key = raw.subarray(raw.length - 32);
@@ -79,8 +89,8 @@ export function decryptRequest(base64Payload: string): DecryptedRequest {
         commonHeader,
         sid,
         udid,
-        authKey: remainingHeader, // placeholder for now
-        randomBytes: Buffer.alloc(0), // placeholder
+        authKey,
+        randomBytes,
         requestKey: key
     };
 
@@ -173,4 +183,9 @@ function generateKeyString(): string {
     
     // Take first 32 chars
     return base64.substring(0, 32);
+}
+
+export function generateAuthKey(): string {
+  // 48 bytes encoded in base64 results in exactly 64 characters
+  return randomBytes(48).toString('base64');
 }
