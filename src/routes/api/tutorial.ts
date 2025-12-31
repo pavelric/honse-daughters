@@ -126,6 +126,41 @@ const routes = async (fastify: FastifyInstance) => {
         reply.status(200).send(response)
     })
 
+    fastify.post("/skip", async (request: FastifyRequest, reply: FastifyReply) => {
+        const body = request.body as RequestCommon
+        
+
+        let viewerId = body.viewer_id
+        if (!viewerId) return reply.status(400).send({
+            "error": "Bad Request",
+            "message": "Invalid request body"
+        })
+
+        const session = verifySession(viewerId.toString())
+        if (!session) return reply.status(400).send({
+            "error": "Bad Request",
+            "message": "Invalid viewer_id"
+        })
+
+        updateTutorialStep(viewerId, 1000);
+
+        var response = {
+            "data": {
+                step: 1000,
+            },
+            "data_headers": generateDataHeaders({
+                sid: request.umaHeader?.sid ? computeResponseSid(request.umaHeader.sid) : undefined,
+                viewer_id: viewerId
+            }),
+            response_code: 1
+        }
+
+        console.log("Response:", inspect(response, { depth: null, colors: true })) // simple debug, but these response have nothing.
+
+        reply.header("content-type", "application/x-msgpack; charset=utf-8")
+        reply.status(200).send(response)
+    })
+
 
 }
 

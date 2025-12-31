@@ -30,6 +30,8 @@ import teamStadiumApiPlugin from "./routes/api/team_stadium";
 import toolApiPlugin from "./routes/api/tool";
 import tutorialApiPlugin from "./routes/api/tutorial";
 import userApiPlugin from "./routes/api/user";
+import webDbPlugin from "./routes/web/db";
+import webApiDbPlugin from "./routes/web_api/db";
 
 
 
@@ -101,6 +103,8 @@ fastify.register(teamStadiumApiPlugin, { prefix: `${apiPrefix}/team_stadium` })
 fastify.register(toolApiPlugin, { prefix: `${apiPrefix}/tool` })
 fastify.register(tutorialApiPlugin, { prefix: `${apiPrefix}/tutorial` })
 fastify.register(userApiPlugin, { prefix: `${apiPrefix}/user` })
+fastify.register(webApiDbPlugin, { prefix: "/web_api" })
+fastify.register(webDbPlugin, { prefix: "/web" })
 
 
 

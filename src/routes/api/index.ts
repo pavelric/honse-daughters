@@ -51,7 +51,7 @@ const routes = async (fastify: FastifyInstance) => {
                 sid: request.umaHeader?.sid ? computeResponseSid(request.umaHeader.sid) : undefined,
                 viewer_id: viewerId,
                 notifications: {
-                    add_present_num: 62, //hardcode for now
+                    add_present_num: 0, //hardcode for now
                     room_match_race_result_num: 0,
                     unread_information_exists: 1,
                 }
