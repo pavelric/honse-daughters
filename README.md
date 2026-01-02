@@ -10,3 +10,7 @@ TODO: Add installation instructions
 
 ## Usage
 TODO: Add usage instructions
+
+
+## Acknowledgements
+* Duosii's Starpoint project (https://github.com/duosii/starpoint) which was the main basis for this project, tech-wise.

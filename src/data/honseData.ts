@@ -101,11 +101,11 @@ export function createAccount(udid: string): Account {
 
     // Initialize Default Support Cards
     const insertSupportCard = db.prepare(`
-        INSERT INTO user_support_cards (viewer_id, support_card_id, exp, limit_break_count, favorite_flag, create_time)
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO user_support_cards (viewer_id, support_card_id, exp, limit_break_count, favorite_flag, create_time, possess_time, stock)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `);
     for (const sc of DEFAULT_SUPPORT_CARDS) {
-        insertSupportCard.run(viewerId, sc.support_card_id, sc.exp, 0, 0, now);
+        insertSupportCard.run(viewerId, sc.support_card_id, sc.exp, 0, 0, now, now, 0);
     }
 
     // Initialize Default Decks (10 empty decks)
@@ -302,230 +302,230 @@ export function getPlayerBorderline(viewerId: number | string): TeamStadiumBorde
 export function getPaymentItemList(): any {
     return {
         "data": [
-            {
-                "charge_num": 60,
-                "disp_order": 120,
-                "end_time": 2524611600,
-                "formatted_price": "Free",
-                "free_num": 0,
-                "id": 1,
-                "item_pack_id": 0,
-                "limit_num": 0,
-                "limit_type": 0,
-                "number_of_product_purchased": 0,
-                "price": 0,
-                "recommended_flag": 0,
-                "start_time": 1577840400,
-                "store_product_id": "com.cygames.umamusume.item1001"
-            },
-            {
-                "charge_num": 210,
-                "disp_order": 110,
-                "end_time": 2524611600,
-                "formatted_price": "Free",
-                "free_num": 0,
-                "id": 2,
-                "item_pack_id": 0,
-                "limit_num": 0,
-                "limit_type": 0,
-                "number_of_product_purchased": 0,
-                "price": 0,
-                "recommended_flag": 0,
-                "start_time": 1577840400,
-                "store_product_id": "com.cygames.umamusume.item1002"
-            },
-            {
-                "charge_num": 350,
-                "disp_order": 100,
-                "end_time": 2524611600,
-                "formatted_price": "Free",
-                "free_num": 0,
-                "id": 3,
-                "item_pack_id": 0,
-                "limit_num": 0,
-                "limit_type": 0,
-                "number_of_product_purchased": 0,
-                "price": 0,
-                "recommended_flag": 0,
-                "start_time": 1577840400,
-                "store_product_id": "com.cygames.umamusume.item1003"
-            },
-            {
-                "charge_num": 700,
-                "disp_order": 90,
-                "end_time": 2524611600,
-                "formatted_price": "Free",
-                "free_num": 0,
-                "id": 4,
-                "item_pack_id": 0,
-                "limit_num": 0,
-                "limit_type": 0,
-                "number_of_product_purchased": 0,
-                "price": 0,
-                "recommended_flag": 0,
-                "start_time": 1577840400,
-                "store_product_id": "com.cygames.umamusume.item1004"
-            },
-            {
-                "charge_num": 1500,
-                "disp_order": 80,
-                "end_time": 2524611600,
-                "formatted_price": "Free",
-                "free_num": 0,
-                "id": 5,
-                "item_pack_id": 0,
-                "limit_num": 0,
-                "limit_type": 0,
-                "number_of_product_purchased": 0,
-                "price": 0,
-                "recommended_flag": 0,
-                "start_time": 1577840400,
-                "store_product_id": "com.cygames.umamusume.item1005"
-            },
-            {
-                "charge_num": 2500,
-                "disp_order": 70,
-                "end_time": 2524611600,
-                "formatted_price": "Free",
-                "free_num": 0,
-                "id": 6,
-                "item_pack_id": 0,
-                "limit_num": 0,
-                "limit_type": 0,
-                "number_of_product_purchased": 0,
-                "price": 0,
-                "recommended_flag": 0,
-                "start_time": 1577840400,
-                "store_product_id": "com.cygames.umamusume.item1006"
-            },
-            {
-                "charge_num": 5000,
-                "disp_order": 60,
-                "end_time": 2524611600,
-                "formatted_price": "Free",
-                "free_num": 0,
-                "id": 7,
-                "item_pack_id": 0,
-                "limit_num": 0,
-                "limit_type": 0,
-                "number_of_product_purchased": 0,
-                "price": 0,
-                "recommended_flag": 0,
-                "start_time": 1577840400,
-                "store_product_id": "com.cygames.umamusume.item1007"
-            },
-            {
-                "charge_num": 7500,
-                "disp_order": 40,
-                "end_time": 2524611600,
-                "formatted_price": "Free",
-                "free_num": 0,
-                "id": 8,
-                "item_pack_id": 0,
-                "limit_num": 3,
-                "limit_type": 1,
-                "number_of_product_purchased": 0,
-                "price": 0,
-                "recommended_flag": 1,
-                "start_time": 1577840400,
-                "store_product_id": "com.cygames.umamusume.item2001"
-            },
-            {
-                "charge_num": 1500,
-                "disp_order": 50,
-                "end_time": 2524611600,
-                "formatted_price": "Free",
-                "free_num": 0,
-                "id": 20,
-                "item_pack_id": 0,
-                "limit_num": 2,
-                "limit_type": 1,
-                "number_of_product_purchased": 0,
-                "price": 0,
-                "recommended_flag": 1,
-                "start_time": 1577840400,
-                "store_product_id": "com.cygames.umamusume.item2002"
-            },
-            {
-                "charge_num": 7500,
-                "disp_order": 5,
-                "end_time": 1765378799,
-                "formatted_price": "Free",
-                "free_num": 0,
-                "id": 23,
-                "item_pack_id": 0,
-                "limit_num": 3,
-                "limit_type": 1,
-                "number_of_product_purchased": 0,
-                "price": 0,
-                "recommended_flag": 1,
-                "start_time": 1762207200,
-                "store_product_id": "com.cygames.umamusume.item2004"
-            },
-            {
-                "charge_num": 600,
-                "disp_order": 10,
-                "end_time": 2524611600,
-                "formatted_price": "Free",
-                "free_num": 0,
-                "id": 3001,
-                "item_pack_id": 9000,
-                "limit_num": 1,
-                "limit_type": 1,
-                "number_of_product_purchased": 0,
-                "price": 0,
-                "recommended_flag": 0,
-                "start_time": 1577840400,
-                "store_product_id": "com.cygames.umamusume.item3001"
-            },
-            {
-                "charge_num": 1500,
-                "disp_order": 15,
-                "end_time": 2524611600,
-                "formatted_price": "Free",
-                "free_num": 0,
-                "id": 3002,
-                "item_pack_id": 9001,
-                "limit_num": 1,
-                "limit_type": 1,
-                "number_of_product_purchased": 0,
-                "price": 0,
-                "recommended_flag": 0,
-                "start_time": 1577840400,
-                "store_product_id": "com.cygames.umamusume.item3002"
-            },
-            {
-                "charge_num": 1500,
-                "disp_order": 20,
-                "end_time": 2524611600,
-                "formatted_price": "Free",
-                "free_num": 0,
-                "id": 3003,
-                "item_pack_id": 9002,
-                "limit_num": 1,
-                "limit_type": 1,
-                "number_of_product_purchased": 0,
-                "price": 0,
-                "recommended_flag": 0,
-                "start_time": 1577840400,
-                "store_product_id": "com.cygames.umamusume.item3003"
-            },
-            {
-                "charge_num": 500,
-                "disp_order": 30,
-                "end_time": 2524611600,
-                "formatted_price": "Free",
-                "free_num": 0,
-                "id": 16,
-                "item_pack_id": 0,
-                "limit_num": 0,
-                "limit_type": 3,
-                "number_of_product_purchased": 0,
-                "price": 0,
-                "recommended_flag": 0,
-                "start_time": 1577840400,
-                "store_product_id": "com.cygames.umamusume.item4002"
-            }
+        {
+            "id": 1,
+            "store_product_id": "com.cygames.umamusume.item1001",
+            "disp_order": 120,
+            "price": 0,
+            "formatted_price": "0pt",
+            "charge_num": 60,
+            "free_num": 0,
+            "limit_num": 0,
+            "limit_type": 0,
+            "item_pack_id": 0,
+            "recommended_flag": 0,
+            "start_time": 1577840400,
+            "end_time": 2524611600,
+            "number_of_product_purchased": 0
+        },
+        {
+            "id": 2,
+            "store_product_id": "com.cygames.umamusume.item1002",
+            "disp_order": 110,
+            "price": 0,
+            "formatted_price": "0pt",
+            "charge_num": 210,
+            "free_num": 0,
+            "limit_num": 0,
+            "limit_type": 0,
+            "item_pack_id": 0,
+            "recommended_flag": 0,
+            "start_time": 1577840400,
+            "end_time": 2524611600,
+            "number_of_product_purchased": 0
+        },
+        {
+            "id": 3,
+            "store_product_id": "com.cygames.umamusume.item1003",
+            "disp_order": 100,
+            "price": 0,
+            "formatted_price": "0pt",
+            "charge_num": 350,
+            "free_num": 0,
+            "limit_num": 0,
+            "limit_type": 0,
+            "item_pack_id": 0,
+            "recommended_flag": 0,
+            "start_time": 1577840400,
+            "end_time": 2524611600,
+            "number_of_product_purchased": 0
+        },
+        {
+            "id": 4,
+            "store_product_id": "com.cygames.umamusume.item1004",
+            "disp_order": 90,
+            "price": 0,
+            "formatted_price": "0pt",
+            "charge_num": 700,
+            "free_num": 0,
+            "limit_num": 0,
+            "limit_type": 0,
+            "item_pack_id": 0,
+            "recommended_flag": 0,
+            "start_time": 1577840400,
+            "end_time": 2524611600,
+            "number_of_product_purchased": 0
+        },
+        {
+            "id": 5,
+            "store_product_id": "com.cygames.umamusume.item1005",
+            "disp_order": 80,
+            "price": 0,
+            "formatted_price": "0pt",
+            "charge_num": 1500,
+            "free_num": 0,
+            "limit_num": 0,
+            "limit_type": 0,
+            "item_pack_id": 0,
+            "recommended_flag": 0,
+            "start_time": 1577840400,
+            "end_time": 2524611600,
+            "number_of_product_purchased": 0
+        },
+        {
+            "id": 6,
+            "store_product_id": "com.cygames.umamusume.item1006",
+            "disp_order": 70,
+            "price": 0,
+            "formatted_price": "0pt",
+            "charge_num": 2500,
+            "free_num": 0,
+            "limit_num": 0,
+            "limit_type": 0,
+            "item_pack_id": 0,
+            "recommended_flag": 0,
+            "start_time": 1577840400,
+            "end_time": 2524611600,
+            "number_of_product_purchased": 0
+        },
+        {
+            "id": 7,
+            "store_product_id": "com.cygames.umamusume.item1007",
+            "disp_order": 60,
+            "price": 0,
+            "formatted_price": "0pt",
+            "charge_num": 5000,
+            "free_num": 0,
+            "limit_num": 0,
+            "limit_type": 0,
+            "item_pack_id": 0,
+            "recommended_flag": 0,
+            "start_time": 1577840400,
+            "end_time": 2524611600,
+            "number_of_product_purchased": 0
+        },
+        {
+            "id": 8,
+            "store_product_id": "com.cygames.umamusume.item2001",
+            "disp_order": 40,
+            "price": 0,
+            "formatted_price": "0pt",
+            "charge_num": 7500,
+            "free_num": 0,
+            "limit_num": 3,
+            "limit_type": 1,
+            "item_pack_id": 0,
+            "recommended_flag": 1,
+            "start_time": 1577840400,
+            "end_time": 2524611600,
+            "number_of_product_purchased": 0
+        },
+        {
+            "id": 20,
+            "store_product_id": "com.cygames.umamusume.item2002",
+            "disp_order": 50,
+            "price": 0,
+            "formatted_price": "0pt",
+            "charge_num": 1500,
+            "free_num": 0,
+            "limit_num": 2,
+            "limit_type": 1,
+            "item_pack_id": 0,
+            "recommended_flag": 1,
+            "start_time": 1577840400,
+            "end_time": 2524611600,
+            "number_of_product_purchased": 0
+        },
+        {
+            "id": 23,
+            "store_product_id": "com.cygames.umamusume.item2004",
+            "disp_order": 5,
+            "price": 0,
+            "formatted_price": "0pt",
+            "charge_num": 7500,
+            "free_num": 0,
+            "limit_num": 3,
+            "limit_type": 1,
+            "item_pack_id": 0,
+            "recommended_flag": 1,
+            "start_time": 1762207200,
+            "end_time": 1765378799,
+            "number_of_product_purchased": 0
+        },
+        {
+            "id": 3001,
+            "store_product_id": "com.cygames.umamusume.item3001",
+            "disp_order": 10,
+            "price": 0,
+            "formatted_price": "0pt",
+            "charge_num": 600,
+            "free_num": 0,
+            "limit_num": 1,
+            "limit_type": 1,
+            "item_pack_id": 9000,
+            "recommended_flag": 0,
+            "start_time": 1577840400,
+            "end_time": 2524611600,
+            "number_of_product_purchased": 0
+        },
+        {
+            "id": 3002,
+            "store_product_id": "com.cygames.umamusume.item3002",
+            "disp_order": 15,
+            "price": 0,
+            "formatted_price": "0pt",
+            "charge_num": 1500,
+            "free_num": 0,
+            "limit_num": 1,
+            "limit_type": 1,
+            "item_pack_id": 9001,
+            "recommended_flag": 0,
+            "start_time": 1577840400,
+            "end_time": 2524611600,
+            "number_of_product_purchased": 0
+        },
+        {
+            "id": 3003,
+            "store_product_id": "com.cygames.umamusume.item3003",
+            "disp_order": 20,
+            "price": 0,
+            "formatted_price": "0pt",
+            "charge_num": 1500,
+            "free_num": 0,
+            "limit_num": 1,
+            "limit_type": 1,
+            "item_pack_id": 9002,
+            "recommended_flag": 0,
+            "start_time": 1577840400,
+            "end_time": 2524611600,
+            "number_of_product_purchased": 0
+        },
+        {
+            "id": 16,
+            "store_product_id": "com.cygames.umamusume.item4002",
+            "disp_order": 30,
+            "price": 0,
+            "formatted_price": "0pt",
+            "charge_num": 500,
+            "free_num": 0,
+            "limit_num": 0,
+            "limit_type": 3,
+            "item_pack_id": 0,
+            "recommended_flag": 0,
+            "start_time": 1577840400,
+            "end_time": 2524611600,
+            "number_of_product_purchased": 0
+        }
         ],
         "last_checked_time": 0,
         "season_pack_info": {
@@ -599,6 +599,79 @@ export function getUserTrainedCharas(viewerId: number | string): any[] {
 
 export function getUserTeamData(viewerId: number | string): any[] {
     return db.prepare('SELECT * FROM user_team_data WHERE viewer_id = ?').all(viewerId);
+}
+
+export function updateUserCoin(viewerId: number | string, coin: number, fcoin: number): void {
+    db.prepare('UPDATE players SET coin = ?, fcoin = ? WHERE viewer_id = ?').run(coin, fcoin, viewerId.toString());
+}
+
+export function checkUserCard(viewerId: number | string, cardId: number): boolean {
+    const result = db.prepare('SELECT 1 FROM user_cards WHERE viewer_id = ? AND card_id = ?').get(viewerId.toString(), cardId);
+    return !!result;
+}
+
+export function addUserCard(viewerId: number | string, cardId: number, rarity: number, talentLevel: number): void {
+    const now = formatServerTimestamp();
+    db.prepare(`
+        INSERT INTO user_cards (viewer_id, card_id, rarity, talent_level, create_time, skill_data)
+        VALUES (?, ?, ?, ?, ?, ?)
+    `).run(viewerId.toString(), cardId, rarity, talentLevel, now, JSON.stringify([]));
+}
+
+export function checkUserSupportCard(viewerId: number | string, supportCardId: number): { exists: boolean, stock: number } {
+    const result = db.prepare('SELECT stock FROM user_support_cards WHERE viewer_id = ? AND support_card_id = ?').get(viewerId.toString(), supportCardId) as { stock: number } | undefined;
+    return result ? { exists: true, stock: result.stock } : { exists: false, stock: 0 };
+}
+
+export function addOrUpdateUserSupportCard(viewerId: number | string, supportCardId: number, count: number): void {
+    const now = formatServerTimestamp();
+    const existing = checkUserSupportCard(viewerId, supportCardId);
+    if (existing.exists) {
+        db.prepare('UPDATE user_support_cards SET stock = stock + ? WHERE viewer_id = ? AND support_card_id = ?')
+          .run(count, viewerId.toString(), supportCardId);
+    } else {
+        const initialStock = Math.max(0, count - 1);
+        db.prepare(`
+            INSERT INTO user_support_cards (viewer_id, support_card_id, exp, limit_break_count, favorite_flag, create_time, possess_time, stock)
+            VALUES (?, ?, 0, 0, 0, ?, ?, ?)
+        `).run(viewerId.toString(), supportCardId, now, now, initialStock);
+    }
+}
+
+export function addOrUpdateUserPiece(viewerId: number | string, pieceId: number, addNum: number): void {
+    const result = db.prepare('SELECT piece_num FROM user_pieces WHERE viewer_id = ? AND piece_id = ?').get(viewerId.toString(), pieceId) as { piece_num: number } | undefined;
+    if (result) {
+        db.prepare('UPDATE user_pieces SET piece_num = piece_num + ? WHERE viewer_id = ? AND piece_id = ?')
+          .run(addNum, viewerId.toString(), pieceId);
+    } else {
+        db.prepare('INSERT INTO user_pieces (viewer_id, piece_id, piece_num) VALUES (?, ?, ?)').run(viewerId.toString(), pieceId, addNum);
+    }
+}
+
+export function getUserPieces(viewerId: number | string): any[] {
+    return db.prepare('SELECT * FROM user_pieces WHERE viewer_id = ?').all(viewerId.toString());
+}
+
+export function addOrUpdateUserChara(viewerId: number | string, charaId: number): void {
+    const existing = db.prepare('SELECT 1 FROM user_charas WHERE viewer_id = ? AND chara_id = ?').get(viewerId.toString(), charaId);
+    if (!existing) {
+        // Default values for new chara
+        // Using dress_id 2 (School Uniform) as default
+        db.prepare(`
+            INSERT INTO user_charas (viewer_id, chara_id, dress_id, mini_dress_id, love_point, max_grade, fan, training_num)
+            VALUES (?, ?, ?, ?, 0, 0, 1, 0)
+        `).run(viewerId.toString(), charaId, 2, 2); 
+    }
+}
+
+export function addOrUpdateUserCharaProfile(viewerId: number | string, charaId: number): void {
+     const existing = db.prepare('SELECT 1 FROM user_chara_profiles WHERE viewer_id = ? AND chara_id = ? AND data_id = 1').get(viewerId.toString(), charaId);
+     if (!existing) {
+         db.prepare(`
+            INSERT INTO user_chara_profiles (viewer_id, chara_id, data_id, new_flag)
+            VALUES (?, ?, 1, 1)
+         `).run(viewerId.toString(), charaId);
+     }
 }
 
 export function updatePlayerSingleModeFinish(viewerId: number | string): any {

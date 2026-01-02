@@ -155,7 +155,7 @@ const routes = async (fastify: FastifyInstance) => {
             response_code: 1
         }
 
-        console.log("Response:", inspect(response, { depth: null, colors: true })) // simple debug, but these response have nothing.
+        console.log("Response: ", inspect(response, { depth: null, colors: true })) // simple debug, but these response have nothing.
 
         reply.header("content-type", "application/x-msgpack; charset=utf-8")
         reply.status(200).send(response)

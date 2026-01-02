@@ -1,5 +1,5 @@
 import { ChallengeMatchLoadInfo, ChampionsMeetingInfo, CircleInfo, CircleUser, ClientPlayerData, ClientUserInfo, CommonDefine, LegendRacePlayingInfo, TeamStadiumBorderLine, UserCircleData, UserCoinInfo, UserDailyLegendRacePlayingInfo, UserDailyRacePlayingInfo, UserHomePositionInfo, UserHonorInfo, UserJukeboxInfo, UserJukeboxRequestHistory, UserLimitedShopInfo, UserMenuBadgeInfo, UserRpInfo, UserSeasonPackInfo, UserTeamBuildingLoadInfo, UserTeamStadiumRanking, UserTeamStadiumRecord, UserTpInfo, Player, UserCardList, UserCharaList, UserSupportCardList, UserSupportCardDeck, UserTrainedChara, UserTeamStadiumData, UserItemList, UserCharaProfile } from './types';
-import { getPlayer, getPlayerBorderline, getUserCards, getUserCharas, getUserDecks, getUserItems, getUserProfile, getUserSupportCards, getUserTeamData, getUserTrainedCharas, getUserCharaProfiles } from './honseData';
+import { getPlayer, getPlayerBorderline, getUserCards, getUserCharas, getUserDecks, getUserItems, getUserProfile, getUserSupportCards, getUserTeamData, getUserTrainedCharas, getUserCharaProfiles, getUserPieces } from './honseData';
 import { getServerTime, formatTimestamp, formatServerTimestamp } from '../utils';
 import { COMMON_DEFINE, RELEASED_CARD_ARRAY, SINGLE_MODE_DIFFICULTY_INFO_ARRAY, DEFAULT_PAYMENT_PURCHASED_TIMES_LIST } from './defaults';
 
@@ -283,8 +283,8 @@ export function getClientSerializedData(viewerId: number): ClientPlayerData | nu
         favorite_flag: s.favorite_flag,
         limit_break_count: s.limit_break_count,
         support_card_id: s.support_card_id, // interface has support_card_id? yes
-        possess_time: s.create_time, // reusing create_time
-        stock: 0,
+        possess_time: s.possess_time || s.create_time,
+        stock: s.stock || 0,
         viewer_id: viewerId
     }));
     // Note: UserSupportCardList in types.ts doesn't have support_card_id??
@@ -414,7 +414,7 @@ export function getClientSerializedData(viewerId: number): ClientPlayerData | nu
         optin_user_birth: playerData.optin_user_birth,
         parental_consent: 0,
         payment_purchased_times_list: DEFAULT_PAYMENT_PURCHASED_TIMES_LIST,
-        piece_list: [],
+        piece_list: isSignup ? [] : getUserPieces(viewerId),
         practice_partner_chara_array: [],
         practice_partner_owner_info_array: [],
         practice_race_state: 0,

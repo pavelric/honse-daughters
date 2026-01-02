@@ -1,4 +1,5 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+import { getMenuHtml } from "./menu";
 
 function pageHtml(): string {
   return `<!DOCTYPE html>
@@ -26,11 +27,14 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, Apple Color Emoji, Segoe UI Emoji;
+  display: flex;
+  flex-direction: column;
 }
 .layout {
   display: grid;
   grid-template-columns: 280px 1fr;
-  height: 100%;
+  flex: 1;
+  min-height: 0;
 }
 .sidebar {
   border-right: 1px solid var(--border);
@@ -136,6 +140,7 @@ td[contenteditable="true"] { background: #0b0f22 }
 </style>
 </head>
 <body>
+${getMenuHtml()}
 <div class="layout">
   <aside class="sidebar">
     <div class="brand">HonseDaughters Admin</div>

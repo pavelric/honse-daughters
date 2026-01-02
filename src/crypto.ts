@@ -3,7 +3,7 @@ import { pack, unpack } from 'msgpackr';
 
 // Constants
 const COMMON_HEADER_LENGTH = 52;
-const SID_LENGTH = 16;
+const CLIENT_SID_LENGTH = 16;
 const UDID_LENGTH = 16;
 const EN_SALT = "co!=Y;(UQCGxJ_n82";
 
@@ -51,7 +51,7 @@ export function decryptRequest(base64Payload: string): DecryptedRequest {
     
     // Header components
     // [commonHeader][binarySid][binaryUdid]...
-    if (headerBuffer.length < COMMON_HEADER_LENGTH + SID_LENGTH + UDID_LENGTH) {
+    if (headerBuffer.length < COMMON_HEADER_LENGTH + CLIENT_SID_LENGTH + UDID_LENGTH) {
         throw new Error("Header too short to contain required fields");
     }
 
@@ -59,8 +59,8 @@ export function decryptRequest(base64Payload: string): DecryptedRequest {
     const commonHeader = headerBuffer.subarray(offset, offset + COMMON_HEADER_LENGTH);
     offset += COMMON_HEADER_LENGTH;
     
-    const binarySid = headerBuffer.subarray(offset, offset + SID_LENGTH);
-    offset += SID_LENGTH;
+    const binarySid = headerBuffer.subarray(offset, offset + CLIENT_SID_LENGTH);
+    offset += CLIENT_SID_LENGTH;
     
     const binaryUdid = headerBuffer.subarray(offset, offset + UDID_LENGTH);
     offset += UDID_LENGTH;
@@ -168,6 +168,58 @@ export function encryptResponse(content: any, udid: string, key: Buffer): string
 
     // 7. Base64 Encode
     return finalBuffer.toString('base64');
+}
+
+/**
+ * Decrypts the response payload from the game server.
+ * 
+ * Response Structure:
+ * Base64 Decode -> [EncryptedData][Key (32 bytes)]
+ * 
+ * EncryptedData Decrypts to:
+ * [ContentLength (4 bytes)][Content (MsgPack)]
+ */
+export function decryptResponse(base64Payload: string, udid: string): any {
+    const raw = Buffer.from(base64Payload, 'base64');
+
+    if (raw.length < 32) throw new Error("Payload too short to contain key");
+
+    // 1. Extract Key (last 32 bytes)
+    const key = raw.subarray(raw.length - 32);
+
+    // 2. Extract Encrypted Data
+    const encryptedData = raw.subarray(0, raw.length - 32);
+
+    // 3. Derive IV from UDID
+    const ivString = udid.substring(0, 16);
+    const iv = Buffer.from(ivString, 'utf8');
+
+    // 4. Decrypt
+    const decipher = createDecipheriv('aes-256-cbc', key, iv);
+    decipher.setAutoPadding(true); // PKCS7
+
+    let decrypted: Buffer;
+    try {
+        decrypted = Buffer.concat([decipher.update(encryptedData), decipher.final()]);
+    } catch (e) {
+        throw new Error("Decryption failed: " + (e as Error).message);
+    }
+
+    // 5. Parse Decrypted Content
+    // [ContentLength (4 bytes)][Content]
+    if (decrypted.length < 4) throw new Error("Decrypted content too short");
+    const contentLength = decrypted.readUInt32LE(0);
+    
+    if (decrypted.length < 4 + contentLength) throw new Error("Decrypted content incomplete");
+    
+    const contentBytes = decrypted.subarray(4, 4 + contentLength);
+    
+    const content = unpack(contentBytes);
+
+    return {
+        key: key.toString('hex'),
+        content
+    };
 }
 
 function generateKeyString(): string {

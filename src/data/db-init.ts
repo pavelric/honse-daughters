@@ -113,6 +113,16 @@ export default function init(
         )
     `).run();
 
+    database.prepare(`
+        CREATE TABLE IF NOT EXISTS user_pieces (
+            viewer_id INTEGER NOT NULL,
+            piece_id INTEGER NOT NULL,
+            piece_num INTEGER DEFAULT 0,
+            PRIMARY KEY (viewer_id, piece_id),
+            FOREIGN KEY (viewer_id) REFERENCES accounts(viewer_id) ON DELETE CASCADE
+        )
+    `).run();
+
     // User Cards (P-Cards / Playable Characters)
     // Represents unlocked characters/cards with their talent level and rarity
     database.prepare(`
@@ -165,10 +175,20 @@ export default function init(
             limit_break_count INTEGER DEFAULT 0,
             favorite_flag INTEGER DEFAULT 0,
             create_time TEXT,
+            possess_time TEXT,
+            stock INTEGER DEFAULT 0,
             PRIMARY KEY (viewer_id, support_card_id),
             FOREIGN KEY (viewer_id) REFERENCES accounts(viewer_id) ON DELETE CASCADE
         )
     `).run();
+
+    // Migration for existing tables
+    try {
+        database.prepare('ALTER TABLE user_support_cards ADD COLUMN possess_time TEXT').run();
+    } catch (e) {}
+    try {
+        database.prepare('ALTER TABLE user_support_cards ADD COLUMN stock INTEGER DEFAULT 0').run();
+    } catch (e) {}
 
     database.prepare(`
         CREATE TABLE IF NOT EXISTS user_trained_charas (

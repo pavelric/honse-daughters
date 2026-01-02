@@ -208,6 +208,8 @@ export interface UserSupportCardList {
     exp: number
     favorite_flag: number
     limit_break_count: number
+    possess_time: string
+    stock: number
 }
 
 

@@ -10,11 +10,10 @@ const routes = async (fastify: FastifyInstance) => {
     });
 
     fastify.post("/info_index", async (request: FastifyRequest, reply: FastifyReply) => {
+        reply.header("content-type", "application/json; charset=utf-8")
+        reply.header("result_code", "200")
         reply.status(200).send({
-            data_headers: {
-                result_code: 1
-            },
-            data: {}
+            response_code: 200,
         });
     });
 }
