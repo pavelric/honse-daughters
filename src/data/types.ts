@@ -157,6 +157,24 @@ export interface ClientPlayerData {
     valentine_campaign_received_array: unknown[]
 }
 
+export interface UserPresent {
+    create_time: string
+    free_message: string
+    message_id: number
+    message_param_value_1: number
+    message_param_value_2: number
+    message_param_value_3: number
+    message_param_value_4: number
+    present_id: number
+    receive_time: string
+    reward_count: number
+    reward_id: number
+    reward_limit_time: number
+    reward_type: number
+    state: number
+    viewer_id: number
+}
+
 export interface UserLastCheckedTimeList {
     last_checked_time: number
     type: number
@@ -210,6 +228,7 @@ export interface UserSupportCardList {
     limit_break_count: number
     possess_time: string
     stock: number
+    support_card_id?: number
 }
 
 
@@ -799,17 +818,24 @@ export interface RewardItemInfo {
     add_card_bonus_info: unknown
     add_card_list: unknown[]
     add_chara_list: unknown[]
-    add_cloth_list: unknown[]
+    add_cloth_list: UserClothList[]
     add_fcoin: number
     add_honor_list: unknown[]
     add_item_list: UserItemList[]
     add_music_list: unknown[]
-    add_piece_list: unknown[]
+    add_piece_list: UserPieceList[]
     add_present_num: number
     add_story_id_array: unknown[]
-    add_support_card_list: unknown[]
-    add_support_card_num_array: unknown[]
+    add_support_card_list: UserSupportCardList[]
+    add_support_card_num_array: SupportCardNum[]
     add_total_fan: number
     force_update_honor_id: number
     new_chara_profile_array: unknown[]
+}
+
+
+export interface SupportCardNum {
+    item_id: number //always 51 for support cards
+    support_card_id: number
+    num: number
 }

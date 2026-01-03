@@ -182,6 +182,17 @@ export default function init(
         )
     `).run();
 
+    // User Cloths
+    database.prepare(`
+        CREATE TABLE IF NOT EXISTS user_cloths (
+            viewer_id INTEGER NOT NULL,
+            cloth_id INTEGER NOT NULL,
+            acquisition_time TEXT,
+            PRIMARY KEY (viewer_id, cloth_id),
+            FOREIGN KEY (viewer_id) REFERENCES accounts(viewer_id) ON DELETE CASCADE
+        )
+    `).run();
+
     // Migration for existing tables
     try {
         database.prepare('ALTER TABLE user_support_cards ADD COLUMN possess_time TEXT').run();
@@ -367,6 +378,27 @@ export default function init(
             running_style INTEGER DEFAULT 0,
             trained_chara_id INTEGER DEFAULT 0,
             PRIMARY KEY (viewer_id, distance_type, member_id),
+            FOREIGN KEY (viewer_id) REFERENCES accounts(viewer_id) ON DELETE CASCADE
+        )
+    `).run();
+
+    database.prepare(`
+        CREATE TABLE IF NOT EXISTS user_presents (
+            present_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            viewer_id INTEGER NOT NULL,
+            create_time TEXT,
+            free_message TEXT,
+            message_id INTEGER DEFAULT 0,
+            message_param_value_1 INTEGER DEFAULT 0,
+            message_param_value_2 INTEGER DEFAULT 0,
+            message_param_value_3 INTEGER DEFAULT 0,
+            message_param_value_4 INTEGER DEFAULT 0,
+            receive_time TEXT,
+            reward_count INTEGER NOT NULL,
+            reward_id INTEGER NOT NULL,
+            reward_limit_time INTEGER DEFAULT 0,
+            reward_type INTEGER NOT NULL,
+            state INTEGER DEFAULT 0,
             FOREIGN KEY (viewer_id) REFERENCES accounts(viewer_id) ON DELETE CASCADE
         )
     `).run();

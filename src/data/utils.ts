@@ -1,5 +1,5 @@
-import { ChallengeMatchLoadInfo, ChampionsMeetingInfo, CircleInfo, CircleUser, ClientPlayerData, ClientUserInfo, CommonDefine, LegendRacePlayingInfo, TeamStadiumBorderLine, UserCircleData, UserCoinInfo, UserDailyLegendRacePlayingInfo, UserDailyRacePlayingInfo, UserHomePositionInfo, UserHonorInfo, UserJukeboxInfo, UserJukeboxRequestHistory, UserLimitedShopInfo, UserMenuBadgeInfo, UserRpInfo, UserSeasonPackInfo, UserTeamBuildingLoadInfo, UserTeamStadiumRanking, UserTeamStadiumRecord, UserTpInfo, Player, UserCardList, UserCharaList, UserSupportCardList, UserSupportCardDeck, UserTrainedChara, UserTeamStadiumData, UserItemList, UserCharaProfile } from './types';
-import { getPlayer, getPlayerBorderline, getUserCards, getUserCharas, getUserDecks, getUserItems, getUserProfile, getUserSupportCards, getUserTeamData, getUserTrainedCharas, getUserCharaProfiles, getUserPieces } from './honseData';
+import { ChallengeMatchLoadInfo, ChampionsMeetingInfo, CircleInfo, CircleUser, ClientPlayerData, ClientUserInfo, CommonDefine, LegendRacePlayingInfo, TeamStadiumBorderLine, UserCircleData, UserCoinInfo, UserDailyLegendRacePlayingInfo, UserDailyRacePlayingInfo, UserHomePositionInfo, UserHonorInfo, UserJukeboxInfo, UserJukeboxRequestHistory, UserLimitedShopInfo, UserMenuBadgeInfo, UserRpInfo, UserSeasonPackInfo, UserTeamBuildingLoadInfo, UserTeamStadiumRanking, UserTeamStadiumRecord, UserTpInfo, Player, UserCardList, UserCharaList, UserSupportCardList, UserSupportCardDeck, UserTrainedChara, UserTeamStadiumData, UserItemList, UserCharaProfile, RewardItemInfo } from './types';
+import { getPlayer, getPlayerBorderline, getUserCards, getUserCharas, getUserDecks, getUserItems, getUserProfile, getUserSupportCards, getUserTeamData, getUserTrainedCharas, getUserCharaProfiles, getUserPieces, countUserPresents } from './honseData';
 import { getServerTime, formatTimestamp, formatServerTimestamp } from '../utils';
 import { COMMON_DEFINE, RELEASED_CARD_ARRAY, SINGLE_MODE_DIFFICULTY_INFO_ARRAY, DEFAULT_PAYMENT_PURCHASED_TIMES_LIST } from './defaults';
 
@@ -156,7 +156,7 @@ export function getClientSerializedData(viewerId: number): ClientPlayerData | nu
         legend_mission_num: 0,
         mission_num: 4,
         new_gacha_flag: 1,
-        present_num: 62,
+        present_num: countUserPresents(viewerId),
         team_building_mission_num: 0,
         training_challenge_mission_num: 0,
         view_limited_mission_num: 151
@@ -552,3 +552,25 @@ export function constructClientUserInfo(viewerId: number): { full: ClientUserInf
 
     return { full, minimal };
 }
+
+export function makeRewardItemInfo(data: Partial<RewardItemInfo> = {}): RewardItemInfo {
+    return {
+        add_card_bonus_info: data.add_card_bonus_info ?? null,
+        add_card_list: data.add_card_list ?? [],
+        add_chara_list: data.add_chara_list ?? [],
+        add_cloth_list: data.add_cloth_list ?? [],
+        add_fcoin: data.add_fcoin ?? 0,
+        add_honor_list: data.add_honor_list ?? [],
+        add_item_list: data.add_item_list ?? [],
+        add_music_list: data.add_music_list ?? [],
+        add_piece_list: data.add_piece_list ?? [],
+        add_present_num: data.add_present_num ?? 0,
+        add_story_id_array: data.add_story_id_array ?? [],
+        add_support_card_list: data.add_support_card_list ?? [],
+        add_support_card_num_array: data.add_support_card_num_array ?? [],
+        add_total_fan: data.add_total_fan ?? 0,
+        force_update_honor_id: data.force_update_honor_id ?? 0,
+        new_chara_profile_array: data.new_chara_profile_array ?? []
+    };
+}
+

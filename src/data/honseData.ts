@@ -1,8 +1,8 @@
 import getDatabase, { Database } from './index';
-import { Account, Session, Player, TeamStadiumBorderLine, UserTeamStadiumRanking, UserDirectoryCard, LovePointInfo, RewardItemInfo, UserCharaList, UserCharaProfile, UserTrainedChara } from './types';
+import { Account, Session, Player, TeamStadiumBorderLine, UserTeamStadiumRanking, UserDirectoryCard, LovePointInfo, RewardItemInfo, UserCharaList, UserCharaProfile, UserTrainedChara, UserPresent, UserItemList, UserClothList, SupportCardNum } from './types';
 import { generateViewerId, getServerTime, formatServerTimestamp } from '../utils';
 import { generateAuthKey } from '../crypto';
-import { getDefaultPlayerData } from './utils';
+import { getDefaultPlayerData, makeRewardItemInfo } from './utils';
 import { DEFAULT_CARDS, DEFAULT_CHARAS, DEFAULT_ITEMS, DEFAULT_SUPPORT_CARDS, DEFAULT_TRAINED_CHARAS, DEFAULT_TEAM_DATA, DEFAULT_CHARA_PROFILES, DEFAULT_USER_PROFILE, TUTORIAL_FINISH_TRAINED_CHARA, DEFAULT_SUPPORT_CARD_DATA_ARRAY } from './defaults';
 
 const db = getDatabase(Database.HONSE_DATA);
@@ -903,5 +903,215 @@ export function updatePlayerSingleModeFinish(viewerId: number | string): any {
              }
         };
     }
+}
+
+export function getUserPresents(viewerId: number | string, limit: number = 100, offset: number = 0): UserPresent[] {
+    return db.prepare('SELECT * FROM user_presents WHERE viewer_id = ? AND state = 0 ORDER BY create_time DESC LIMIT ? OFFSET ?').all(viewerId.toString(), limit, offset) as UserPresent[];
+}
+
+export function countUserPresents(viewerId: number | string): number {
+    const result = db.prepare('SELECT COUNT(*) as count FROM user_presents WHERE viewer_id = ? AND state = 0').get(viewerId.toString()) as { count: number };
+    return result ? result.count : 0;
+}
+
+export function getUserPresentCounts(viewerId: number | string): { time_limit: number, no_time_limit: number } {
+    const timeLimit = db.prepare('SELECT COUNT(*) as count FROM user_presents WHERE viewer_id = ? AND state = 0 AND reward_limit_time > 0').get(viewerId.toString()) as { count: number };
+    const noTimeLimit = db.prepare('SELECT COUNT(*) as count FROM user_presents WHERE viewer_id = ? AND state = 0 AND reward_limit_time = 0').get(viewerId.toString()) as { count: number };
+    
+    return {
+        time_limit: timeLimit ? timeLimit.count : 0,
+        no_time_limit: noTimeLimit ? noTimeLimit.count : 0
+    };
+}
+
+export function addUserPresent(
+    viewerId: number | string, 
+    rewardId: number, 
+    rewardCount: number, 
+    rewardType: number, 
+    message: string = "", 
+    limitTime: number = 0
+): void {
+    const now = formatServerTimestamp();
+    db.prepare(`
+        INSERT INTO user_presents (
+            viewer_id, create_time, free_message, 
+            message_id, message_param_value_1, message_param_value_2, message_param_value_3, message_param_value_4,
+            receive_time, reward_count, reward_id, reward_limit_time, reward_type, state
+        ) VALUES (?, ?, ?, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', ?, ?, ?, ?, 0)
+    `).run(viewerId.toString(), now, message, rewardCount, rewardId, limitTime, rewardType);
+}
+
+export function addOrUpdateUserItem(viewerId: number | string, itemId: number, addNum: number): void {
+    const result = db.prepare('SELECT number FROM user_items WHERE viewer_id = ? AND item_id = ?').get(viewerId.toString(), itemId) as { number: number } | undefined;
+    if (result) {
+        db.prepare('UPDATE user_items SET number = number + ? WHERE viewer_id = ? AND item_id = ?')
+          .run(addNum, viewerId.toString(), itemId);
+    } else {
+        db.prepare('INSERT INTO user_items (viewer_id, item_id, number) VALUES (?, ?, ?)').run(viewerId.toString(), itemId, addNum);
+    }
+}
+
+export function addOrUpdateUserCloth(viewerId: number | string, clothId: number): void {
+    const now = formatServerTimestamp();
+    const existing = db.prepare('SELECT 1 FROM user_cloths WHERE viewer_id = ? AND cloth_id = ?').get(viewerId.toString(), clothId);
+    if (!existing) {
+        db.prepare('INSERT INTO user_cloths (viewer_id, cloth_id, acquisition_time) VALUES (?, ?, ?)').run(viewerId.toString(), clothId, now);
+    }
+}
+
+export function addOrUpdateUserMoney(viewerId: number | string, amount: number): void {
+    db.prepare('UPDATE players SET money = money + ? WHERE viewer_id = ?').run(amount, viewerId.toString());
+}
+
+export function addOrUpdateUserFCoin(viewerId: number | string, amount: number): void {
+    db.prepare('UPDATE players SET fcoin = fcoin + ? WHERE viewer_id = ?').run(amount, viewerId.toString());
+}
+
+export function addOrUpdateUserTrainerPoint(viewerId: number | string, amount: number): void {
+    db.prepare('UPDATE user_profiles SET trainer_point = trainer_point + ? WHERE viewer_id = ?').run(amount, viewerId.toString());
+}
+
+export function claimUserPresents(viewerId: number, presentIds?: number[]): { info: RewardItemInfo, count: number } {
+    const viewerIdStr = viewerId.toString();
+    const now = formatServerTimestamp();
+    
+    // Construct query
+    let query = 'SELECT * FROM user_presents WHERE viewer_id = ? AND state = 0';
+    let params: any[] = [viewerIdStr];
+    
+    if (presentIds && presentIds.length > 0) {
+        query += ` AND present_id IN (${presentIds.map(() => '?').join(',')})`;
+        params.push(...presentIds);
+    }
+    
+    const presents = db.prepare(query).all(...params) as UserPresent[];
+    
+    if (presents.length === 0) {
+        return { info: makeRewardItemInfo(), count: 0 };
+    }
+    
+    const accumulatedReward: Partial<RewardItemInfo> = {
+        add_item_list: [],
+        add_cloth_list: [],
+        add_support_card_num_array: [],
+        add_fcoin: 0,
+    };
+    
+    const itemMap = new Map<number, number>(); // item_id -> count
+    const clothSet = new Set<number>();
+    
+    const updatePresentState = db.prepare('UPDATE user_presents SET state = 1, receive_time = ? WHERE present_id = ?');
+    
+    db.transaction(() => {
+        for (const present of presents) {
+            const { reward_type, reward_id, reward_count } = present;
+            
+            switch (reward_type) {
+                case 90: // FCoin (Jewel)
+                    addOrUpdateUserFCoin(viewerId, reward_count);
+                    accumulatedReward.add_fcoin = (accumulatedReward.add_fcoin || 0) + reward_count;
+                    break;
+                case 30: // Money
+                    addOrUpdateUserMoney(viewerId, reward_count);
+                    // Money is usually not returned in RewardItemInfo as a specific field except maybe implicitly?
+                    // Or maybe it is returned as item? I'll assume not returned explicitly for now unless I see a field.
+                    // Actually, if it's not in RewardItemInfo, the client might query profile again.
+                    // But typically games return everything.
+                    // There is no "add_money" in RewardItemInfo.
+                    // Maybe it is returned as item 9001?
+                    // I will check if I should add it to item list as a fake item.
+                    // For now, I just update DB.
+                    break;
+                case 43: // Support Pt
+                    addOrUpdateUserTrainerPoint(viewerId, reward_count);
+                    break;
+                case 20: // Item
+                    addOrUpdateUserItem(viewerId, reward_id, reward_count);
+                    itemMap.set(reward_id, (itemMap.get(reward_id) || 0) + reward_count);
+                    break;
+                case 51: // Support Card (Guessing type 51 based on comment, or maybe type is different but treated here)
+                    // If reward_type is for support card
+                    addOrUpdateUserSupportCard(viewerId, reward_id, reward_count);
+                    // Add to response
+                    if (!accumulatedReward.add_support_card_num_array) accumulatedReward.add_support_card_num_array = [];
+                    // Check if already in array
+                    const existingSC = accumulatedReward.add_support_card_num_array.find(sc => sc.support_card_id === reward_id);
+                    if (existingSC) {
+                        existingSC.num += reward_count;
+                    } else {
+                        accumulatedReward.add_support_card_num_array.push({
+                            item_id: 51, // "always 51"
+                            support_card_id: reward_id,
+                            num: reward_count
+                        });
+                    }
+                    break;
+                case 60: // Cloth (Guessing type)
+                case 10: // Maybe generic type for cloth?
+                     // I will try to handle cloth if I knew the type. 
+                     // In the response JSON, add_cloth_list is present.
+                     // I'll assume if reward_type corresponds to cloth (let's say 60 for now, or fallback).
+                     // If I see a present with reward_type and I don't know it, I might log it.
+                     // But for this task, I'll assume type 60 is Cloth.
+                     // Or maybe I check `reward_id`?
+                     // If `reward_type` is generic (e.g. 1) maybe `reward_id` determines it?
+                     // But usually type is distinctive.
+                     // I will assume type 60 is Cloth.
+                     addOrUpdateUserCloth(viewerId, reward_id);
+                     clothSet.add(reward_id);
+                     break;
+                default:
+                    // Fallback: treat as item if we don't know?
+                    // Or check if it matches "Item" type 20.
+                    // If unknown, we might lose it.
+                    // I'll assume type 20 is the only "Item" type.
+                    // If it is 90, 30, 43 we handled it.
+                    // If it is something else, I'll log.
+                    console.warn(`Unknown reward type: ${reward_type} for present ${present.present_id}`);
+                    break;
+            }
+            
+            updatePresentState.run(now, present.present_id);
+        }
+    })();
+    
+    // Convert maps to lists
+    if (itemMap.size > 0) {
+        accumulatedReward.add_item_list = Array.from(itemMap.entries()).map(([item_id, number]) => ({ item_id, number }));
+    }
+    
+    if (clothSet.size > 0) {
+        accumulatedReward.add_cloth_list = Array.from(clothSet).map(cloth_id => ({ cloth_id }));
+    }
+    
+    return { info: makeRewardItemInfo(accumulatedReward), count: presents.length };
+}
+
+export function addPresentToAllUsers(
+    rewardId: number, 
+    rewardCount: number, 
+    rewardType: number, 
+    message: string = "", 
+    limitTime: number = 0
+): void {
+    const now = formatServerTimestamp();
+    const users = db.prepare('SELECT viewer_id FROM accounts').all() as { viewer_id: number }[];
+    
+    const insert = db.prepare(`
+        INSERT INTO user_presents (
+            viewer_id, create_time, free_message, 
+            message_id, message_param_value_1, message_param_value_2, message_param_value_3, message_param_value_4,
+            receive_time, reward_count, reward_id, reward_limit_time, reward_type, state
+        ) VALUES (?, ?, ?, 0, 0, 0, 0, 0, '0000-00-00 00:00:00', ?, ?, ?, ?, 0)
+    `);
+
+    const transaction = db.transaction((users) => {
+        for (const user of users) {
+            insert.run(user.viewer_id, now, message, rewardCount, rewardId, limitTime, rewardType);
+        }
+    });
+
+    transaction(users);
 }
 

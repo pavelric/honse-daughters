@@ -1,6 +1,7 @@
 import Fastify, { FastifyRequest } from 'fastify';
 import { ContentTypeParserDoneFunction } from "fastify/types/content-type-parser";
 import fastifyStatic from "@fastify/static";
+import fastifyFormbody from "@fastify/formbody";
 import { pack, unpack } from 'msgpackr';
 import path from "path";
 import { decryptRequest, encryptResponse, UmaHeader } from './crypto';
@@ -17,6 +18,7 @@ import web from "./routes/web/db";
 import webApi from "./routes/web_api/db";
 import webDecrypt from "./routes/web/decrypt";
 import webRaceAnalyzer from "./routes/web/raceAnalyzer";
+import webPresents from "./routes/web/present";
 
 
 
@@ -92,6 +94,7 @@ fastify.addContentTypeParser('application/x-msgpack', { parseAs: 'string' }, (re
 
 // APIs
 const apiPrefix = "/umamusume"
+fastify.register(fastifyFormbody)
 fastify.register(ajaxApiPlugin, { prefix: `${apiPrefix}/ajax` })
 fastify.register(cardApiPlugin, { prefix: `${apiPrefix}/card` })
 fastify.register(gachaApiPlugin, { prefix: `${apiPrefix}/gacha` })
@@ -114,6 +117,7 @@ fastify.register(webApi, { prefix: "/web_api" })
 fastify.register(web, { prefix: "/web" })
 fastify.register(webDecrypt, { prefix: "/web" })
 fastify.register(webRaceAnalyzer, { prefix: "/web" })
+fastify.register(webPresents, { prefix: "/web/present" })
 
 fastify.get("/", async (_req, reply) => {
     reply.header("content-type", "text/html; charset=utf-8").send(`<!DOCTYPE html>

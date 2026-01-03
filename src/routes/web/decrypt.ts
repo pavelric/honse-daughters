@@ -184,17 +184,24 @@ ${getMenuHtml()}
       <small style="color: var(--muted)">You can find this in a decrypted request from the same session.</small>
     </div>
 
-    <div class="input-group">
-      <label for="encryptedInput">Encrypted Payload (Base64)</label>
-      <textarea id="encryptedInput" placeholder="Paste the full base64 string here..."></textarea>
+    <div class="input-group" id="requestInputGroup">
+      <label for="requestInput">Encrypted Request Payload (Base64)</label>
+      <textarea id="requestInput" placeholder="Paste the request base64 string here..."></textarea>
     </div>
+
+    <div class="input-group" id="responseInputGroup" style="display: none;">
+      <label for="responseInput">Encrypted Response Payload (Base64)</label>
+      <textarea id="responseInput" placeholder="Paste the response base64 string here..."></textarea>
+    </div>
+
     <button id="decryptBtn" class="button">Decrypt Payload</button>
     <div id="errorMsg" class="error-msg"></div>
   </div>
 
-  <div id="resultArea" class="result-area">
-    <div class="card" id="headerCard">
-      <h3 style="margin:0 0 16px 0">Decrypted Header</h3>
+  <!-- Request Results -->
+  <div id="requestResultArea" class="result-area">
+    <div class="card">
+      <h3 style="margin:0 0 16px 0">Decrypted Request Header</h3>
       <div class="key-value">
         <div class="key">SID</div><div class="val" id="resSid"></div>
         <div class="key">UDID</div><div class="val" id="resUdid"></div>
@@ -203,40 +210,92 @@ ${getMenuHtml()}
     </div>
 
     <div class="card">
-      <h3 style="margin:0 0 16px 0">Decrypted Content</h3>
-      <div id="jsonOutput" class="json-viewer"></div>
+      <h3 style="margin:0 0 16px 0">Decrypted Request Content</h3>
+      <div id="reqJsonOutput" class="json-viewer"></div>
     </div>
   </div>
+
+  <!-- Response Results -->
+  <div id="responseResultArea" class="result-area">
+    <div class="card">
+      <h3 style="margin:0 0 16px 0">Decrypted Response Header</h3>
+      <div class="key-value">
+        <div class="key">Key</div><div class="val" id="resKey"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin:0 0 16px 0">Decrypted Response Content</h3>
+      <div id="respJsonOutput" class="json-viewer"></div>
+    </div>
+  </div>
+
 </div>
 
 <script>
 const decryptBtn = document.getElementById('decryptBtn');
-const input = document.getElementById('encryptedInput');
 const udidInput = document.getElementById('udidInput');
 const udidGroup = document.getElementById('udidGroup');
-const resultArea = document.getElementById('resultArea');
 const errorMsg = document.getElementById('errorMsg');
-const jsonOutput = document.getElementById('jsonOutput');
+
+// Input Groups
+const requestInputGroup = document.getElementById('requestInputGroup');
+const responseInputGroup = document.getElementById('responseInputGroup');
+const requestInput = document.getElementById('requestInput');
+const responseInput = document.getElementById('responseInput');
+
+// Result Areas
+const requestResultArea = document.getElementById('requestResultArea');
+const responseResultArea = document.getElementById('responseResultArea');
+
+// Request Output Fields
 const resSid = document.getElementById('resSid');
 const resUdid = document.getElementById('resUdid');
 const resAuthKey = document.getElementById('resAuthKey');
-const headerCard = document.getElementById('headerCard');
+const reqJsonOutput = document.getElementById('reqJsonOutput');
+
+// Response Output Fields
+const resKey = document.getElementById('resKey');
+const respJsonOutput = document.getElementById('respJsonOutput');
+
+// State to track if we have results
+let hasRequestResult = false;
+let hasResponseResult = false;
 
 function toggleMode() {
   const mode = document.querySelector('input[name="mode"]:checked').value;
+  
   if (mode === 'response') {
+    // Show Response Inputs
     udidGroup.style.display = 'flex';
-    headerCard.style.display = 'none';
+    requestInputGroup.style.display = 'none';
+    responseInputGroup.style.display = 'flex';
+    
+    // Show Response Results if available
+    requestResultArea.style.display = 'none';
+    responseResultArea.style.display = hasResponseResult ? 'flex' : 'none';
   } else {
+    // Show Request Inputs
     udidGroup.style.display = 'none';
-    headerCard.style.display = 'flex';
+    requestInputGroup.style.display = 'flex';
+    responseInputGroup.style.display = 'none';
+    
+    // Show Request Results if available
+    responseResultArea.style.display = 'none';
+    requestResultArea.style.display = hasRequestResult ? 'flex' : 'none';
   }
 }
 
 decryptBtn.addEventListener('click', async () => {
-  const payload = input.value.trim();
   const mode = document.querySelector('input[name="mode"]:checked').value;
+  let payload = '';
   const udid = udidInput.value.trim();
+
+  if (mode === 'request') {
+    payload = requestInput.value.trim();
+  } else {
+    payload = responseInput.value.trim();
+  }
 
   if (!payload) return;
   if (mode === 'response' && !udid) {
@@ -246,8 +305,7 @@ decryptBtn.addEventListener('click', async () => {
 
   decryptBtn.disabled = true;
   errorMsg.style.display = 'none';
-  resultArea.style.display = 'none';
-
+  
   try {
     const res = await fetch('/web/decrypt', {
       method: 'POST',
@@ -265,10 +323,18 @@ decryptBtn.addEventListener('click', async () => {
         resSid.textContent = data.header.sid;
         resUdid.textContent = data.header.udid;
         resAuthKey.textContent = data.header.authKey;
+        reqJsonOutput.textContent = JSON.stringify(data.content, null, 2);
+        
+        hasRequestResult = true;
+        requestResultArea.style.display = 'flex';
+    } else {
+        resKey.textContent = data.key;
+        respJsonOutput.textContent = JSON.stringify(data.content, null, 2);
+        
+        hasResponseResult = true;
+        responseResultArea.style.display = 'flex';
     }
     
-    jsonOutput.textContent = JSON.stringify(data.content, null, 2);
-    resultArea.style.display = 'flex';
   } catch (err) {
     errorMsg.textContent = err.message;
     errorMsg.style.display = 'block';
@@ -323,8 +389,6 @@ export default async function routes(fastify: FastifyInstance) {
         const decrypted = decryptResponse(payload, udid);
         
         // Use JSON.parse(JSON.stringify(..., replacer)) to handle BigInts
-        // Or better yet, just let reply.send handle it if we can configure serialization,
-        // but since we can't easily change global config, we'll serialize manually first.
         const responseContent = JSON.parse(JSON.stringify(decrypted.content, replacer));
 
         return reply.send({

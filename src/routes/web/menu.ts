@@ -33,6 +33,7 @@ export function getMenuHtml(): string {
   <a href="/web/db" class="nav-item" id="nav-db">Database</a>
   <a href="/web/decrypt" class="nav-item" id="nav-decrypt">Decryptor</a>
   <a href="/web/race-analyzer" class="nav-item" id="nav-race">Race Analyzer</a>
+  <a href="/web/present/admin" class="nav-item" id="nav-presents">Presents</a>
 </nav>
 <script>
 (function() {
@@ -41,6 +42,7 @@ export function getMenuHtml(): string {
   else if (path.startsWith('/web/db')) document.getElementById('nav-db').classList.add('active');
   else if (path.startsWith('/web/decrypt')) document.getElementById('nav-decrypt').classList.add('active');
   else if (path.startsWith('/web/race-analyzer')) document.getElementById('nav-race').classList.add('active');
+  else if (path.startsWith('/web/present')) document.getElementById('nav-presents').classList.add('active');
 })();
 </script>
 `;
