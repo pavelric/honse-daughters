@@ -605,6 +605,38 @@ export function updateUserCoin(viewerId: number | string, coin: number, fcoin: n
     db.prepare('UPDATE players SET coin = ?, fcoin = ? WHERE viewer_id = ?').run(coin, fcoin, viewerId.toString());
 }
 
+export function getRandomViewerIds(limit: number, excludeViewerId?: number): number[] {
+    if (excludeViewerId !== undefined) {
+        const rows = db.prepare('SELECT viewer_id FROM accounts WHERE viewer_id != ? ORDER BY RANDOM() LIMIT ?').all(excludeViewerId, limit) as { viewer_id: number }[];
+        return rows.map(r => r.viewer_id);
+    }
+    const rows = db.prepare('SELECT viewer_id FROM accounts ORDER BY RANDOM() LIMIT ?').all(limit) as { viewer_id: number }[];
+    return rows.map(r => r.viewer_id);
+}
+
+export function getCircleMembership(viewerId: number | string): { circle_info: { circle_id: number, name: string } | null, circle_user: any | null } {
+    const cm = db.prepare('SELECT * FROM circle_members WHERE viewer_id = ?').get(viewerId.toString()) as any;
+    if (!cm) return { circle_info: null, circle_user: null };
+    const ci = db.prepare('SELECT * FROM circles WHERE id = ?').get(cm.circle_id) as any;
+    const circle_info = ci ? { circle_id: ci.id, name: ci.name } : null;
+    const circle_user = {
+        circle_id: cm.circle_id,
+        item_request_end_time: cm.item_request_end_time,
+        join_time: cm.join_time,
+        last_check_post_id: cm.last_check_post_id,
+        membership: cm.membership,
+        penalty_end_time: cm.penalty_end_time,
+        ranking_result_check_time: cm.ranking_result_check_time,
+        viewer_id: cm.viewer_id
+    };
+    return { circle_info, circle_user };
+}
+
+export function getUserSupportCardById(viewerId: number | string, supportCardId: number): any | null {
+    const row = db.prepare('SELECT * FROM user_support_cards WHERE viewer_id = ? AND support_card_id = ?').get(viewerId.toString(), supportCardId) as any;
+    return row || null;
+}
+
 export function checkUserCard(viewerId: number | string, cardId: number): boolean {
     const result = db.prepare('SELECT 1 FROM user_cards WHERE viewer_id = ? AND card_id = ?').get(viewerId.toString(), cardId);
     return !!result;

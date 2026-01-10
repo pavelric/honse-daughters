@@ -30,15 +30,17 @@ export function getMenuHtml(): string {
 </style>
 <nav class="nav-menu">
   <a href="/" class="nav-item" id="nav-home">Home</a>
+  <a href="/web/accounts" class="nav-item" id="nav-accounts">Accounts</a>
   <a href="/web/db" class="nav-item" id="nav-db">Database</a>
   <a href="/web/decrypt" class="nav-item" id="nav-decrypt">Decryptor</a>
   <a href="/web/race-analyzer" class="nav-item" id="nav-race">Race Analyzer</a>
-  <a href="/web/present/admin" class="nav-item" id="nav-presents">Presents</a>
+  <a href="/web/present" class="nav-item" id="nav-presents">Presents</a>
 </nav>
 <script>
 (function() {
   const path = window.location.pathname;
   if (path === '/') document.getElementById('nav-home').classList.add('active');
+  else if (path.startsWith('/web/accounts')) document.getElementById('nav-accounts').classList.add('active');
   else if (path.startsWith('/web/db')) document.getElementById('nav-db').classList.add('active');
   else if (path.startsWith('/web/decrypt')) document.getElementById('nav-decrypt').classList.add('active');
   else if (path.startsWith('/web/race-analyzer')) document.getElementById('nav-race').classList.add('active');

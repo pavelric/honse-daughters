@@ -19,6 +19,7 @@ import webApi from "./routes/web_api/db";
 import webDecrypt from "./routes/web/decrypt";
 import webRaceAnalyzer from "./routes/web/raceAnalyzer";
 import webPresents from "./routes/web/present";
+import webAccounts from "./routes/web/accounts";
 
 
 
@@ -118,6 +119,10 @@ fastify.register(web, { prefix: "/web" })
 fastify.register(webDecrypt, { prefix: "/web" })
 fastify.register(webRaceAnalyzer, { prefix: "/web" })
 fastify.register(webPresents, { prefix: "/web/present" })
+fastify.register(webAccounts, { prefix: "/web/accounts" })
+
+
+
 
 fastify.get("/", async (_req, reply) => {
     reply.header("content-type", "text/html; charset=utf-8").send(`<!DOCTYPE html>

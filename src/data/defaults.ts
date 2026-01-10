@@ -16,7 +16,7 @@ export const DEFAULT_USER_PROFILE = {
     rp_max_recovery_time: 0,
     sex: 1,
     single_mode_play_count: 0,
-    support_card_id: 0,
+    support_card_id: 20021,
     team_stadium_win_count: 0,
     total_login_day_count: 0,
     total_login_day_count_check_time: "0000-00-00 00:00:00",

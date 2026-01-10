@@ -1,4 +1,3 @@
-import pyodbc
 import sqlite3
 import json
 import sys
@@ -9,9 +8,11 @@ appdata_base_path = os.path.dirname(appdata_path)
 
 # --- CONFIGURATION ---
 MDB_FILE = os.path.join(appdata_base_path, 'LocalLow', 'Cygames', 'Umamusume', 'master', 'master.mdb')
-OUTPUT_FILE = "_route_race_data.json"
 
-def create_enriched_race_json(db_path, output_path):
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+OUTPUT_FILE = os.path.abspath(os.path.join(SCRIPT_DIR, "../../assets/umas_route_race_data.json"))
+
+def create_uma_route_race_json(db_path, output_path):
     """
     Generates a JSON file by combining data from three specific tables:
     1. Grabs all data from 'single_mode_route_race'.
@@ -33,7 +34,8 @@ def create_enriched_race_json(db_path, output_path):
     # even if a corresponding program or text entry is missing.
     query = """
     SELECT
-        t1.id AS route_id,
+        t1.id AS id,
+        t4.id AS route_id,
         t1.race_set_id,
         t1.target_type,
         t1.turn,
@@ -43,13 +45,16 @@ def create_enriched_race_json(db_path, output_path):
         t1.condition_value_2,
         t2.id AS program_id,
         t2.race_instance_id,
-        t3.text AS race_name
+        t3.text AS race_name,
+        t4.id AS route_id
     FROM
         single_mode_route_race AS t1
     LEFT JOIN
         single_mode_program AS t2 ON t1.condition_id = t2.id
     LEFT JOIN
         text_data AS t3 ON t3."index" = t2.race_instance_id AND t3.category = 28
+    LEFT JOIN
+        single_mode_route AS t4 ON t1.race_set_id = t4.chara_id
     ORDER BY
         t1.id;
     """
@@ -81,12 +86,12 @@ def create_enriched_race_json(db_path, output_path):
                 # Convert the database row object to a standard Python dictionary
                 row_dict = dict(row)
                 
-                # The 'route_id' will be the main key in our JSON object
+                # The 'id' will be the main key in our JSON object
                 # We use .pop() to get the value AND remove it from the dictionary
-                route_id = row_dict.pop('route_id')
+                id = row_dict.pop('id')
                 
                 # Assign the nested dictionary to its ID key
-                final_data[route_id] = row_dict
+                final_data[id] = row_dict
 
             # Write the final dictionary to the JSON file
             with open(output_path, 'w', encoding='utf-8') as json_file:
@@ -104,4 +109,4 @@ def create_enriched_race_json(db_path, output_path):
 
 # Main execution block
 if __name__ == "__main__":
-    create_enriched_race_json(MDB_FILE, OUTPUT_FILE)
+    create_uma_route_race_json(MDB_FILE, OUTPUT_FILE)

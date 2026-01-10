@@ -2,6 +2,8 @@ import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { generateDataHeaders, RequestCommon } from "../../utils";
 import { computeResponseSid } from "../../crypto";
 import { verifySession } from "../../data/honseData";
+import { buildFriendSupportCardData } from "../../data/utils";
+import { inspect } from "util";
 
 
 const routes = async (fastify: FastifyInstance) => {
@@ -23,7 +25,24 @@ const routes = async (fastify: FastifyInstance) => {
         })
 
         
+        const friendData = buildFriendSupportCardData(viewerId, 10)
         var response = {
+            "data": {
+                event_succession_trained_chara_data: {
+                    succession_trained_chara_array: [],
+                    summary_user_info_array: []
+                },
+                friend_support_card_data: {
+                    summary_user_info_array: friendData.summary_user_info_array,
+                    support_card_data_array: friendData.support_card_data_array
+                },
+                race_add_reward_info: [],
+                succession_trained_chara_data: {
+                succession_trained_chara_array: [],
+                    summary_user_info_array: []
+                },
+                support_card_ranking_state: 0
+            },
             "data_headers": generateDataHeaders({
                 sid: request.umaHeader?.sid ? computeResponseSid(request.umaHeader.sid) : undefined,
                 viewer_id: viewerId,
@@ -33,6 +52,8 @@ const routes = async (fastify: FastifyInstance) => {
             }),
             response_code: 1
         }
+
+        console.log("Response: ", inspect(response, { depth: null, colors: true }))
 
         reply.status(200).send(response)
     })

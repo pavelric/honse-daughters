@@ -4,7 +4,7 @@ import { getServerTime } from "../../utils";
 import { getMenuHtml } from "./menu";
 
 const routes = async (fastify: FastifyInstance) => {
-    fastify.get("/admin", async (request: FastifyRequest, reply: FastifyReply) => {
+    fastify.get("/", async (request: FastifyRequest, reply: FastifyReply) => {
         const html = `
             <!DOCTYPE html>
             <html lang="en">

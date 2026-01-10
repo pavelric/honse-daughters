@@ -839,3 +839,209 @@ export interface SupportCardNum {
     support_card_id: number
     num: number
 }
+
+export interface SummaryUserSupportCard {
+    exp: number
+    limit_break_count: number
+    support_card_id: number
+}
+
+export interface SummaryUserTrainedChara {
+    card_id: number
+    factor_id_array: number[]
+    factor_info_array: UserFactorInfo[]
+    proper_distance_long: number
+    proper_distance_middle: number
+    proper_distance_mile: number
+    proper_distance_short: number
+    proper_ground_dirt: number
+    proper_ground_turf: number
+    proper_running_style_nige: number
+    proper_running_style_oikomi: number
+    proper_running_style_sashi: number
+    proper_running_style_senko: number
+    rank: number
+    rank_score: number
+    rarity: number
+    register_time: string
+    skill_count: number
+    talent_level: number
+    trained_chara_id: number
+    viewer_id: number
+}
+
+export interface SummaryUserInfo {
+    circle_info: CircleInfo | null
+    circle_user: CircleUser | null
+    comment: string
+    fan: number
+    friend_state: number
+    honor_id: number
+    last_login_time: string
+    leader_chara_dress_id: number
+    leader_chara_id: number
+    name: string
+    partner_chara_id: number
+    rank_score: number
+    single_mode_play_count: number
+    support_card_id: number
+    team_evaluation_point: number
+    team_stadium_win_count: number
+    user_support_card: SummaryUserSupportCard
+    user_trained_chara: SummaryUserTrainedChara
+    viewer_id: number
+}
+export interface TrainingSupportCard {
+    exp: number
+    limit_break_count: number
+    owner_viewer_id: number
+    position: number
+    support_card_id: number
+}
+export interface TrainingCommandLevelInfo {
+    command_id: number
+    level: number
+}
+export interface TrainingEvaluationInfo {
+    evaluation: number
+    group_outing_info_array: number[]
+    is_appear: number
+    is_outing: number
+    story_step: number
+    target_id: number
+    training_partner_id: number
+}
+export interface TrainingCharaInfo {
+    card_id: number
+    chara_effect_id_array: number[]
+    chara_grade: number
+    default_max_guts: number
+    default_max_power: number
+    default_max_speed: number
+    default_max_stamina: number
+    default_max_wiz: number
+    disable_skill_id_array: number[]
+    evaluation_info_array: TrainingEvaluationInfo[]
+    fans: number
+    guest_outing_info_array: number[]
+    guts: number
+    is_short_race: number
+    max_guts: number
+    max_power: number
+    max_speed: number
+    max_stamina: number
+    max_vital: number
+    max_wiz: number
+    motivation: number
+    nickname_id_array: number[]
+    playing_state: number
+    power: number
+    proper_distance_long: number
+    proper_distance_middle: number
+    proper_distance_mile: number
+    proper_distance_short: number
+    proper_ground_dirt: number
+    proper_ground_turf: number
+    proper_running_style_nige: number
+    proper_running_style_oikomi: number
+    proper_running_style_sashi: number
+    proper_running_style_senko: number
+    race_program_id: number
+    race_running_style: number
+    rarity: number
+    reserve_race_program_id: number
+    route_id: number
+    route_race_id_array: number[]
+    scenario_id: number
+    short_cut_state: number
+    single_mode_chara_id: number
+    skill_array: TrainedCharaSkill[]
+    skill_point: number
+    skill_tips_array: number[]
+    speed: number
+    stamina: number
+    start_time: string
+    state: number
+    succession_trained_chara_id_1: number
+    succession_trained_chara_id_2: number
+    support_card_array: TrainingSupportCard[]
+    talent_level: number
+    training_level_info_array: TrainingCommandLevelInfo[]
+    turn: number
+    vital: number
+    wiz: number
+}
+export interface TrainingParamIncDecInfo {
+    target_type: number
+    value: number
+}
+export interface TrainingCommandInfo {
+    command_id: number
+    command_type: number
+    failure_rate: number
+    is_enable: number
+    level: number
+    params_inc_dec_info_array: TrainingParamIncDecInfo[]
+    tips_event_partner_array: number[]
+    training_partner_array: number[]
+}
+export interface TrainingHomeInfo {
+    available_continue_num: number
+    available_free_continue_num: number
+    command_info_array: TrainingCommandInfo[]
+    disable_command_id_array: number[]
+    free_continue_num: number
+    free_continue_time: number
+    race_entry_restriction: number
+    shortened_race_state: number
+}
+export interface TrainingReservedRaceDeck {
+    deck_name: string
+    deck_num: number
+    race_array: unknown[]
+}
+export interface TrainingChoiceInfo {
+    receive_item_id: number
+    select_index: number
+    target_race_id: number
+}
+export interface TrainingEventContentsInfo {
+    choice_array: TrainingChoiceInfo[]
+    show_clear: number
+    show_clear_sort_id: number
+    support_card_id: number
+}
+export interface TrainingUncheckedEvent {
+    chara_id: number
+    event_contents_info: TrainingEventContentsInfo
+    event_id: number
+    minigame_result: unknown | null
+    play_timing: number
+    story_id: number
+    succession_event_info: unknown | null
+}
+export interface TrainingStartChara {
+    boost_story_event_id: number
+    card_id: number
+    friend_support_card_info: {
+        support_card_id: number
+        viewer_id: number
+    }
+    is_play_training_challenge: boolean
+    rental_succession_trained_chara: {
+        is_circle_member: boolean
+        is_event_rental: boolean
+        trained_chara_id: number
+        viewer_id: number
+    }
+    scenario_id: number
+    select_deck_id: number
+    selected_difficulty_info: {
+        difficulty: number
+        difficulty_id: number
+        is_boost: number
+    }
+    succession_trained_chara_id_1: number
+    succession_trained_chara_id_2: number
+    support_card_ids: number[]
+}

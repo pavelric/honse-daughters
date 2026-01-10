@@ -1,5 +1,5 @@
-import { ChallengeMatchLoadInfo, ChampionsMeetingInfo, CircleInfo, CircleUser, ClientPlayerData, ClientUserInfo, CommonDefine, LegendRacePlayingInfo, TeamStadiumBorderLine, UserCircleData, UserCoinInfo, UserDailyLegendRacePlayingInfo, UserDailyRacePlayingInfo, UserHomePositionInfo, UserHonorInfo, UserJukeboxInfo, UserJukeboxRequestHistory, UserLimitedShopInfo, UserMenuBadgeInfo, UserRpInfo, UserSeasonPackInfo, UserTeamBuildingLoadInfo, UserTeamStadiumRanking, UserTeamStadiumRecord, UserTpInfo, Player, UserCardList, UserCharaList, UserSupportCardList, UserSupportCardDeck, UserTrainedChara, UserTeamStadiumData, UserItemList, UserCharaProfile, RewardItemInfo } from './types';
-import { getPlayer, getPlayerBorderline, getUserCards, getUserCharas, getUserDecks, getUserItems, getUserProfile, getUserSupportCards, getUserTeamData, getUserTrainedCharas, getUserCharaProfiles, getUserPieces, countUserPresents } from './honseData';
+import { ChallengeMatchLoadInfo, ChampionsMeetingInfo, CircleInfo, CircleUser, ClientPlayerData, ClientUserInfo, CommonDefine, LegendRacePlayingInfo, TeamStadiumBorderLine, UserCircleData, UserCoinInfo, UserDailyLegendRacePlayingInfo, UserDailyRacePlayingInfo, UserHomePositionInfo, UserHonorInfo, UserJukeboxInfo, UserJukeboxRequestHistory, UserLimitedShopInfo, UserMenuBadgeInfo, UserRpInfo, UserSeasonPackInfo, UserTeamBuildingLoadInfo, UserTeamStadiumRanking, UserTeamStadiumRecord, UserTpInfo, Player, UserCardList, UserCharaList, UserSupportCardList, UserSupportCardDeck, UserTrainedChara, UserTeamStadiumData, UserItemList, UserCharaProfile, RewardItemInfo, SummaryUserInfo } from './types';
+import { getPlayer, getPlayerBorderline, getUserCards, getUserCharas, getUserDecks, getUserItems, getUserProfile, getUserSupportCards, getUserTeamData, getUserTrainedCharas, getUserCharaProfiles, getUserPieces, countUserPresents, getRandomViewerIds, getCircleMembership, getUserSupportCardById } from './honseData';
 import { getServerTime, formatTimestamp, formatServerTimestamp } from '../utils';
 import { COMMON_DEFINE, RELEASED_CARD_ARRAY, SINGLE_MODE_DIFFICULTY_INFO_ARRAY, DEFAULT_PAYMENT_PURCHASED_TIMES_LIST } from './defaults';
 
@@ -572,5 +572,112 @@ export function makeRewardItemInfo(data: Partial<RewardItemInfo> = {}): RewardIt
         force_update_honor_id: data.force_update_honor_id ?? 0,
         new_chara_profile_array: data.new_chara_profile_array ?? []
     };
+}
+
+export function buildSummaryUserInfo(viewerId: number): SummaryUserInfo {
+    const profile = getUserProfile(viewerId);
+    const circle = getCircleMembership(viewerId);
+    const trainedList = getUserTrainedCharas(viewerId);
+    let chosen = null as any;
+    if (trainedList && trainedList.length > 0) {
+        chosen = trainedList.sort((a: any, b: any) => (b.rank_score || 0) - (a.rank_score || 0))[0];
+    }
+    const skillArray = chosen ? JSON.parse(chosen.skill_array || '[]') : [];
+    const factorIdArray = chosen ? JSON.parse(chosen.factor_id_array || '[]') : [];
+    const factorInfoArray = chosen ? JSON.parse(chosen.factor_info_array || '[]') : [];
+    const supportCardRow = getUserSupportCardById(viewerId, profile.support_card_id);
+    const user_support_card = {
+        exp: supportCardRow ? supportCardRow.exp : 0,
+        limit_break_count: supportCardRow ? supportCardRow.limit_break_count : 0,
+        support_card_id: profile.support_card_id
+    };
+    const user_trained_chara = chosen ? {
+        card_id: chosen.card_id,
+        factor_id_array: factorIdArray,
+        factor_info_array: factorInfoArray,
+        proper_distance_long: chosen.proper_distance_long,
+        proper_distance_middle: chosen.proper_distance_middle,
+        proper_distance_mile: chosen.proper_distance_mile,
+        proper_distance_short: chosen.proper_distance_short,
+        proper_ground_dirt: chosen.proper_ground_dirt,
+        proper_ground_turf: chosen.proper_ground_turf,
+        proper_running_style_nige: chosen.proper_running_style_nige,
+        proper_running_style_oikomi: chosen.proper_running_style_oikomi,
+        proper_running_style_sashi: chosen.proper_running_style_sashi,
+        proper_running_style_senko: chosen.proper_running_style_senko,
+        rank: chosen.rank,
+        rank_score: chosen.rank_score,
+        rarity: chosen.rarity,
+        register_time: chosen.register_time,
+        skill_count: Array.isArray(skillArray) ? skillArray.length : 0,
+        talent_level: chosen.talent_level,
+        trained_chara_id: chosen.trained_chara_id,
+        viewer_id: Number(viewerId)
+    } : {
+        card_id: 0,
+        factor_id_array: [],
+        factor_info_array: [],
+        proper_distance_long: 0,
+        proper_distance_middle: 0,
+        proper_distance_mile: 0,
+        proper_distance_short: 0,
+        proper_ground_dirt: 0,
+        proper_ground_turf: 0,
+        proper_running_style_nige: 0,
+        proper_running_style_oikomi: 0,
+        proper_running_style_sashi: 0,
+        proper_running_style_senko: 0,
+        rank: 0,
+        rank_score: 0,
+        rarity: 0,
+        register_time: profile.register_time,
+        skill_count: 0,
+        talent_level: 0,
+        trained_chara_id: 0,
+        viewer_id: Number(viewerId)
+    };
+    return {
+        circle_info: circle.circle_info,
+        circle_user: circle.circle_user,
+        comment: profile.comment,
+        fan: profile.fan,
+        friend_state: 0,
+        honor_id: profile.honor_id,
+        last_login_time: profile.update_time,
+        leader_chara_dress_id: profile.leader_chara_dress_id,
+        leader_chara_id: profile.leader_chara_id,
+        name: profile.name,
+        partner_chara_id: profile.partner_chara_id,
+        rank_score: profile.rank_score,
+        single_mode_play_count: profile.single_mode_play_count ?? 0,
+        support_card_id: profile.support_card_id,
+        team_evaluation_point: profile.best_team_evaluation_point,
+        team_stadium_win_count: profile.team_stadium_win_count ?? 0,
+        user_support_card,
+        user_trained_chara,
+        viewer_id: Number(viewerId)
+    };
+}
+
+export function buildFriendSupportCardData(viewerId: number, count: number = 10): { summary_user_info_array: SummaryUserInfo[], support_card_data_array: any[] } {
+    const viewers = getRandomViewerIds(count, viewerId);
+    const summary_user_info_array: SummaryUserInfo[] = [];
+    const support_card_data_array: any[] = [];
+    for (const vid of viewers) {
+        const summary = buildSummaryUserInfo(vid);
+        summary_user_info_array.push(summary);
+        const row = getUserSupportCardById(vid, summary.support_card_id) || {};
+        support_card_data_array.push({
+            create_time: row.create_time || formatServerTimestamp(),
+            exp: row.exp || 0,
+            favorite_flag: row.favorite_flag || 0,
+            limit_break_count: row.limit_break_count || 0,
+            possess_time: row.possess_time || row.create_time || formatServerTimestamp(),
+            stock: row.stock || 0,
+            support_card_id: summary.support_card_id,
+            viewer_id: vid
+        });
+    }
+    return { summary_user_info_array, support_card_data_array };
 }
 

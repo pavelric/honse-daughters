@@ -296,6 +296,19 @@ export default function init(
     `).run();
 
     database.prepare(`
+        CREATE TABLE IF NOT EXISTS training_runs (
+            viewer_id INTEGER PRIMARY KEY,
+            card_id INTEGER NOT NULL,
+            scenario_id INTEGER NOT NULL,
+            start_time TEXT,
+            last_update_time TEXT,
+            run_state TEXT,
+            FOREIGN KEY (viewer_id) REFERENCES accounts(viewer_id) ON DELETE CASCADE
+        )
+    `).run();
+    database.prepare('CREATE INDEX IF NOT EXISTS idx_training_runs_viewer ON training_runs(viewer_id)').run();
+
+    database.prepare(`
         CREATE TABLE IF NOT EXISTS user_login_trophy_charas (
             viewer_id INTEGER NOT NULL,
             trophy_id INTEGER NOT NULL,

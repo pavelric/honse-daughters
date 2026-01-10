@@ -11,8 +11,8 @@ API_PORT = 8000
 API_SCHEME = 'http'
 MAGIC_DOMAIN_SUFFIX = ".mitm.it"
 
-#prefixes = ["/openapi", "/infodesk", "", '/patch']
-prefixes = ["", "/assets"]
+
+prefixes = ["", "/assets"] #, "/webview"]
 
 # hostname: prefix_index
 hosts = {
@@ -21,7 +21,10 @@ hosts = {
     "api.games.umamusume.com": 0,
 
     # assets
-    "assets-umamusume-en.akamaized.net": 1
+    "assets-umamusume-en.akamaized.net": 1,
+
+    #webview
+    #"webview.games.umamusume.com": 2,
 }
 
 def dns_request(flow: dns.DNSFlow):
