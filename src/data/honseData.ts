@@ -684,6 +684,114 @@ export function getUserPieces(viewerId: number | string): any[] {
     return db.prepare('SELECT * FROM user_pieces WHERE viewer_id = ?').all(viewerId.toString());
 }
 
+export function addUserSupportCardExp(viewerId: number | string, supportCardId: number, addExp: number): void {
+    if (addExp <= 0) return;
+    db.prepare('UPDATE user_support_cards SET exp = exp + ? WHERE viewer_id = ? AND support_card_id = ?')
+      .run(Math.round(addExp), viewerId.toString(), supportCardId);
+}
+
+export function incrementUserCharaTrainingStats(viewerId: number | string, charaId: number, fanGain: number): void {
+    db.prepare('UPDATE user_charas SET fan = fan + ?, training_num = training_num + 1 WHERE viewer_id = ? AND chara_id = ?')
+      .run(Math.max(0, Math.round(fanGain)), viewerId.toString(), charaId);
+}
+
+export function incrementSingleModePlayCount(viewerId: number | string): void {
+    db.prepare('UPDATE user_profiles SET single_mode_play_count = single_mode_play_count + 1 WHERE viewer_id = ?')
+      .run(viewerId.toString());
+}
+
+// Generic insert for a freeform (non-tutorial) finished training run.
+// Mirrors the column layout used by updatePlayerSingleModeFinish's tutorial-specific insert,
+// but takes real computed values instead of a hardcoded example row.
+export function insertTrainedChara(viewerId: number | string, trainedChara: any): number {
+    const viewerIdStr = viewerId.toString();
+    const now = formatServerTimestamp();
+
+    const maxIdResult = db.prepare('SELECT MAX(trained_chara_id) as max_id FROM user_trained_charas WHERE viewer_id = ?').get(viewerIdStr) as { max_id: number };
+    const nextId = (maxIdResult.max_id || 0) + 1;
+
+    const row = {
+        viewer_id: Number(viewerIdStr),
+        trained_chara_id: nextId,
+        card_id: trainedChara.card_id,
+        chara_seed: trainedChara.chara_seed ?? 0,
+        rank: trainedChara.rank ?? 0,
+        rank_score: trainedChara.rank_score ?? 0,
+        speed: trainedChara.speed ?? 0,
+        stamina: trainedChara.stamina ?? 0,
+        power: trainedChara.power ?? 0,
+        guts: trainedChara.guts ?? 0,
+        wiz: trainedChara.wiz ?? 0,
+        rarity: trainedChara.rarity ?? 1,
+        running_style: trainedChara.running_style ?? 0,
+        scenario_id: trainedChara.scenario_id ?? 0,
+        route_id: trainedChara.route_id ?? 0,
+        wins: trainedChara.wins ?? 0,
+        register_time: now,
+        create_time: now,
+        skill_array: JSON.stringify(trainedChara.skill_array ?? []),
+        race_result_list: JSON.stringify(trainedChara.race_result_list ?? []),
+        factor_info_array: JSON.stringify(trainedChara.factor_info_array ?? []),
+        support_card_list: JSON.stringify(trainedChara.support_card_list ?? []),
+        arrive_route_race_id: trainedChara.arrive_route_race_id ?? 0,
+        factor_id_array: JSON.stringify(trainedChara.factor_id_array ?? []),
+        fans: trainedChara.fans ?? 0,
+        is_locked: 0,
+        is_saved: 0,
+        nickname_id: trainedChara.nickname_id ?? 0,
+        nickname_id_array: JSON.stringify(trainedChara.nickname_id_array ?? []),
+        owner_trained_chara_id: 0,
+        proper_distance_long: trainedChara.proper_distance_long ?? 0,
+        proper_distance_short: trainedChara.proper_distance_short ?? 0,
+        proper_distance_middle: trainedChara.proper_distance_middle ?? 0,
+        proper_distance_mile: trainedChara.proper_distance_mile ?? 0,
+        proper_ground_dirt: trainedChara.proper_ground_dirt ?? 0,
+        proper_ground_turf: trainedChara.proper_ground_turf ?? 0,
+        proper_running_style_nige: trainedChara.proper_running_style_nige ?? 0,
+        proper_running_style_oikomi: trainedChara.proper_running_style_oikomi ?? 0,
+        proper_running_style_sashi: trainedChara.proper_running_style_sashi ?? 0,
+        proper_running_style_senko: trainedChara.proper_running_style_senko ?? 0,
+        race_cloth_id: trainedChara.race_cloth_id ?? 0,
+        single_mode_chara_id: 0,
+        succession_chara_array: JSON.stringify(trainedChara.succession_chara_array ?? []),
+        succession_history_array: JSON.stringify(trainedChara.succession_history_array ?? []),
+        succession_num: trainedChara.succession_num ?? 0,
+        succession_trained_chara_id_1: trainedChara.succession_trained_chara_id_1 ?? 0,
+        succession_trained_chara_id_2: trainedChara.succession_trained_chara_id_2 ?? 0,
+        talent_level: trainedChara.talent_level ?? 1,
+        use_type: trainedChara.use_type ?? 0,
+        win_saddle_id_array: JSON.stringify(trainedChara.win_saddle_id_array ?? []),
+        owner_viewer_id: 0,
+        chara_grade: trainedChara.chara_grade ?? 1,
+    };
+
+    db.prepare(`
+        INSERT INTO user_trained_charas (
+            viewer_id, trained_chara_id, card_id, chara_seed, rank, rank_score, speed, stamina, power, guts, wiz,
+            rarity, running_style, scenario_id, route_id, wins, register_time, create_time,
+            skill_array, race_result_list, factor_info_array, support_card_list,
+            arrive_route_race_id, factor_id_array, fans, is_locked, is_saved, nickname_id, nickname_id_array,
+            owner_trained_chara_id, proper_distance_long, proper_distance_short, proper_distance_middle, proper_distance_mile,
+            proper_ground_dirt, proper_ground_turf, proper_running_style_nige, proper_running_style_oikomi,
+            proper_running_style_sashi, proper_running_style_senko, race_cloth_id, single_mode_chara_id,
+            succession_chara_array, succession_history_array, succession_num, succession_trained_chara_id_1,
+            succession_trained_chara_id_2, talent_level, use_type, win_saddle_id_array, owner_viewer_id, chara_grade
+        ) VALUES (
+            @viewer_id, @trained_chara_id, @card_id, @chara_seed, @rank, @rank_score, @speed, @stamina, @power, @guts, @wiz,
+            @rarity, @running_style, @scenario_id, @route_id, @wins, @register_time, @create_time,
+            @skill_array, @race_result_list, @factor_info_array, @support_card_list,
+            @arrive_route_race_id, @factor_id_array, @fans, @is_locked, @is_saved, @nickname_id, @nickname_id_array,
+            @owner_trained_chara_id, @proper_distance_long, @proper_distance_short, @proper_distance_middle, @proper_distance_mile,
+            @proper_ground_dirt, @proper_ground_turf, @proper_running_style_nige, @proper_running_style_oikomi,
+            @proper_running_style_sashi, @proper_running_style_senko, @race_cloth_id, @single_mode_chara_id,
+            @succession_chara_array, @succession_history_array, @succession_num, @succession_trained_chara_id_1,
+            @succession_trained_chara_id_2, @talent_level, @use_type, @win_saddle_id_array, @owner_viewer_id, @chara_grade
+        )
+    `).run(row);
+
+    return nextId;
+}
+
 export function addOrUpdateUserChara(viewerId: number | string, charaId: number): void {
     const existing = db.prepare('SELECT 1 FROM user_charas WHERE viewer_id = ? AND chara_id = ?').get(viewerId.toString(), charaId);
     if (!existing) {
