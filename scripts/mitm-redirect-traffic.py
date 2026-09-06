@@ -35,6 +35,9 @@ def dns_request(flow: dns.DNSFlow):
         prefix_type = hosts.get(name) if question.type == 1 else None
         if prefix_type != None: #Type is 1 when asking for an A record
             #logging.info(f"[INFO] Matched DNS request for {question.name}")
+            if flow.response is None:
+                logging.info("[INFO] DNS flow has no response; skipping answer modifications")
+                continue
             flow.response.answers = [answer for answer in flow.response.answers if answer.name != question.name]
             domain_redirect = f'{question.name}{MAGIC_DOMAIN_SUFFIX}'
             #TODO: Are the CNAME records still useful in this configuration? Might be better to remove them and the host_redirects altogether....
@@ -42,7 +45,10 @@ def dns_request(flow: dns.DNSFlow):
             a_rec = dns.ResourceRecord.A(domain_redirect, API_DNS_REDIRECT_HOST, ttl=DNS_TTL)
             flow.response.answers.append(cname_rec)
             flow.response.answers.append(a_rec)
-    logging.info(f"[INFO] Answered with {flow.response.answers}")
+    if flow.response is not None:
+        logging.info(f"[INFO] Answered with {flow.response.answers}")
+    else:
+        logging.info("[INFO] No DNS response available to log")
 
 
 def request(flow: http.HTTPFlow) -> None:

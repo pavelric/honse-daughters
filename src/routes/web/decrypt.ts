@@ -180,8 +180,8 @@ ${getMenuHtml()}
 
     <div class="input-group" id="udidGroup" style="display: none;">
       <label for="udidInput">UDID (Required for Response Decryption)</label>
-      <input type="text" id="udidInput" placeholder="Enter UDID (hex string)...">
-      <small style="color: var(--muted)">You can find this in a decrypted request from the same session.</small>
+      <input type="text" id="udidInput" placeholder="Enter UDID (hex or dashed UUID)...">
+      <small style="color: var(--muted)">Use the UDID from a decrypted request from the same session. Dashed UUID format is also accepted.</small>
     </div>
 
     <div class="input-group" id="requestInputGroup">

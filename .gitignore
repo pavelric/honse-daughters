@@ -1,11 +1,11 @@
 node_modules
 .requestsexamples
-# might wanna avoid too many files
 .cdn
 .cdn_temp
 .inputs
-.env
 .venv
+
+.env
 SaveData.db
 Plan.md
 dist

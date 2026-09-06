@@ -25,6 +25,24 @@ export interface DecryptedRequest {
     content: any;
 }
 
+function normalizeUdid(udid: string): string {
+    const normalized = udid.trim().replace(/-/g, '').toLowerCase();
+
+    if (!/^[0-9a-f]+$/.test(normalized)) {
+        throw new Error("UDID must be a hex string");
+    }
+
+    if (normalized.length < 16) {
+        throw new Error("UDID must contain at least 16 hex characters");
+    }
+
+    return normalized;
+}
+
+function deriveUdidIv(udid: string): Buffer {
+    return Buffer.from(normalizeUdid(udid).substring(0, 16), 'utf8');
+}
+
 /**
  * Decrypts the request payload from the game client.
  * 
@@ -100,8 +118,7 @@ export function decryptRequest(base64Payload: string): DecryptedRequest {
     // 5. Derive IV from UDID
     // "converts that UDID to a hyphen-less string and takes the first 16 characters"
     // udid is already hex string (hyphen-less).
-    const ivString = udid.substring(0, 16);
-    const iv = Buffer.from(ivString, 'utf8');
+    const iv = deriveUdidIv(udid);
 
     // 6. Decrypt
     const decipher = createDecipheriv('aes-256-cbc', key, iv);
@@ -154,8 +171,7 @@ export function encryptResponse(content: any, udid: string, key: Buffer): string
 
     // 4. Derive IV
     // Same logic as request: first 16 chars of UDID hex
-    const ivString = udid.substring(0, 16);
-    const iv = Buffer.from(ivString, 'utf8');
+    const iv = deriveUdidIv(udid);
 
     // 5. Encrypt
     const cipher = createCipheriv('aes-256-cbc', key, iv);
@@ -191,8 +207,7 @@ export function decryptResponse(base64Payload: string, udid: string): any {
     const encryptedData = raw.subarray(0, raw.length - 32);
 
     // 3. Derive IV from UDID
-    const ivString = udid.substring(0, 16);
-    const iv = Buffer.from(ivString, 'utf8');
+    const iv = deriveUdidIv(udid);
 
     // 4. Decrypt
     const decipher = createDecipheriv('aes-256-cbc', key, iv);
