@@ -7,7 +7,7 @@ unmodified, legitimately installed client can be pointed at a server you run you
 
 ## Scope
 
-This is a preservation and interoperability project. It contains **no game assets, no client code and no
+This is a preservation and interoperability project. It contains **no game assets (kinda), no client code and no
 publisher data** — only a reimplementation of the network protocol, plus tooling that reads the data files
 already present on your own machine after you install the game normally.
 
