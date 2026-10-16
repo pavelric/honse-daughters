@@ -117,26 +117,51 @@ Don't hand-edit the generated JSON — re-run the script instead.
 
 ### 4. CDN mirror
 
+For this tool alone, Python only needs `aiohttp` and `lz4`:
+
 ```bash
-python scripts/cdn_download.py
+python -m pip install aiohttp lz4
+python scripts/cdn_mirror.py --platform android --manifests-only
+python scripts/cdn_mirror.py --platform android
 ```
 
-It prompts for a platform (`android` / `windows` / all) and a language (`en` / `jp` / all), reads the
-corresponding index from `assets/asset_lists/`, and downloads every blob into
-`.cdn/<index-name>/`, mirroring the upstream URL layout. Files are stored still compressed, because that's
-what the client expects. Already-downloaded files are skipped, so an interrupted run can simply be
-restarted.
+The Global mirror tool starts with the versioned root manifest, follows the platform and category
+manifests, and derives each blob's CDN hash. It does not need an installed client's `meta` file or the
+older indexes in `assets/asset_lists/`. `cdn-config.json` pins the resource version shared by the tool
+and the server (currently `10008200`, matching the observed `RES-VER` header). This pin does not
+automatically track new game updates.
+
+The first command downloads manifests and writes `mirror-10008200.json`, an inventory with file
+names, categories, hashes, paths, and expected byte lengths. For Android, this version contains
+191,010 unique blobs totaling about 32.37 GiB. The second downloads those blobs to
+`.cdn/en-android-meta/`, preserving the upstream URL layout and original compressed/encrypted bytes.
+Allow additional disk space for manifests, the inventory, and temporary files.
+
+Downloads use bounded concurrency (default 8; `--workers 16` to adjust), timeouts, and retries for
+transient failures. Files are length-checked and renamed from `.part` only when complete. Re-running
+the same command skips completed files of the expected length and retries missing or partial files.
+Length checking detects truncation; it does not verify the game's proprietary checksum.
+
+`download-report-10008200.json` records any failures, and an incomplete run exits with a nonzero code.
+HTTP 403/404 failures remain failures; an incomplete mirror can prevent the client from loading.
 
 The server currently serves **`.cdn/en-android-meta/`** at `/assets/dl/vertical`, so an Android client
 needs at least the `en` + `android` combination.
 
-Two things to know:
+`CDN_DIR` in `.env` is respected by both server and downloader. `--output` overrides the downloader's
+complete mirror root. `RESOURCE_VERSION` can override the version in `.env` or the process environment;
+`--version` overrides it for one download only, so update the server's version setting too before
+using that mirror. When updating, run the manifests-only command first to check availability and size.
 
-* The upstream CDN returns 403 for a good number of paths; those are logged and skipped. A run that ends
-  with failures is normal, not necessarily broken.
-* `resVer` at the top of `cdn_download.py` must match the resource version the server reports to the
-  client (`10003850`, hardcoded in several places in `src/routes/api/tool.ts`). If you bump one, bump the
-  other.
+`--platform windows` can build a separate Global Windows mirror under `.cdn/en-windows-meta/`, but the
+server's static mount currently uses the Android directory. `scripts/cdn_download.py` is the legacy
+interactive downloader for existing EN/JP SQLite indexes; those indexes may describe older resources.
+
+Downloader regression checks (BSV parsing, interrupted downloads, and HTTP/size failures):
+
+```bash
+python -m unittest discover -s scripts -p test_cdn_mirror.py
+```
 
 ## Usage
 

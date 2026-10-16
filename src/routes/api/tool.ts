@@ -1,4 +1,5 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+import { RESOURCE_VERSION, resourceServerFor } from '../../config';
 import { generateDataHeaders, RequestCommon } from "../../utils";
 import { computeResponseSid } from "../../crypto";
 import { pack, unpack } from 'msgpackr';
@@ -22,15 +23,15 @@ const routes = async (fastify: FastifyInstance) => {
 
         var response = {
             data: {
-                "resource_version": "10003850" // hardcode something different from the game's current resource version to test the resource download via the server's CDN
+                "resource_version": RESOURCE_VERSION
             },
             data_headers: generateDataHeaders({
                 //sid: request.umaHeader?.sid ? computeResponseSid(request.umaHeader.sid) : undefined,
                 server_list: {
-                    "resource_server": `assets-umamusume-en.akamaized.net/dl/vertical/`,
-                    "resource_server_cf": `assets-umamusume-en.akamaized.net/dl/vertical/`,
-                    "resource_server_ingame": `assets-umamusume-en.akamaized.net/dl/vertical/`,
-                    "resource_server_login": `assets-umamusume-en.akamaized.net/dl/vertical/`
+                    "resource_server": resourceServerFor(request.host),
+                    "resource_server_cf": resourceServerFor(request.host),
+                    "resource_server_ingame": resourceServerFor(request.host),
+                    "resource_server_login": resourceServerFor(request.host)
                 }
             }),
             response_code: 1
@@ -60,10 +61,10 @@ const routes = async (fastify: FastifyInstance) => {
             "data_headers": generateDataHeaders({
                 sid: request.umaHeader?.sid ? computeResponseSid(request.umaHeader.sid) : undefined,
                 server_list: {
-                    "resource_server": `assets-umamusume-en.akamaized.net/dl/vertical/`,
-                    "resource_server_cf": `assets-umamusume-en.akamaized.net/dl/vertical/`,
-                    "resource_server_ingame": `assets-umamusume-en.akamaized.net/dl/vertical/`,
-                    "resource_server_login": `assets-umamusume-en.akamaized.net/dl/vertical/`
+                    "resource_server": resourceServerFor(request.host),
+                    "resource_server_cf": resourceServerFor(request.host),
+                    "resource_server_ingame": resourceServerFor(request.host),
+                    "resource_server_login": resourceServerFor(request.host)
                 }
             }),
             response_code: 1
@@ -103,10 +104,10 @@ const routes = async (fastify: FastifyInstance) => {
             "data_headers": generateDataHeaders({
                 viewer_id: account.viewer_id,
                 server_list: {
-                    "resource_server": `assets-umamusume-en.akamaized.net/dl/vertical/`,
-                    "resource_server_cf": `assets-umamusume-en.akamaized.net/dl/vertical/`,
-                    "resource_server_ingame": `assets-umamusume-en.akamaized.net/dl/vertical/`,
-                    "resource_server_login": `assets-umamusume-en.akamaized.net/dl/vertical/`
+                    "resource_server": resourceServerFor(request.host),
+                    "resource_server_cf": resourceServerFor(request.host),
+                    "resource_server_ingame": resourceServerFor(request.host),
+                    "resource_server_login": resourceServerFor(request.host)
                 }
             }),
             response_code: 1
@@ -150,7 +151,7 @@ const routes = async (fastify: FastifyInstance) => {
                 "attest": false,
                 "is_tutorial": true,
                 "nonce": "",
-                "resource_version": "10003850", // hardcode it for now
+                "resource_version": RESOURCE_VERSION,
                 "terms_updated": false,
                 "auth_key": session.auth_key // oops?
             },
@@ -158,10 +159,10 @@ const routes = async (fastify: FastifyInstance) => {
                 sid: request.umaHeader?.sid ? computeResponseSid(request.umaHeader.sid) : undefined,
                 viewer_id: viewerId,
                 server_list: {
-                    "resource_server": `assets-umamusume-en.akamaized.net/dl/vertical/`,
-                    "resource_server_cf": `assets-umamusume-en.akamaized.net/dl/vertical/`,
-                    "resource_server_ingame": `assets-umamusume-en.akamaized.net/dl/vertical/`,
-                    "resource_server_login": `assets-umamusume-en.akamaized.net/dl/vertical/`
+                    "resource_server": resourceServerFor(request.host),
+                    "resource_server_cf": resourceServerFor(request.host),
+                    "resource_server_ingame": resourceServerFor(request.host),
+                    "resource_server_login": resourceServerFor(request.host)
                 }
             }),
             response_code: 1

@@ -1,6 +1,7 @@
 import { ChallengeMatchLoadInfo, ChampionsMeetingInfo, CircleInfo, CircleUser, ClientPlayerData, ClientUserInfo, CommonDefine, LegendRacePlayingInfo, TeamStadiumBorderLine, UserCircleData, UserCoinInfo, UserDailyLegendRacePlayingInfo, UserDailyRacePlayingInfo, UserHomePositionInfo, UserHonorInfo, UserJukeboxInfo, UserJukeboxRequestHistory, UserLimitedShopInfo, UserMenuBadgeInfo, UserRpInfo, UserSeasonPackInfo, UserTeamBuildingLoadInfo, UserTeamStadiumRanking, UserTeamStadiumRecord, UserTpInfo, Player, UserCardList, UserCharaList, UserSupportCardList, UserSupportCardDeck, UserTrainedChara, UserTeamStadiumData, UserItemList, UserCharaProfile, RewardItemInfo, SummaryUserInfo } from './types';
 import { getPlayer, getPlayerBorderline, getUserCards, getUserCharas, getUserDecks, getUserItems, getUserProfile, getUserSupportCards, getUserTeamData, getUserTrainedCharas, getUserCharaProfiles, getUserPieces, countUserPresents, getRandomViewerIds, getCircleMembership, getUserSupportCardById } from './honseData';
 import { getServerTime, formatTimestamp, formatServerTimestamp } from '../utils';
+import { RESOURCE_VERSION } from '../config';
 import { COMMON_DEFINE, RELEASED_CARD_ARRAY, SINGLE_MODE_DIFFICULTY_INFO_ARRAY, DEFAULT_PAYMENT_PURCHASED_TIMES_LIST } from './defaults';
 
 
@@ -362,10 +363,6 @@ export function getClientSerializedData(viewerId: number): ClientPlayerData | nu
         wiz: tc.wiz
     }));
 
-    if (isInTutorial && trainedCharaList.length > 0) {
-        trainedCharaList.pop(); // Remove the last one
-    }
-
     const teamDataList: UserTeamStadiumData[] = isSignup ? [] : dbUserTeamData.map((td: any) => ({
         distance_type: td.distance_type,
         member_id: td.member_id,
@@ -422,7 +419,7 @@ export function getClientSerializedData(viewerId: number): ClientPlayerData | nu
         release_card_array: RELEASED_CARD_ARRAY,
         release_item_flag: 0,
         released_episode_data_array: [],
-        res_version: isSignup ? "" : "10003850",
+        res_version: isSignup ? "" : RESOURCE_VERSION,
         rp_info: rpInfo,
         scenario_record_array: [],
         season_pack_info: seasonPackInfo,
