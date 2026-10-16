@@ -50,6 +50,21 @@ def skill_sets(conn):
     return out
 
 
+def hint_gains(conn):
+    out = defaultdict(list)
+    for r in rows(conn, "SELECT support_card_id, hint_gain_type, hint_value_1, hint_value_2 FROM single_mode_hint_gain ORDER BY id"):
+        out[r['support_card_id']].append([r['hint_gain_type'], r['hint_value_1'], r['hint_value_2']])
+    return out
+
+
+def support_card_levels(conn):
+    """rarity -> total exp needed for each level (index = level - 1)"""
+    out = defaultdict(list)
+    for r in rows(conn, "SELECT rarity, level, total_exp FROM support_card_level ORDER BY rarity, level"):
+        out[r['rarity']].append(r['total_exp'])
+    return out
+
+
 def build(db_path, output_path):
     if not os.path.exists(db_path):
         print(f"Error: Database file not found at '{db_path}'", file=sys.stderr)
@@ -113,8 +128,16 @@ def build(db_path, output_path):
         reward_sets[r['reward_set_id']].append({k: r[k] for k in (
             'order_min', 'order_max', 'reward_type', 'bonus', 'odds', 'item_category', 'item_id', 'item_num')})
 
+    # The client builds each race entrant from its card, so rivals need a real card: NPCs whose
+    # character has no card (and generic mob runners) are left out of the pool.
+    chara_cards = {}
+    for r in rows(conn, "SELECT id, chara_id FROM card_data ORDER BY id"):
+        chara_cards.setdefault(r['chara_id'], r['id'])
     npc_groups = defaultdict(list)
     for r in rows(conn, "SELECT * FROM single_mode_npc ORDER BY npc_group_id, id"):
+        if r['mob_id'] or r['chara_id'] not in chara_cards:
+            continue
+        r['card_id'] = chara_cards[r['chara_id']]
         npc_groups[r['npc_group_id']].append(r)
 
     route_rows = rows(
@@ -167,6 +190,15 @@ def build(db_path, output_path):
         'skill_sets': skill_sets(conn),
         # career-start inheritance: factor_type 1 = blue (value_1 stars, value_2 0 stat / 1 cap),
         # 2 = pink (value_1..value_2 total stars -> aptitude levels), 3 = unique skill hint
+        # support card unique effects, active from level `lv`: [[effect type, value], ...]
+        'support_unique_effects': {r['id']: {'lv': r['lv'], 'effects': [[r[f'type_{i}'], r[f'value_{i}']] for i in (0, 1) if r[f'type_{i}']]}
+                                   for r in rows(conn, "SELECT * FROM support_card_unique_effect")},
+        # training hints per support card: hint_gain_type 0 = skill hint (value_1 skill id, value_2 level),
+        # 1 = stat hint (value_1 target type, value_2 amount)
+        'hint_gains': hint_gains(conn),
+        # skill id -> [group_id, rarity] (chara_info.skill_tips_array is keyed by group and rarity)
+        'skill_groups': {r['id']: [r['group_id'], r['rarity']] for r in rows(conn, "SELECT id, group_id, rarity FROM skill_data")},
+        'support_card_levels': support_card_levels(conn),
         'succession_initial_factors': rows(
             conn, "SELECT factor_type, value_1, value_2, add_point FROM succession_initial_factor ORDER BY id"),
     }

@@ -27,6 +27,8 @@ import getDatabase, { Database } from './index'
 // Client enums (Gallop.SingleModeDefine.*, Gallop.RaceDefine.*)
 // ---------------------------------------------------------------------------
 
+// Gallop.RaceDefine.RaceNpcType
+const RaceNpcType = { Normal: 0, Boss: 3, User: 11 }
 const CharaState = { Playing: 0, NoWinEnd: 1, TargetFailedEnd: 2, TrueEnd: 3, FinishComplete: 4 }
 const PlayingState = { TurnStart: 1, Race: 2, RaceInGame: 3, RaceResult: 4, TurnEnd: 5, FactorSelect: 11, FactorLotteryEnd: 20 }
 const CommandType = { Training: 1, Outing: 3, RaceEntry: 4, Holiday: 7, Hospital: 8 }
@@ -73,7 +75,7 @@ interface Program {
 }
 interface FinalRace { race_id: number, race_instance_id: number, entry_num: number, distance: number, ground: number, finish_time_min: number, finish_time_max: number }
 interface Npc {
-    id: number, chara_id: number, mob_id: number, race_dress_id: number,
+    id: number, chara_id: number, card_id: number, mob_id: number, race_dress_id: number,
     speed: number, stamina: number, pow: number, guts: number, wiz: number,
     proper_distance_short: number, proper_distance_mile: number, proper_distance_middle: number, proper_distance_long: number,
     proper_running_style_nige: number, proper_running_style_senko: number, proper_running_style_sashi: number, proper_running_style_oikomi: number,
@@ -97,6 +99,10 @@ interface UraData {
     skill_need_points: Record<string, number>
     skill_sets: Record<string, SkillData[]>
     succession_initial_factors: { factor_type: number, value_1: number, value_2: number, add_point: number }[]
+    support_unique_effects: Record<string, { lv: number, effects: [number, number][] }>
+    hint_gains: Record<string, [number, number, number][]>
+    skill_groups: Record<string, [number, number]>
+    support_card_levels: Record<string, number[]>
 }
 
 let uraCache: UraData | null = null
@@ -217,6 +223,8 @@ interface TrainingRunState {
     support_card_array: TrainingSupportCard[]
     friendship: Record<number, number>                 // support card position -> 0..100 bond
     partners: Record<number, number[]>                 // training command id -> support card positions present this turn
+    tips: Record<number, number[]>                     // training command id -> positions carrying a hint ("!") this turn
+    skill_tips: { group_id: number, rarity: number, level: number }[]   // skill hints gained (chara_info.skill_tips_array)
 
     race_history: RaceHistory[]
     race_result_list: any[]
@@ -674,6 +682,8 @@ function buildInitialState(req: TrainingStartRequest): TrainingRunState {
         support_card_array: supportCards,
         friendship: Object.fromEntries(supportCards.map(c => [c.position, initialFriendship(c)])),
         partners: {},
+        tips: {},
+        skill_tips: [],
 
         race_history: [],
         race_result_list: [],
@@ -795,7 +805,7 @@ function runTraining(state: TrainingRunState, commandId: number): number {
         } else if (p.target_type === Target.SkillPoint) {
             state.skill_point += Math.max(0, Math.round(p.value * (failed ? 0.25 : 1)))
         } else if (!failed) {
-            applyStatGain(state, p.target_type, Math.round(p.value * (1 + randomInt(-8, 9) / 100)))
+            applyStatGain(state, p.target_type, p.value)
         }
     }
 
@@ -804,6 +814,7 @@ function runTraining(state: TrainingRunState, commandId: number): number {
         for (const pos of state.partners[commandId] ?? []) {
             state.friendship[pos] = clamp((state.friendship[pos] ?? 0) + 7, 0, 100)
         }
+        for (const pos of state.tips[commandId] ?? []) gainHint(state, pos)
     }
 
     if (!SUMMER_TRAININGS.includes(commandId)) {
@@ -813,20 +824,37 @@ function runTraining(state: TrainingRunState, commandId: number): number {
 }
 
 /** The params a training would give right now, as shown on the home screen and applied on success. */
+/**
+ * The params a training gives right now, as shown on the home screen and applied on success.
+ * Stat gains follow the community-documented formula (the client only displays them):
+ *   floor((base + flat stat bonus) * (1 + training effectiveness) * (1 + mood * (1 + mood effect))
+ *         * product(1 + friendship bonus of each specialty card at max bond) * (1 + 0.05 * cards present))
+ */
 function trainingParams(state: TrainingRunState, commandId: number, bonuses = aggregateSupportBonuses(state, commandId)) {
-    const level = commandLevel(state, commandId)
-    // Growth per level isn't in master.mdb; +1 per level on each stat it raises is an approximation.
-    return baseParams(commandId).map(p => {
+    const moodPct = [0, -20, -10, 0, 10, 20][state.motivation] * (1 + bonuses.moodEffectPct / 100)
+    const multiplier = (1 + bonuses.trainingEffectivenessPct / 100) * (1 + moodPct / 100) * bonuses.friendshipMultiplier * (1 + 0.05 * bonuses.partnerCount)
+    return leveledParams(commandId, commandLevel(state, commandId)).map(p => {
         if (p.target_type === Target.Vital) {
             return { target_type: p.target_type, value: p.value < 0 ? Math.round(p.value * (1 - bonuses.energyCostReductionPct / 100)) : p.value }
         }
-        if (p.target_type === Target.SkillPoint) {
-            return { target_type: p.target_type, value: Math.round(p.value * (1 + bonuses.skillPointBonusPct / 100)) }
-        }
-        const statPct = (bonuses.statBonusPct[p.target_type] ?? 0) + bonuses.trainingEffectivenessPct + bonuses.friendshipPct
-        const moodPct = [0, -20, -10, 0, 10, 20][state.motivation]
-        const value = (p.value + (level - 1)) * (1 + statPct / 100) * (1 + moodPct / 100) * (1 + 0.05 * bonuses.partnerCount)
-        return { target_type: p.target_type, value: Math.round(value) }
+        const flat = bonuses.flatBonus[p.target_type] ?? 0
+        return { target_type: p.target_type, value: Math.floor((p.value + flat) * multiplier) }
+    })
+}
+
+/**
+ * Base values at a training level. master.mdb only has level 1 (the normal commands) and level 5
+ * (the summer camp commands, which train at max level); levels 2-4 are interpolated between them.
+ */
+function leveledParams(commandId: number, level: number): { target_type: number, value: number }[] {
+    const idx = NORMAL_TRAININGS.indexOf(commandId)
+    if (idx < 0) return baseParams(commandId)
+    const lv1 = baseParams(commandId)
+    const lv5 = baseParams(SUMMER_TRAININGS[idx])
+    const t = (clamp(level, 1, MAX_COMMAND_LEVEL) - 1) / (MAX_COMMAND_LEVEL - 1)
+    return lv1.map(p => {
+        const top = lv5.find(q => q.target_type === p.target_type)?.value ?? p.value
+        return { target_type: p.target_type, value: Math.round(p.value + (top - p.value) * t) }
     })
 }
 
@@ -868,16 +896,39 @@ function advanceTurn(state: TrainingRunState) {
 }
 
 /** Each support card shows up at one training per turn (or sits the turn out). */
+/**
+ * Spreads the deck over this turn's trainings. Each card picks a training (or sits out) with
+ * weight 100 per training, 100 + specialty priority on its own specialty, and 50 for sitting out
+ * (community-documented odds). Cards also roll for a hint ("!"), which pays out when trained with.
+ */
 function placePartners(state: TrainingRunState) {
     const trainings = trainingIdsForTurn(state.turn)
     const partners: Record<number, number[]> = {}
-    for (const id of trainings) partners[id] = []
+    const tips: Record<number, number[]> = {}
+    for (const id of trainings) { partners[id] = []; tips[id] = [] }
     for (const card of state.support_card_array) {
-        if (randomInt(0, 100) < 15) continue
-        const id = trainings[randomInt(0, trainings.length)]
-        partners[id].push(card.position)
+        const level = supportCardLevel(card)
+        const specialty = specialtyTraining(card.support_card_id, trainings)
+        const weights = trainings.map(id => 100 + (id === specialty ? supportEffect(card.support_card_id, EFFECT_TYPE.SPECIALTY_PRIORITY, level) : 0))
+        let roll = randomInt(0, weights.reduce((a, b) => a + b, 0) + 50)
+        const at = weights.findIndex(w => (roll -= w) < 0)
+        if (at < 0) continue
+        partners[trainings[at]].push(card.position)
+        const hintChance = HINT_BASE_CHANCE_PCT * (1 + supportEffect(card.support_card_id, EFFECT_TYPE.HINT_FREQUENCY, level) / 100)
+        if ((ura().hint_gains[String(card.support_card_id)] ?? []).length && randomInt(0, 1000) < hintChance * 10) {
+            tips[trainings[at]].push(card.position)
+        }
     }
     state.partners = partners
+    state.tips = tips
+}
+
+/** The normal (or summer) training a card specialises in, if it is one of `trainings`. */
+function specialtyTraining(supportCardId: number, trainings: number[]): number {
+    const base = supportCardInfo(supportCardId)?.command_id ?? 0
+    const idx = NORMAL_TRAININGS.indexOf(base)
+    if (idx < 0) return 0
+    return trainings.includes(base) ? base : trainings.includes(SUMMER_TRAININGS[idx]) ? SUMMER_TRAININGS[idx] : 0
 }
 
 function isGoalTurn(state: TrainingRunState): boolean {
@@ -891,45 +942,59 @@ function isGoalTurn(state: TrainingRunState): boolean {
 type SupportEffectsEntry = { id: number, type: number, init: number } & Record<string, number>
 let supportEffectsCache: SupportEffectsEntry[] | null = null
 
-const STAT_TARGET_TO_EFFECT_TYPE: Record<number, number> = { 1: 3, 2: 4, 3: 5, 4: 6, 5: 7 }
-const EFFECT_TYPE = { FRIENDSHIP_BONUS: 1, MOOD_EFFECT: 2, TRAINING_EFFECTIVENESS: 8, INITIAL_FRIENDSHIP: 14, FAILURE_PROTECTION: 27, ENERGY_COST_REDUCTION: 28, SKILL_POINT_BONUS: 30 }
+// support_card_effect_table types
+const EFFECT_TYPE = {
+    FRIENDSHIP_BONUS: 1, MOOD_EFFECT: 2, TRAINING_EFFECTIVENESS: 8, INITIAL_FRIENDSHIP: 14,
+    HINT_LEVELS: 17, HINT_FREQUENCY: 18, SPECIALTY_PRIORITY: 19,
+    FAILURE_PROTECTION: 27, ENERGY_COST_REDUCTION: 28,
+}
+// flat "+N" bonuses: param target type -> effect type (speed..wit bonus, skill point bonus)
+const FLAT_BONUS_EFFECT_TYPE: Record<number, number> = { 1: 3, 2: 4, 3: 5, 4: 6, 5: 7, 30: 30 }
 const FRIENDSHIP_TRAINING_THRESHOLD = 80
+// Chance (%) a present card carries a hint before hint frequency; an estimate, the client doesn't say.
+const HINT_BASE_CHANCE_PCT = 7.5
 
 interface AggregatedBonuses {
-    statBonusPct: Record<number, number>
+    flatBonus: Record<number, number>
     trainingEffectivenessPct: number
-    friendshipPct: number
-    skillPointBonusPct: number
+    moodEffectPct: number
+    friendshipMultiplier: number
     failureProtectionPct: number
     energyCostReductionPct: number
     partnerCount: number
 }
 
 /** Bonuses from the support cards present at this training this turn. */
+/** Bonuses from the support cards present at this training this turn. */
 function aggregateSupportBonuses(state: TrainingRunState, commandId: number): AggregatedBonuses {
-    const result: AggregatedBonuses = { statBonusPct: {}, trainingEffectivenessPct: 0, friendshipPct: 0, skillPointBonusPct: 0, failureProtectionPct: 0, energyCostReductionPct: 0, partnerCount: 0 }
+    const result: AggregatedBonuses = {
+        flatBonus: {}, trainingEffectivenessPct: 0, moodEffectPct: 0, friendshipMultiplier: 1,
+        failureProtectionPct: 0, energyCostReductionPct: 0, partnerCount: 0,
+    }
     const present = state.partners[commandId] ?? []
-    const statTargets = baseParams(commandId).map(p => p.target_type).filter(t => t >= 1 && t <= 5)
+    const trainings = trainingIdsForTurn(state.turn)
     for (const card of state.support_card_array) {
         if (!present.includes(card.position)) continue
         result.partnerCount++
-        const level = calcSupportCardLevel(card.exp, card.limit_break_count)
-        for (const t of statTargets) {
-            result.statBonusPct[t] = (result.statBonusPct[t] ?? 0) + getSupportEffectValue(card.support_card_id, STAT_TARGET_TO_EFFECT_TYPE[t], level)
+        const level = supportCardLevel(card)
+        const effect = (type: number) => supportEffect(card.support_card_id, type, level)
+        for (const [target, type] of Object.entries(FLAT_BONUS_EFFECT_TYPE)) {
+            result.flatBonus[Number(target)] = (result.flatBonus[Number(target)] ?? 0) + effect(type)
         }
-        result.trainingEffectivenessPct += getSupportEffectValue(card.support_card_id, EFFECT_TYPE.TRAINING_EFFECTIVENESS, level)
-        if ((state.friendship[card.position] ?? 0) >= FRIENDSHIP_TRAINING_THRESHOLD) {
-            result.friendshipPct += getSupportEffectValue(card.support_card_id, EFFECT_TYPE.FRIENDSHIP_BONUS, level)
+        result.trainingEffectivenessPct += effect(EFFECT_TYPE.TRAINING_EFFECTIVENESS)
+        result.moodEffectPct += effect(EFFECT_TYPE.MOOD_EFFECT)
+        // friendship training: only on the card's own specialty, at max bond; each card multiplies
+        if ((state.friendship[card.position] ?? 0) >= FRIENDSHIP_TRAINING_THRESHOLD && specialtyTraining(card.support_card_id, trainings) === commandId) {
+            result.friendshipMultiplier *= 1 + effect(EFFECT_TYPE.FRIENDSHIP_BONUS) / 100
         }
-        result.skillPointBonusPct += getSupportEffectValue(card.support_card_id, EFFECT_TYPE.SKILL_POINT_BONUS, level)
-        result.failureProtectionPct += getSupportEffectValue(card.support_card_id, EFFECT_TYPE.FAILURE_PROTECTION, level)
-        result.energyCostReductionPct += getSupportEffectValue(card.support_card_id, EFFECT_TYPE.ENERGY_COST_REDUCTION, level)
+        result.failureProtectionPct += effect(EFFECT_TYPE.FAILURE_PROTECTION)
+        result.energyCostReductionPct += effect(EFFECT_TYPE.ENERGY_COST_REDUCTION)
     }
     return result
 }
 
 function initialFriendship(card: TrainingSupportCard): number {
-    return clamp(getSupportEffectValue(card.support_card_id, EFFECT_TYPE.INITIAL_FRIENDSHIP, calcSupportCardLevel(card.exp, card.limit_break_count)), 0, 100)
+    return clamp(supportEffect(card.support_card_id, EFFECT_TYPE.INITIAL_FRIENDSHIP, supportCardLevel(card)), 0, 100)
 }
 
 function computeFailureRate(level: number, vital: number, maxVital: number, failureProtectionPct: number): number {
@@ -949,21 +1014,44 @@ function loadSupportEffects(): SupportEffectsEntry[] {
 
 // Effect values are defined at level milestones (5/10/.../50); -1 means "unchanged since the
 // previous milestone". Walk the milestones up to `level`, falling back to `init`.
-function getSupportEffectValue(supportCardId: number, effectType: number, level: number): number {
+// Effect values are defined at level milestones (5/10/.../50); -1 means "unchanged since the
+// previous milestone". Walk the milestones up to `level`, falling back to `init`. A card's
+// unique effect adds on top once the card reaches the unique effect's level.
+function supportEffect(supportCardId: number, effectType: number, level: number): number {
     const entry = loadSupportEffects().find(e => e.id === supportCardId && e.type === effectType)
-    if (!entry) return 0
-    let value = entry.init ?? 0
-    for (const m of [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]) {
-        if (m > level) break
-        const v = entry[`limit_lv${m}`]
-        if (typeof v === 'number' && v !== -1) value = v
+    let value = 0
+    if (entry) {
+        value = entry.init ?? 0
+        for (const m of [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]) {
+            if (m > level) break
+            const v = entry[`limit_lv${m}`]
+            if (typeof v === 'number' && v !== -1) value = v
+        }
+    }
+    const unique = ura().support_unique_effects[String(supportCardId)]
+    if (unique && level >= unique.lv) {
+        for (const [type, v] of unique.effects) if (type === effectType) value += v
     }
     return value
 }
 
-function calcSupportCardLevel(exp: number, limitBreakCount: number): number {
-    const maxLevel = 30 + Math.max(0, limitBreakCount) * 5
-    return Math.max(1, Math.min(maxLevel, Math.floor(exp / 100) + 1))
+/** Level from the card's exp (support_card_level), capped by its limit break (support_card_limit). */
+function supportCardLevel(card: { support_card_id: number, exp: number, limit_break_count: number }): number {
+    const rarity = supportCardInfo(card.support_card_id)?.rarity ?? 1
+    const totals = ura().support_card_levels[String(rarity)] ?? []
+    const cap = [20, 25, 30][rarity - 1] + clamp(card.limit_break_count, 0, 4) * 5
+    let level = 1
+    while (level < totals.length && totals[level] <= card.exp) level++
+    return Math.min(level, cap)
+}
+
+let supportCardInfoById: Map<number, { rarity: number, command_id: number, support_card_type: number }> | null = null
+function supportCardInfo(supportCardId: number) {
+    if (!supportCardInfoById) {
+        const rows = JSON.parse(readFileSync(path.join(process.cwd(), 'assets', 'support_cards_data.json'), 'utf-8')) as any[]
+        supportCardInfoById = new Map(rows.map(r => [r.id, r]))
+    }
+    return supportCardInfoById.get(supportCardId)
 }
 
 function buildSupportCardArray(req: TrainingStartRequest): TrainingSupportCard[] {
@@ -1019,7 +1107,12 @@ function buildPendingRace(state: TrainingRunState, programId: number): PendingRa
     // popularity: favourite = strongest on paper
     const strength = entrants.map(e => performanceScore(e.horse, race.distance))
     const byStrength = strength.map((s, i) => ({ s, i })).sort((a, b) => b.s - a.s)
-    byStrength.forEach((x, rank) => { entrants[x.i].data.popularity = rank + 1 })
+    byStrength.forEach((x, rank) => {
+        entrants[x.i].data.popularity = rank + 1
+        // one mark per tipster (1 = top pick ... 5 = no mark); the client shows three
+        const mark = Math.min(5, rank + 1)
+        entrants[x.i].data.popularity_mark_rank_array = [mark, mark, mark]
+    })
 
     return {
         program_id: programId,
@@ -1083,7 +1176,8 @@ function playerRaceHorseData(state: TrainingRunState, frameOrder: number) {
         card_id: state.card_id, chara_id: state.chara_id, rarity: state.rarity, talent_level: state.talent_level,
         frame_order: frameOrder, skill_array: state.skill_array,
         stamina: state.stamina, speed: state.speed, pow: state.power, guts: state.guts, wiz: state.wiz,
-        running_style: state.race_running_style, race_dress_id: state.card_id, chara_color_type: 0, npc_type: 0,
+        running_style: state.race_running_style, race_dress_id: getCardRarityData(state.card_id, state.rarity).race_dress_id ?? state.card_id,
+        chara_color_type: 0, npc_type: RaceNpcType.Normal,
         final_grade: 0, popularity: 0, popularity_mark_rank_array: [],
         proper_distance_short: state.proper_distance_short, proper_distance_mile: state.proper_distance_mile,
         proper_distance_middle: state.proper_distance_middle, proper_distance_long: state.proper_distance_long,
@@ -1101,10 +1195,10 @@ function npcRaceHorseData(npc: Npc, frameOrder: number, motivation: number) {
     return {
         viewer_id: 0, owner_viewer_id: 0, trainer_name: '', owner_trainer_name: '',
         single_mode_chara_id: 0, trained_chara_id: 0, nickname_id: 0,
-        card_id: npc.chara_id ? npc.chara_id * 100 + 1 : 0, chara_id: npc.chara_id, rarity: 1, talent_level: 1,
+        card_id: npc.card_id, chara_id: npc.chara_id, rarity: 1, talent_level: 1,
         frame_order: frameOrder, skill_array: [],
         stamina: npc.stamina, speed: npc.speed, pow: npc.pow, guts: npc.guts, wiz: npc.wiz,
-        running_style: styles.indexOf(Math.max(...styles)) + 1, race_dress_id: npc.race_dress_id, chara_color_type: 0, npc_type: 1,
+        running_style: styles.indexOf(Math.max(...styles)) + 1, race_dress_id: npc.race_dress_id, chara_color_type: 0, npc_type: RaceNpcType.Normal,
         final_grade: 0, popularity: 0, popularity_mark_rank_array: [],
         proper_distance_short: npc.proper_distance_short, proper_distance_mile: npc.proper_distance_mile,
         proper_distance_middle: npc.proper_distance_middle, proper_distance_long: npc.proper_distance_long,
@@ -1234,10 +1328,49 @@ function computeCharaGrade(state: TrainingRunState): number {
 // Skills, rank, factors
 // ---------------------------------------------------------------------------
 
+/**
+ * A support card's hint ("!"): one of its hint skills at the hint's level plus the card's
+ * hint-level bonus, and extra bond. When every hint skill is maxed it gives its stat hint instead.
+ */
+function gainHint(state: TrainingRunState, position: number) {
+    const card = state.support_card_array.find(c => c.position === position)
+    if (!card) return
+    state.friendship[position] = clamp((state.friendship[position] ?? 0) + 5, 0, 100)
+    const hints = ura().hint_gains[String(card.support_card_id)] ?? []
+    const open = hints.filter(([type, skillId]) => {
+        if (type !== 0) return false
+        const g = ura().skill_groups[String(skillId)]
+        const tip = g && state.skill_tips.find(t => t.group_id === g[0] && t.rarity === g[1])
+        return g && (!tip || tip.level < MAX_HINT_LEVEL)
+    })
+    if (open.length) {
+        const [, skillId, level] = open[randomInt(0, open.length)]
+        const [group_id, rarity] = ura().skill_groups[String(skillId)]
+        const gain = level + supportEffect(card.support_card_id, EFFECT_TYPE.HINT_LEVELS, supportCardLevel(card))
+        const tip = state.skill_tips.find(t => t.group_id === group_id && t.rarity === rarity)
+        if (tip) tip.level = Math.min(MAX_HINT_LEVEL, tip.level + gain)
+        else state.skill_tips.push({ group_id, rarity, level: Math.min(MAX_HINT_LEVEL, gain) })
+        return
+    }
+    for (const [type, target, value] of hints) {
+        if (type === 1) applyParams(state, [{ target_type: target, value }])
+    }
+}
+
+const MAX_HINT_LEVEL = 5
+// skill cost discount per hint level (community-documented)
+const HINT_DISCOUNT_PCT = [0, 10, 20, 30, 35, 40]
+
+function hintLevelOf(state: TrainingRunState, skillId: number): number {
+    const g = ura().skill_groups[String(skillId)]
+    return (g && state.skill_tips.find(t => t.group_id === g[0] && t.rarity === g[1])?.level) || 0
+}
+
 function learnSkills(state: TrainingRunState, skills: SkillData[]) {
     for (const s of skills ?? []) {
         if (!s?.skill_id) continue
-        const cost = ura().skill_need_points[String(s.skill_id)] ?? 150
+        const base = ura().skill_need_points[String(s.skill_id)] ?? 150
+        const cost = Math.round(base * (1 - HINT_DISCOUNT_PCT[hintLevelOf(state, s.skill_id)] / 100))
         if (state.skill_point < cost) continue
         const existing = state.skill_array.find(k => k.skill_id === s.skill_id)
         if (existing) {
@@ -1363,7 +1496,7 @@ function toCharaInfo(state: TrainingRunState) {
         talent_level: state.talent_level,
         skill_array: state.skill_array,
         disable_skill_id_array: [],
-        skill_tips_array: [],
+        skill_tips_array: state.skill_tips,
         support_card_array: state.support_card_array.map(c => ({
             position: c.position, support_card_id: c.support_card_id, limit_break_count: c.limit_break_count, exp: c.exp,
             training_partner_state: 0, owner_viewer_id: c.owner_viewer_id, rental_type: 0,
@@ -1420,7 +1553,7 @@ function toHomeInfo(state: TrainingRunState) {
             command_id: id,
             is_enable: disabled.has(id) ? 0 : 1,
             training_partner_array: state.partners[id] ?? [],
-            tips_event_partner_array: [],
+            tips_event_partner_array: state.tips[id] ?? [],
             params_inc_dec_info_array: trainingParams(state, id, bonuses),
             failure_rate: computeFailureRate(commandLevel(state, id), state.vital, state.max_vital, bonuses.failureProtectionPct),
         }
@@ -1497,6 +1630,13 @@ function loadTrainingState(viewerId: number): TrainingRunState | null {
         const state = JSON.parse(row.run_state) as TrainingRunState
         // runs saved by the earlier engine lack the race/finish fields; treat them as gone
         if (!state._goals) return null
+        state.tips ??= {}
+        state.skill_tips ??= []
+        // an entered-but-unrun race built with the old entrant data (npc_type 1, made-up card ids)
+        if (state._race && !state._race.outcomes && state._race.race_horse_data.some((h: any) => h.npc_type === 1)) {
+            state._race = null
+            state.playing_state = PlayingState.TurnStart
+        }
         // runs saved before route_id held the single_mode_route id
         state.route_id = ura().route_ids[String(state.chara_id)] ?? 0
         // runs started before the unique skill was seeded
