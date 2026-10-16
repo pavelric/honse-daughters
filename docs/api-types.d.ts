@@ -3668,7 +3668,7 @@ export interface CampaignWalkingIndexResponseData {
   chara_walking_act_array: NoteDataForDisplay[];
 }
 
-/** POST /card/get_card_event_skill (missing) */
+/** POST /card/get_card_event_skill (implemented) */
 export interface CardGetCardEventSkillRequest extends RequestCommon {
   card_id: number;
 }
@@ -3683,7 +3683,7 @@ export interface CardGetReleaseCardResponseData {
   release_card_array: number[];
 }
 
-/** POST /card/rarity_upgrade (missing) */
+/** POST /card/rarity_upgrade (implemented) */
 export interface CardRarityUpgradeRequest extends RequestCommon {
   card_id: number;
   new_rarity: number;
@@ -3703,7 +3703,7 @@ export interface CardSellPieceResponseData {
   piece_data: PieceData[];
 }
 
-/** POST /card/skill_upgrade (missing) */
+/** POST /card/skill_upgrade (implemented) */
 export interface CardSkillUpgradeRequest extends RequestCommon {
   card_id: number;
   skill_id: number;
@@ -3715,7 +3715,7 @@ export interface CardSkillUpgradeResponseData {
   item_data_array: UserItem[];
 }
 
-/** POST /card/talent_strengthen (missing) */
+/** POST /card/talent_strengthen (implemented) */
 export interface CardTalentStrengthenRequest extends RequestCommon {
   card_id: number;
   talent_level: number;
@@ -3726,7 +3726,7 @@ export interface CardTalentStrengthenResponseData {
   item_data_array: UserItem[];
 }
 
-/** POST /card/unlock (missing) */
+/** POST /card/unlock (implemented) */
 export interface CardUnlockRequest extends RequestCommon {
   card_id: number;
 }
@@ -8156,7 +8156,7 @@ export interface StoryEventStoryClearResponseData {
   add_music_array: UserMusic[];
 }
 
-/** POST /support_card/change_lock (missing) */
+/** POST /support_card/change_lock (implemented) */
 export interface SupportCardChangeLockRequest extends RequestCommon {
   support_card_id: number;
   lock_flag: number;
@@ -8183,7 +8183,7 @@ export interface SupportCardLimitBreakResponseData {
   support_card_data: UserSupportCard;
 }
 
-/** POST /support_card/limit_break_item (missing) */
+/** POST /support_card/limit_break_item (implemented) */
 export interface SupportCardLimitBreakItemRequest extends RequestCommon {
   support_card_id: number;
   limit_break_item_id: number;

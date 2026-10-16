@@ -1,108 +1,15 @@
-import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { generateDataHeaders, RequestCommon } from "../../utils";
-import { computeResponseSid } from "../../crypto";
-import { verifySession } from "../../data/honseData";
+import { FastifyInstance } from "fastify";
+import { route } from "../route";
+import { strengthenSupportCard, limitBreakSupportCard, limitBreakSupportCardWithItem, changeSupportCardLock } from "../../data/cardProgress";
 
-
+// Support cards. Shapes: Gallop.SupportCard*Request / *Response, see docs/api-catalog.md#support_card.
 const routes = async (fastify: FastifyInstance) => {
-    fastify.post("/strengthen", async (request: FastifyRequest, reply: FastifyReply) => {
-        const body = request.body as RequestCommon
-
-        reply.header("content-type", "application/x-msgpack; charset=utf-8")
-
-        let viewerId = body.viewer_id
-        if (!viewerId) return reply.status(400).send({
-            "error": "Bad Request",
-            "message": "Invalid request body"
-        })
-
-        const session = verifySession(viewerId.toString())
-        if (!session) return reply.status(400).send({
-            "error": "Bad Request",
-            "message": "Invalid viewer_id"
-        })
-
-        
-        var response = {
-            "data_headers": generateDataHeaders({
-                sid: request.umaHeader?.sid ? computeResponseSid(request.umaHeader.sid) : undefined,
-                viewer_id: viewerId,
-                notifications: {
-                    unread_information_exists: 1,
-                }
-            }),
-            response_code: 1
-        }
-
-        reply.status(200).send(response)
-    })
-
-    fastify.post("/limit_break", async (request: FastifyRequest, reply: FastifyReply) => {
-        const body = request.body as RequestCommon
-
-        reply.header("content-type", "application/x-msgpack; charset=utf-8")
-
-        let viewerId = body.viewer_id
-        if (!viewerId) return reply.status(400).send({
-            "error": "Bad Request",
-            "message": "Invalid request body"
-        })
-
-        const session = verifySession(viewerId.toString())
-        if (!session) return reply.status(400).send({
-            "error": "Bad Request",
-            "message": "Invalid viewer_id"
-        })
-
-        
-        var response = {
-            "data_headers": generateDataHeaders({
-                sid: request.umaHeader?.sid ? computeResponseSid(request.umaHeader.sid) : undefined,
-                viewer_id: viewerId,
-                notifications: {
-                    unread_information_exists: 1,
-                }
-            }),
-            response_code: 1
-        }
-
-        reply.status(200).send(response)
-    })
-
-
-    fastify.post("/get_support_card_event_skill", async (request: FastifyRequest, reply: FastifyReply) => {
-        const body = request.body as RequestCommon
-
-        reply.header("content-type", "application/x-msgpack; charset=utf-8")
-
-        let viewerId = body.viewer_id
-        if (!viewerId) return reply.status(400).send({
-            "error": "Bad Request",
-            "message": "Invalid request body"
-        })
-
-        const session = verifySession(viewerId.toString())
-        if (!session) return reply.status(400).send({
-            "error": "Bad Request",
-            "message": "Invalid viewer_id"
-        })
-
-        
-        var response = {
-            "data_headers": generateDataHeaders({
-                sid: request.umaHeader?.sid ? computeResponseSid(request.umaHeader.sid) : undefined,
-                viewer_id: viewerId,
-                notifications: {
-                    unread_information_exists: 1,
-                }
-            }),
-            response_code: 1
-        }
-
-        reply.status(200).send(response)
-    })
-
+    route(fastify, "/strengthen", (body, viewerId) => strengthenSupportCard(viewerId, body.support_card_id, body.use_global_exp, body.use_money))
+    route(fastify, "/limit_break", (body, viewerId) => limitBreakSupportCard(viewerId, body.support_card_id, body.material_support_card_num))
+    route(fastify, "/limit_break_item", (body, viewerId) => limitBreakSupportCardWithItem(viewerId, body.support_card_id, body.limit_break_item_id, body.limit_break_count))
+    route(fastify, "/change_lock", (body, viewerId) => changeSupportCardLock(viewerId, body.support_card_id, body.lock_flag))
+    // Event skill previews come from story data that isn't extracted yet.
+    route(fastify, "/get_support_card_event_skill", () => ({ event_skill_list: [] }))
 }
-
 
 export default routes;

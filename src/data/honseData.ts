@@ -1147,26 +1147,31 @@ export function claimUserPresents(viewerId: number, presentIds?: number[]): { in
         for (const present of presents) {
             const { reward_type, reward_id, reward_count } = present;
             
+            // reward_type is the client's Gallop.GameDefine.ItemCategory.
             switch (reward_type) {
-                case 90: // FCoin (Jewel)
+                case 90: // FREE_CARROT (free jewels)
                     addOrUpdateUserFCoin(viewerId, reward_count);
                     accumulatedReward.add_fcoin = (accumulatedReward.add_fcoin || 0) + reward_count;
                     break;
-                case 30: // Money
-                    addOrUpdateUserMoney(viewerId, reward_count);
-                    // Money is usually not returned in RewardItemInfo as a specific field except maybe implicitly?
-                    // Or maybe it is returned as item? I'll assume not returned explicitly for now unless I see a field.
-                    // Actually, if it's not in RewardItemInfo, the client might query profile again.
-                    // But typically games return everything.
-                    // There is no "add_money" in RewardItemInfo.
-                    // Maybe it is returned as item 9001?
-                    // I will check if I should add it to item list as a fake item.
-                    // For now, I just update DB.
+                case 91: // MONEY: Monies are item 59, the balance the client shows and spends
+                    addOrUpdateUserItem(viewerId, 59, reward_count);
+                    itemMap.set(59, (itemMap.get(59) || 0) + reward_count);
                     break;
-                case 43: // Support Pt
-                    addOrUpdateUserTrainerPoint(viewerId, reward_count);
+                case 30: // EXPERIENCE: Support Points (item 110), spent levelling support cards
+                case 43: // older presents used 43 for Support Pt
+                    addOrUpdateUserItem(viewerId, 110, reward_count);
+                    itemMap.set(110, (itemMap.get(110) || 0) + reward_count);
                     break;
-                case 20: // Item
+                case 102: // CARD_PIECE: reward_id is the piece id (= the card id it unlocks/upgrades)
+                    addOrUpdateUserPiece(viewerId, reward_id, reward_count);
+                    break;
+                case 11: // TRAINING items (talent / hint materials)
+                case 20: // RECOVER_TP
+                case 21: // RECOVER_RP
+                case 34: // CONTINUE (alarm clocks)
+                case 40: // GACHA_TICKET
+                case 93: // MEDAL
+                case 164: // SUPPORT_CARD_LIMIT_BREAK_ITEM (uncap crystals)
                     addOrUpdateUserItem(viewerId, reward_id, reward_count);
                     itemMap.set(reward_id, (itemMap.get(reward_id) || 0) + reward_count);
                     break;
