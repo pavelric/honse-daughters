@@ -40,6 +40,7 @@ import supportCardDeckApiPlugin from "./routes/api/support_card_deck";
 import supportCardApiPlugin from "./routes/api/support_card";
 import teamStadiumApiPlugin from "./routes/api/team_stadium";
 import toolApiPlugin from "./routes/api/tool";
+import trainedCharaApiPlugin from "./routes/api/trained_chara";
 import tutorialApiPlugin from "./routes/api/tutorial";
 import userApiPlugin from "./routes/api/user";
 
@@ -112,6 +113,7 @@ fastify.register(supportCardDeckApiPlugin, { prefix: `${apiPrefix}/support_card_
 fastify.register(supportCardApiPlugin, { prefix: `${apiPrefix}/support_card` })
 fastify.register(teamStadiumApiPlugin, { prefix: `${apiPrefix}/team_stadium` })
 fastify.register(toolApiPlugin, { prefix: `${apiPrefix}/tool` })
+fastify.register(trainedCharaApiPlugin, { prefix: `${apiPrefix}/trained_chara` })
 fastify.register(tutorialApiPlugin, { prefix: `${apiPrefix}/tutorial` })
 fastify.register(userApiPlugin, { prefix: `${apiPrefix}/user` })
 fastify.register(webApi, { prefix: "/web_api" })

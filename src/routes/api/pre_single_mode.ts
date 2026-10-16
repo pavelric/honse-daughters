@@ -1,9 +1,18 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { generateDataHeaders, RequestCommon } from "../../utils";
 import { computeResponseSid } from "../../crypto";
-import { verifySession } from "../../data/honseData";
+import { verifySession, getUserTrainedCharas } from "../../data/honseData";
 import { buildFriendSupportCardData } from "../../data/utils";
 import { inspect } from "util";
+
+// Gallop.ScenarioRecordHighestScore: best rank score the player has reached in each scenario.
+function highestScoresByScenario(viewerId: number) {
+    const best = new Map<number, number>()
+    for (const tc of getUserTrainedCharas(viewerId)) {
+        best.set(tc.scenario_id, Math.max(best.get(tc.scenario_id) ?? 0, tc.rank_score ?? 0))
+    }
+    return [...best].map(([scenario_id, highest_rank_score]) => ({ scenario_id, highest_rank_score }))
+}
 
 
 const routes = async (fastify: FastifyInstance) => {
@@ -41,7 +50,9 @@ const routes = async (fastify: FastifyInstance) => {
                 succession_trained_chara_array: [],
                     summary_user_info_array: []
                 },
-                support_card_ranking_state: 0
+                support_card_ranking_state: 0,
+                scenario_record_highest_score_array: highestScoresByScenario(viewerId),
+                default_running_style_array: []
             },
             "data_headers": generateDataHeaders({
                 sid: request.umaHeader?.sid ? computeResponseSid(request.umaHeader.sid) : undefined,
