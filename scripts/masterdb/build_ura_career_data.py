@@ -6,6 +6,7 @@ Contents:
   reward_sets     reward_set_id -> race reward rows
   npc_groups      npc_group_id -> single_mode_npc rows (the field the player races against)
   routes          chara_id -> race_set_id (career goals)
+  route_ids       chara_id -> single_mode_route.id (chara_info.route_id)
   route_races     race_set_id -> goal races valid for URA, ordered by turn
   turns           turn -> year / month / half
   training_effects  command_id -> sub_id -> [{target_type, value}] for a successful command
@@ -116,9 +117,12 @@ def build(db_path, output_path):
     for r in rows(conn, "SELECT * FROM single_mode_npc ORDER BY npc_group_id, id"):
         npc_groups[r['npc_group_id']].append(r)
 
-    routes = {r['chara_id']: r['race_set_id'] for r in rows(
-        conn, "SELECT chara_id, race_set_id FROM single_mode_route WHERE scenario_id IN (0, ?) ORDER BY scenario_id",
-        (URA_SCENARIO_ID,))}
+    route_rows = rows(
+        conn, "SELECT id, chara_id, race_set_id FROM single_mode_route WHERE scenario_id IN (0, ?) ORDER BY scenario_id",
+        (URA_SCENARIO_ID,))
+    routes = {r['chara_id']: r['race_set_id'] for r in route_rows}
+    # chara_info.route_id is single_mode_route.id (the client looks the goals up through it)
+    route_ids = {r['chara_id']: r['id'] for r in route_rows}
 
     ura_groups = [r['group_id'] for r in rows(
         conn, "SELECT group_id FROM single_mode_scenario_group WHERE scenario_id = ?", (URA_SCENARIO_ID,))]
@@ -148,6 +152,7 @@ def build(db_path, output_path):
         'reward_sets': reward_sets,
         'npc_groups': npc_groups,
         'routes': routes,
+        'route_ids': route_ids,
         'route_races': route_races,
         'turns': turns,
         'training_effects': training_effects,

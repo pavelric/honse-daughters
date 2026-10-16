@@ -87,6 +87,7 @@ interface UraData {
     fan_sets: Record<string, number[]>
     npc_groups: Record<string, Npc[]>
     routes: Record<string, number>
+    route_ids: Record<string, number>
     route_races: Record<string, RouteRace[]>
     turns: Record<string, TurnInfo>
     training_effects: Record<string, Record<string, { target_type: number, value: number }[]>>
@@ -624,7 +625,7 @@ function buildInitialState(req: TrainingStartRequest): TrainingRunState {
         rarity,
         talent_level: userCard?.talent_level ?? 1,
         scenario_id: req.start_chara.scenario_id || URA_SCENARIO_ID,
-        route_id: raceSetId ?? 0,
+        route_id: ura().route_ids[String(charaId)] ?? 0,
         start_time: formatServerTimestamp(),
 
         running_style: runningStyle,
@@ -1495,6 +1496,8 @@ function loadTrainingState(viewerId: number): TrainingRunState | null {
         const state = JSON.parse(row.run_state) as TrainingRunState
         // runs saved by the earlier engine lack the race/finish fields; treat them as gone
         if (!state._goals) return null
+        // runs saved before route_id held the single_mode_route id
+        state.route_id = ura().route_ids[String(state.chara_id)] ?? 0
         // runs started before the unique skill was seeded
         if (!state.skill_array.length) state.skill_array = startingSkills(getCardRarityData(state.card_id, state.rarity).skill_set)
         return state
