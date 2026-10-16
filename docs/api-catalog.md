@@ -14,8 +14,8 @@ Conventions:
 | | count |
 |---|---|
 | Client endpoints (URL path resolved) | 511 |
-| Implemented in honse-daughters | 59 |
-| Missing | 452 |
+| Implemented in honse-daughters | 66 |
+| Missing | 445 |
 | Request classes whose URL could not be resolved | 1 |
 | Server routes the client never calls | 1 |
 
@@ -23,7 +23,7 @@ Conventions:
 
 _The counts in this section are regenerated with the tables. The prose ranking was written against `main` at e973603 (2026-10-17), before the URA career work on `ura-career`._
 
-The server implements 59 of 511 client endpoints (about 12%). It covers the boot path (`tool/*`, `load/index`, `tutorial/*`), presents, missions, gacha, team stadium, and four career calls. Ranked roughly by how soon a player would hit each gap:
+The server implements 66 of 511 client endpoints (about 13%). It covers the boot path (`tool/*`, `load/index`, `tutorial/*`), presents, missions, gacha, team stadium, and four career calls. Ranked roughly by how soon a player would hit each gap:
 
 1. **Career (training) core: `single_mode/*`, 15 of 19 missing.** `start`, `check_event`, `exec_command` and `load` exist. A run cannot finish without `race_entry`, `race_start`, `race_end`, `race_out`, `gain_skills`, `continue`, `finish`, `factor_lottery`, `factor_select`, `change_running_style` and the others. `trained_chara/*` (6, including `load`) is also needed afterwards to view and manage the resulting horses.
 2. **Scenario-specific career APIs: 106 endpoints, none implemented.** `single_mode_team` (28), `single_mode_venus` (26), `single_mode_live` (23), `single_mode_free` (22) and `idle_single_mode` (7). Each later scenario needs its own family. The URA base scenario needs only `single_mode/*`.
@@ -65,7 +65,6 @@ Other notes:
 | [idle_single_mode](#prefix-idle-single-mode) | 7 | 0 | 7 |
 | [item](#prefix-item) | 7 | 0 | 7 |
 | [story_event](#prefix-story-event) | 7 | 0 | 7 |
-| [card](#prefix-card) | 7 | 1 | 6 |
 | [circle_chat](#prefix-circle-chat) | 6 | 0 | 6 |
 | [jukebox](#prefix-jukebox) | 8 | 2 | 6 |
 | [map_event](#prefix-map-event) | 5 | 0 | 5 |
@@ -78,7 +77,6 @@ Other notes:
 | [payment](#prefix-payment) | 7 | 3 | 4 |
 | [campaign_walking](#prefix-campaign-walking) | 3 | 0 | 3 |
 | [factor_research](#prefix-factor-research) | 3 | 0 | 3 |
-| [support_card](#prefix-support-card) | 6 | 3 | 3 |
 | [tool](#prefix-tool) | 7 | 4 | 3 |
 | [training_challenge](#prefix-training-challenge) | 3 | 0 | 3 |
 | [transfer](#prefix-transfer) | 3 | 0 | 3 |
@@ -96,6 +94,7 @@ Other notes:
 | [valentine](#prefix-valentine) | 2 | 0 | 2 |
 | [(unresolved)](#prefix--unresolved-) | 1 | 0 | 1 |
 | [banner](#prefix-banner) | 1 | 0 | 1 |
+| [card](#prefix-card) | 7 | 6 | 1 |
 | [character_story](#prefix-character-story) | 1 | 0 | 1 |
 | [cygames_id_external](#prefix-cygames-id-external) | 1 | 0 | 1 |
 | [daily_race_skip](#prefix-daily-race-skip) | 1 | 0 | 1 |
@@ -105,6 +104,7 @@ Other notes:
 | [option](#prefix-option) | 1 | 0 | 1 |
 | [present](#prefix-present) | 4 | 3 | 1 |
 | [serial_code](#prefix-serial-code) | 1 | 0 | 1 |
+| [support_card](#prefix-support-card) | 6 | 5 | 1 |
 | [support_card_ranking](#prefix-support-card-ranking) | 1 | 0 | 1 |
 | [talk_gallery](#prefix-talk-gallery) | 1 | 0 | 1 |
 | [load](#prefix-load) | 1 | 1 | 0 |
@@ -159,13 +159,13 @@ Other notes:
 
 | Path | Status | Client class | Request fields | Response `data` fields |
 |---|---|---|---|---|
-| `/card/get_card_event_skill` | ❌ missing | `CardGetCardEventSkill` | `card_id`: int | `event_skill_list`: [EventSkill](#type-eventskill)[] |
+| `/card/get_card_event_skill` | ✅ implemented | `CardGetCardEventSkill` | `card_id`: int | `event_skill_list`: [EventSkill](#type-eventskill)[] |
 | `/card/get_release_card_array` | ✅ implemented | `CardGetReleaseCard` | — | `release_card_array`: int[] |
-| `/card/rarity_upgrade` | ❌ missing | `CardRarityUpgrade` | `card_id`: int<br>`new_rarity`: int<br>`now_rarity`: int | `card_data`: [UserCard](#type-usercard)<br>`piece_data`: [PieceData](#type-piecedata)[] |
+| `/card/rarity_upgrade` | ✅ implemented | `CardRarityUpgrade` | `card_id`: int<br>`new_rarity`: int<br>`now_rarity`: int | `card_data`: [UserCard](#type-usercard)<br>`piece_data`: [PieceData](#type-piecedata)[] |
 | `/card/sell_piece` | ❌ missing | `CardSellPiece` | `sell_piece_data_array`: [PieceData](#type-piecedata)[] | `reward_summary_info`: [RewardSummaryInfo](#type-rewardsummaryinfo)<br>`piece_data`: [PieceData](#type-piecedata)[] |
-| `/card/skill_upgrade` | ❌ missing | `CardSkillUpgrade` | `card_id`: int<br>`skill_id`: int<br>`skill_level`: int<br>`new_skill_level`: int | `card_data`: [UserCard](#type-usercard)<br>`item_data_array`: [UserItem](#type-useritem)[] |
-| `/card/talent_strengthen` | ❌ missing | `CardTalentStrengthen` | `card_id`: int<br>`talent_level`: int<br>`new_talent_level`: int | `card_data`: [UserCard](#type-usercard)<br>`item_data_array`: [UserItem](#type-useritem)[] |
-| `/card/unlock` | ❌ missing | `CardUnlock` | `card_id`: int | `reward_summary_info`: [RewardSummaryInfo](#type-rewardsummaryinfo)<br>`piece_data`: [PieceData](#type-piecedata)[] |
+| `/card/skill_upgrade` | ✅ implemented | `CardSkillUpgrade` | `card_id`: int<br>`skill_id`: int<br>`skill_level`: int<br>`new_skill_level`: int | `card_data`: [UserCard](#type-usercard)<br>`item_data_array`: [UserItem](#type-useritem)[] |
+| `/card/talent_strengthen` | ✅ implemented | `CardTalentStrengthen` | `card_id`: int<br>`talent_level`: int<br>`new_talent_level`: int | `card_data`: [UserCard](#type-usercard)<br>`item_data_array`: [UserItem](#type-useritem)[] |
+| `/card/unlock` | ✅ implemented | `CardUnlock` | `card_id`: int | `reward_summary_info`: [RewardSummaryInfo](#type-rewardsummaryinfo)<br>`piece_data`: [PieceData](#type-piecedata)[] |
 
 <a id="prefix-challenge-match"></a>
 ### challenge_match
@@ -897,10 +897,10 @@ Other notes:
 
 | Path | Status | Client class | Request fields | Response `data` fields |
 |---|---|---|---|---|
-| `/support_card/change_lock` | ❌ missing | `SupportCardChangeLock` | `support_card_id`: int<br>`lock_flag`: int | `support_card_id`: int<br>`is_locked`: int |
+| `/support_card/change_lock` | ✅ implemented | `SupportCardChangeLock` | `support_card_id`: int<br>`lock_flag`: int | `support_card_id`: int<br>`is_locked`: int |
 | `/support_card/get_support_card_event_skill` | ✅ implemented | `SupportCardGetSupportCardEventSkill` | `support_card_id`: int | `event_skill_list`: [EventSkill](#type-eventskill)[] |
 | `/support_card/limit_break` | ✅ implemented | `SupportCardLimitBreak` | `support_card_id`: int<br>`material_support_card_num`: int | `support_card_data`: [UserSupportCard](#type-usersupportcard) |
-| `/support_card/limit_break_item` | ❌ missing | `SupportCardLimitBreakItem` | `support_card_id`: int<br>`limit_break_item_id`: int<br>`limit_break_count`: int | `support_card_data`: [UserSupportCard](#type-usersupportcard)<br>`item_data_array`: [UserItem](#type-useritem)[] |
+| `/support_card/limit_break_item` | ✅ implemented | `SupportCardLimitBreakItem` | `support_card_id`: int<br>`limit_break_item_id`: int<br>`limit_break_count`: int | `support_card_data`: [UserSupportCard](#type-usersupportcard)<br>`item_data_array`: [UserItem](#type-useritem)[] |
 | `/support_card/sell` | ❌ missing | `SupportCardSell` | `sell_support_card_info_array`: [SellSupportCardInfo](#type-sellsupportcardinfo)[] | `reward_summary_info`: [RewardSummaryInfo](#type-rewardsummaryinfo)<br>`reward_info_array`: [DisplayRewardInfo](#type-displayrewardinfo)[] |
 | `/support_card/strengthen` | ✅ implemented | `SupportCardStrengthen` | `support_card_id`: int<br>`use_global_exp`: int<br>`current_global_exp`: int<br>`use_money`: int<br>`current_money`: int | `support_card_data`: [UserSupportCard](#type-usersupportcard)<br>`item_data_array`: [UserItem](#type-useritem)[] |
 
