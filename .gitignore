@@ -1,13 +1,28 @@
 node_modules
 .requestsexamples
-# might wanna avoid too many files
 .cdn
 .cdn_temp
 .inputs
-.env
 .venv
+
+.env
 SaveData.db
 Plan.md
 dist
 out
 *.exe
+
+# python
+__pycache__/
+
+# local server state (schema lives in src/data/db-init.ts)
+.database/
+*.db-wal
+*.db-shm
+
+# scratch dumps from scripts/masterdb (not read by the server)
+scripts/masterdb/_*.json
+
+# mitmproxy certs
+*.pem
+*.0

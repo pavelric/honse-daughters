@@ -1,0 +1,6680 @@
+{
+    "1": {
+        "race_instance_id": 100101,
+        "fans_needed": 12000,
+        "race_name": "February Stakes",
+        "race_id": 1001,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "2": {
+        "race_instance_id": 100201,
+        "fans_needed": 15000,
+        "race_name": "Takamatsunomiya Kinen",
+        "race_id": 1002,
+        "course_set": 10701,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "3": {
+        "race_instance_id": 100301,
+        "fans_needed": 20000,
+        "race_name": "Osaka Hai",
+        "race_id": 1003,
+        "course_set": 10905,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "4": {
+        "race_instance_id": 100601,
+        "fans_needed": 20000,
+        "race_name": "Tenno Sho (Spring)",
+        "race_id": 1006,
+        "course_set": 10811,
+        "distance": "Long - 3200m",
+        "ground": "Turf"
+    },
+    "5": {
+        "race_instance_id": 100801,
+        "fans_needed": 10000,
+        "race_name": "Victoria Mile",
+        "race_id": 1008,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "6": {
+        "race_instance_id": 200101,
+        "fans_needed": 1800,
+        "race_name": "Nikkei Shinshun Hai",
+        "race_id": 2001,
+        "course_set": 10809,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "7": {
+        "race_instance_id": 200201,
+        "fans_needed": 1800,
+        "race_name": "Tokai Stakes",
+        "race_id": 2002,
+        "course_set": 10708,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "8": {
+        "race_instance_id": 200301,
+        "fans_needed": 1900,
+        "race_name": "American JCC",
+        "race_id": 2003,
+        "course_set": 10505,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "9": {
+        "race_instance_id": 200401,
+        "fans_needed": 1900,
+        "race_name": "Kyoto Kinen",
+        "race_id": 2004,
+        "course_set": 10808,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "10": {
+        "race_instance_id": 200501,
+        "fans_needed": 1900,
+        "race_name": "Nakayama Kinen",
+        "race_id": 2005,
+        "course_set": 10503,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "11": {
+        "race_instance_id": 200701,
+        "fans_needed": 2000,
+        "race_name": "Kinko Sho",
+        "race_id": 2007,
+        "course_set": 10704,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "12": {
+        "race_instance_id": 200901,
+        "fans_needed": 2000,
+        "race_name": "Hanshin Daishoten",
+        "race_id": 2009,
+        "course_set": 10909,
+        "distance": "Long - 3000m",
+        "ground": "Turf"
+    },
+    "13": {
+        "race_instance_id": 201101,
+        "fans_needed": 2000,
+        "race_name": "Nikkei Sho",
+        "race_id": 2011,
+        "course_set": 10506,
+        "distance": "Long - 2500m",
+        "ground": "Turf"
+    },
+    "14": {
+        "race_instance_id": 201201,
+        "fans_needed": 1800,
+        "race_name": "Hanshin Umamusume Stakes",
+        "race_id": 2012,
+        "course_set": 10903,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "15": {
+        "race_instance_id": 201401,
+        "fans_needed": 1900,
+        "race_name": "Milers Cup",
+        "race_id": 2014,
+        "course_set": 10805,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "16": {
+        "race_instance_id": 201801,
+        "fans_needed": 1900,
+        "race_name": "Keio Hai Spring Cup",
+        "race_id": 2018,
+        "course_set": 10601,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "17": {
+        "race_instance_id": 201901,
+        "fans_needed": 1800,
+        "race_name": "Meguro Kinen",
+        "race_id": 2019,
+        "course_set": 10607,
+        "distance": "Long - 2500m",
+        "ground": "Turf"
+    },
+    "18": {
+        "race_instance_id": 300101,
+        "fans_needed": 1500,
+        "race_name": "Kyoto Kimpai",
+        "race_id": 3001,
+        "course_set": 10805,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "19": {
+        "race_instance_id": 300201,
+        "fans_needed": 1500,
+        "race_name": "Nakayama Kimpai",
+        "race_id": 3002,
+        "course_set": 10504,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "20": {
+        "race_instance_id": 300501,
+        "fans_needed": 750,
+        "race_name": "Aichi Hai",
+        "race_id": 3005,
+        "course_set": 10704,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "21": {
+        "race_instance_id": 300701,
+        "fans_needed": 1250,
+        "race_name": "Silk Road Stakes",
+        "race_id": 3007,
+        "course_set": 10801,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "22": {
+        "race_instance_id": 300801,
+        "fans_needed": 1000,
+        "race_name": "Negishi Stakes",
+        "race_id": 3008,
+        "course_set": 10610,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "23": {
+        "race_instance_id": 301001,
+        "fans_needed": 1250,
+        "race_name": "Tokyo Shimbun Hai",
+        "race_id": 3010,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "24": {
+        "race_instance_id": 301301,
+        "fans_needed": 750,
+        "race_name": "Kyoto Umamusume Stakes",
+        "race_id": 3013,
+        "course_set": 10803,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "25": {
+        "race_instance_id": 301401,
+        "fans_needed": 1500,
+        "race_name": "Diamond Stakes",
+        "race_id": 3014,
+        "course_set": 10608,
+        "distance": "Long - 3400m",
+        "ground": "Turf"
+    },
+    "26": {
+        "race_instance_id": 301501,
+        "fans_needed": 1500,
+        "race_name": "Kokura Daishoten",
+        "race_id": 3015,
+        "course_set": 11002,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "27": {
+        "race_instance_id": 301701,
+        "fans_needed": 1500,
+        "race_name": "Hankyu Hai",
+        "race_id": 3017,
+        "course_set": 10902,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "28": {
+        "race_instance_id": 301901,
+        "fans_needed": 1500,
+        "race_name": "Ocean Stakes",
+        "race_id": 3019,
+        "course_set": 10501,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "29": {
+        "race_instance_id": 302001,
+        "fans_needed": 1000,
+        "race_name": "Nakayama Umamusume Stakes",
+        "race_id": 3020,
+        "course_set": 10503,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "30": {
+        "race_instance_id": 302401,
+        "fans_needed": 1000,
+        "race_name": "March Stakes",
+        "race_id": 3024,
+        "course_set": 10509,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "31": {
+        "race_instance_id": 302501,
+        "fans_needed": 1250,
+        "race_name": "Lord Derby Challenge Trophy",
+        "race_id": 3025,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "32": {
+        "race_instance_id": 302601,
+        "fans_needed": 1000,
+        "race_name": "Antares Stakes",
+        "race_id": 3026,
+        "course_set": 10912,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "33": {
+        "race_instance_id": 302701,
+        "fans_needed": 1250,
+        "race_name": "Fukushima Umamusume Stakes",
+        "race_id": 3027,
+        "course_set": 10402,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "34": {
+        "race_instance_id": 302801,
+        "fans_needed": 1500,
+        "race_name": "Niigata Daishoten",
+        "race_id": 3028,
+        "course_set": 10307,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "35": {
+        "race_instance_id": 302901,
+        "fans_needed": 1000,
+        "race_name": "Heian Stakes",
+        "race_id": 3029,
+        "course_set": 10815,
+        "distance": "Medium - 1900m",
+        "ground": "Dirt"
+    },
+    "36": {
+        "race_instance_id": 400101,
+        "fans_needed": 350,
+        "race_name": "Manyo Stakes",
+        "race_id": 4001,
+        "course_set": 10810,
+        "distance": "Long - 3000m",
+        "ground": "Turf"
+    },
+    "37": {
+        "race_instance_id": 400301,
+        "fans_needed": 350,
+        "race_name": "Yodo Tankyori Stakes",
+        "race_id": 4003,
+        "course_set": 10801,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "38": {
+        "race_instance_id": 400401,
+        "fans_needed": 350,
+        "race_name": "Pollux Stakes",
+        "race_id": 4004,
+        "course_set": 10509,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "39": {
+        "race_instance_id": 400501,
+        "fans_needed": 350,
+        "race_name": "January Stakes",
+        "race_id": 4005,
+        "course_set": 10508,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "40": {
+        "race_instance_id": 400601,
+        "fans_needed": 350,
+        "race_name": "New Year Stakes",
+        "race_id": 4006,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "41": {
+        "race_instance_id": 400801,
+        "fans_needed": 350,
+        "race_name": "Subaru Stakes",
+        "race_id": 4008,
+        "course_set": 10813,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "42": {
+        "race_instance_id": 401001,
+        "fans_needed": 350,
+        "race_name": "Carbuncle Stakes",
+        "race_id": 4010,
+        "course_set": 10501,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "43": {
+        "race_instance_id": 401101,
+        "fans_needed": 350,
+        "race_name": "Shirafuji Stakes",
+        "race_id": 4011,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "44": {
+        "race_instance_id": 401301,
+        "fans_needed": 350,
+        "race_name": "Yamato Stakes",
+        "race_id": 4013,
+        "course_set": 10812,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "45": {
+        "race_instance_id": 401501,
+        "fans_needed": 350,
+        "race_name": "Rakuyo Stakes",
+        "race_id": 4015,
+        "course_set": 10805,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "46": {
+        "race_instance_id": 401601,
+        "fans_needed": 350,
+        "race_name": "Aldebaran Stakes",
+        "race_id": 4016,
+        "course_set": 10815,
+        "distance": "Medium - 1900m",
+        "ground": "Dirt"
+    },
+    "47": {
+        "race_instance_id": 401701,
+        "fans_needed": 350,
+        "race_name": "Valentine Stakes",
+        "race_id": 4017,
+        "course_set": 10610,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "48": {
+        "race_instance_id": 401901,
+        "fans_needed": 350,
+        "race_name": "Sobu Stakes",
+        "race_id": 4019,
+        "course_set": 10509,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "49": {
+        "race_instance_id": 402101,
+        "fans_needed": 350,
+        "race_name": "Osakajo Stakes",
+        "race_id": 4021,
+        "course_set": 10904,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "50": {
+        "race_instance_id": 402201,
+        "fans_needed": 350,
+        "race_name": "Polaris Stakes",
+        "race_id": 4022,
+        "course_set": 10911,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "51": {
+        "race_instance_id": 402301,
+        "fans_needed": 350,
+        "race_name": "Nigawa Stakes",
+        "race_id": 4023,
+        "course_set": 10913,
+        "distance": "Medium - 2000m",
+        "ground": "Dirt"
+    },
+    "52": {
+        "race_instance_id": 402601,
+        "fans_needed": 350,
+        "race_name": "Kochi Stakes",
+        "race_id": 4026,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "53": {
+        "race_instance_id": 402801,
+        "fans_needed": 350,
+        "race_name": "Chiba Stakes",
+        "race_id": 4028,
+        "course_set": 10508,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "55": {
+        "race_instance_id": 403001,
+        "fans_needed": 350,
+        "race_name": "Rokko Stakes",
+        "race_id": 4030,
+        "course_set": 10903,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "56": {
+        "race_instance_id": 403101,
+        "fans_needed": 350,
+        "race_name": "Coral Stakes",
+        "race_id": 4031,
+        "course_set": 10911,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "58": {
+        "race_instance_id": 403601,
+        "fans_needed": 350,
+        "race_name": "Keiyo Stakes",
+        "race_id": 4036,
+        "course_set": 10508,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "59": {
+        "race_instance_id": 403701,
+        "fans_needed": 350,
+        "race_name": "Shunrai Stakes",
+        "race_id": 4037,
+        "course_set": 10501,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "60": {
+        "race_instance_id": 403801,
+        "fans_needed": 350,
+        "race_name": "Fukushima Mimpo Hai",
+        "race_id": 4038,
+        "course_set": 10403,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "61": {
+        "race_instance_id": 404001,
+        "fans_needed": 350,
+        "race_name": "Oasis Stakes",
+        "race_id": 4040,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "62": {
+        "race_instance_id": 404101,
+        "fans_needed": 350,
+        "race_name": "Tennozan Stakes",
+        "race_id": 4041,
+        "course_set": 10812,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "63": {
+        "race_instance_id": 404401,
+        "fans_needed": 350,
+        "race_name": "Tanigawadake Stakes",
+        "race_id": 4044,
+        "course_set": 10304,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "64": {
+        "race_instance_id": 404601,
+        "fans_needed": 350,
+        "race_name": "Metropolitan Stakes",
+        "race_id": 4046,
+        "course_set": 10606,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "65": {
+        "race_instance_id": 404701,
+        "fans_needed": 350,
+        "race_name": "Kurama Stakes",
+        "race_id": 4047,
+        "course_set": 10801,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "66": {
+        "race_instance_id": 404801,
+        "fans_needed": 350,
+        "race_name": "Brilliant Stakes",
+        "race_id": 4048,
+        "course_set": 10612,
+        "distance": "Medium - 2100m",
+        "ground": "Dirt"
+    },
+    "67": {
+        "race_instance_id": 404901,
+        "fans_needed": 350,
+        "race_name": "Miyakooji Stakes",
+        "race_id": 4049,
+        "course_set": 10806,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "68": {
+        "race_instance_id": 405101,
+        "fans_needed": 350,
+        "race_name": "Ritto Stakes",
+        "race_id": 4051,
+        "course_set": 10813,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "69": {
+        "race_instance_id": 405301,
+        "fans_needed": 350,
+        "race_name": "May Stakes",
+        "race_id": 4053,
+        "course_set": 10603,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "70": {
+        "race_instance_id": 405501,
+        "fans_needed": 350,
+        "race_name": "Idaten Stakes",
+        "race_id": 4055,
+        "course_set": 10301,
+        "distance": "Short - 1000m",
+        "ground": "Turf"
+    },
+    "71": {
+        "race_instance_id": 405701,
+        "fans_needed": 350,
+        "race_name": "Keyaki Stakes",
+        "race_id": 4057,
+        "course_set": 10610,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "72": {
+        "race_instance_id": 405801,
+        "fans_needed": 350,
+        "race_name": "Azuchijo Stakes",
+        "race_id": 4058,
+        "course_set": 10803,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "73": {
+        "race_instance_id": 101101,
+        "fans_needed": 15000,
+        "race_name": "Yasuda Kinen",
+        "race_id": 1011,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "74": {
+        "race_instance_id": 101201,
+        "fans_needed": 20000,
+        "race_name": "Takarazuka Kinen",
+        "race_id": 1012,
+        "course_set": 10906,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "75": {
+        "race_instance_id": 101301,
+        "fans_needed": 15000,
+        "race_name": "Sprinters Stakes",
+        "race_id": 1013,
+        "course_set": 10501,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "76": {
+        "race_instance_id": 101601,
+        "fans_needed": 20000,
+        "race_name": "Tenno Sho (Autumn)",
+        "race_id": 1016,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "77": {
+        "race_instance_id": 101701,
+        "fans_needed": 10000,
+        "race_name": "Queen Elizabeth II Cup",
+        "race_id": 1017,
+        "course_set": 10808,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "78": {
+        "race_instance_id": 101801,
+        "fans_needed": 15000,
+        "race_name": "Mile Championship",
+        "race_id": 1018,
+        "course_set": 10805,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "79": {
+        "race_instance_id": 101901,
+        "fans_needed": 25000,
+        "race_name": "Japan Cup",
+        "race_id": 1019,
+        "course_set": 10606,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "80": {
+        "race_instance_id": 102001,
+        "fans_needed": 12000,
+        "race_name": "Champions Cup",
+        "race_id": 1020,
+        "course_set": 10708,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "81": {
+        "race_instance_id": 102301,
+        "fans_needed": 25000,
+        "race_name": "Arima Kinen",
+        "race_id": 1023,
+        "course_set": 10506,
+        "distance": "Long - 2500m",
+        "ground": "Turf"
+    },
+    "82": {
+        "race_instance_id": 202001,
+        "fans_needed": 2000,
+        "race_name": "Sapporo Kinen",
+        "race_id": 2020,
+        "course_set": 10104,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "83": {
+        "race_instance_id": 202101,
+        "fans_needed": 1900,
+        "race_name": "Centaur Stakes",
+        "race_id": 2021,
+        "course_set": 10901,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "84": {
+        "race_instance_id": 202401,
+        "fans_needed": 1750,
+        "race_name": "Kobe Shimbun Hai",
+        "race_id": 2024,
+        "course_set": 10907,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "85": {
+        "race_instance_id": 202501,
+        "fans_needed": 2000,
+        "race_name": "All Comers",
+        "race_id": 2025,
+        "course_set": 10505,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "86": {
+        "race_instance_id": 202601,
+        "fans_needed": 2000,
+        "race_name": "Mainichi Okan",
+        "race_id": 2026,
+        "course_set": 10603,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "87": {
+        "race_instance_id": 202701,
+        "fans_needed": 2000,
+        "race_name": "Kyoto Daishoten",
+        "race_id": 2027,
+        "course_set": 10809,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "88": {
+        "race_instance_id": 202801,
+        "fans_needed": 1800,
+        "race_name": "Fuchu Umamusume Stakes",
+        "race_id": 2028,
+        "course_set": 10603,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "89": {
+        "race_instance_id": 202901,
+        "fans_needed": 1900,
+        "race_name": "Swan Stakes",
+        "race_id": 2029,
+        "course_set": 10803,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "90": {
+        "race_instance_id": 203101,
+        "fans_needed": 1900,
+        "race_name": "Copa Republica Argentina",
+        "race_id": 2031,
+        "course_set": 10607,
+        "distance": "Long - 2500m",
+        "ground": "Turf"
+    },
+    "91": {
+        "race_instance_id": 203301,
+        "fans_needed": 2000,
+        "race_name": "Stayers Stakes",
+        "race_id": 2033,
+        "course_set": 10507,
+        "distance": "Long - 3600m",
+        "ground": "Turf"
+    },
+    "92": {
+        "race_instance_id": 203401,
+        "fans_needed": 2000,
+        "race_name": "Hanshin Cup",
+        "race_id": 2034,
+        "course_set": 10902,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "93": {
+        "race_instance_id": 303001,
+        "fans_needed": 1500,
+        "race_name": "Naruo Kinen",
+        "race_id": 3030,
+        "course_set": 10905,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "94": {
+        "race_instance_id": 303101,
+        "fans_needed": 1000,
+        "race_name": "Mermaid Stakes",
+        "race_id": 3031,
+        "course_set": 10905,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "95": {
+        "race_instance_id": 303201,
+        "fans_needed": 1500,
+        "race_name": "Epsom Cup",
+        "race_id": 3032,
+        "course_set": 10603,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "96": {
+        "race_instance_id": 303401,
+        "fans_needed": 1250,
+        "race_name": "Hakodate Sprint Stakes",
+        "race_id": 3034,
+        "course_set": 10202,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "97": {
+        "race_instance_id": 303501,
+        "fans_needed": 1250,
+        "race_name": "CBC Sho",
+        "race_id": 3035,
+        "course_set": 10701,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "98": {
+        "race_instance_id": 303701,
+        "fans_needed": 1000,
+        "race_name": "Procyon Stakes",
+        "race_id": 3037,
+        "course_set": 10707,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "99": {
+        "race_instance_id": 303801,
+        "fans_needed": 1500,
+        "race_name": "Tanabata Sho",
+        "race_id": 3038,
+        "course_set": 10403,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "100": {
+        "race_instance_id": 303901,
+        "fans_needed": 1500,
+        "race_name": "Hakodate Kinen",
+        "race_id": 3039,
+        "course_set": 10204,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "101": {
+        "race_instance_id": 304001,
+        "fans_needed": 1250,
+        "race_name": "Chukyo Kinen",
+        "race_id": 3040,
+        "course_set": 10703,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "102": {
+        "race_instance_id": 304201,
+        "fans_needed": 1250,
+        "race_name": "Ibis Summer Dash",
+        "race_id": 3042,
+        "course_set": 10301,
+        "distance": "Short - 1000m",
+        "ground": "Turf"
+    },
+    "103": {
+        "race_instance_id": 304301,
+        "fans_needed": 1000,
+        "race_name": "Queen Stakes",
+        "race_id": 3043,
+        "course_set": 10103,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "104": {
+        "race_instance_id": 304401,
+        "fans_needed": 1500,
+        "race_name": "Kokura Kinen",
+        "race_id": 3044,
+        "course_set": 11003,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "105": {
+        "race_instance_id": 304601,
+        "fans_needed": 1250,
+        "race_name": "Sekiya Kinen",
+        "race_id": 3046,
+        "course_set": 10304,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "106": {
+        "race_instance_id": 304701,
+        "fans_needed": 1000,
+        "race_name": "Elm Stakes",
+        "race_id": 3047,
+        "course_set": 10107,
+        "distance": "Mile - 1700m",
+        "ground": "Dirt"
+    },
+    "107": {
+        "race_instance_id": 304801,
+        "fans_needed": 1250,
+        "race_name": "Kitakyushu Kinen",
+        "race_id": 3048,
+        "course_set": 11001,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "108": {
+        "race_instance_id": 305001,
+        "fans_needed": 1500,
+        "race_name": "Keeneland Cup",
+        "race_id": 3050,
+        "course_set": 10101,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "109": {
+        "race_instance_id": 305301,
+        "fans_needed": 1500,
+        "race_name": "Niigata Kinen",
+        "race_id": 3053,
+        "course_set": 10307,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "110": {
+        "race_instance_id": 305501,
+        "fans_needed": 1250,
+        "race_name": "Keisei Hai Autumn Handicap",
+        "race_id": 3055,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "111": {
+        "race_instance_id": 305601,
+        "fans_needed": 1000,
+        "race_name": "Sirius Stakes",
+        "race_id": 3056,
+        "course_set": 10913,
+        "distance": "Medium - 2000m",
+        "ground": "Dirt"
+    },
+    "112": {
+        "race_instance_id": 305801,
+        "fans_needed": 1900,
+        "race_name": "Fuji Stakes",
+        "race_id": 3058,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "113": {
+        "race_instance_id": 306101,
+        "fans_needed": 750,
+        "race_name": "Miyako Stakes",
+        "race_id": 3061,
+        "course_set": 10814,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "114": {
+        "race_instance_id": 306201,
+        "fans_needed": 1250,
+        "race_name": "Musashino Stakes",
+        "race_id": 3062,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "115": {
+        "race_instance_id": 306301,
+        "fans_needed": 1500,
+        "race_name": "Fukushima Kinen",
+        "race_id": 3063,
+        "course_set": 10403,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "116": {
+        "race_instance_id": 306601,
+        "fans_needed": 1250,
+        "race_name": "Keihan Hai",
+        "race_id": 3066,
+        "course_set": 10801,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "117": {
+        "race_instance_id": 306701,
+        "fans_needed": 1500,
+        "race_name": "Challenge Cup",
+        "race_id": 3067,
+        "course_set": 10905,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "118": {
+        "race_instance_id": 306801,
+        "fans_needed": 1500,
+        "race_name": "Chunichi Shimbun Hai",
+        "race_id": 3068,
+        "course_set": 10704,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "119": {
+        "race_instance_id": 306901,
+        "fans_needed": 1000,
+        "race_name": "Capella Stakes",
+        "race_id": 3069,
+        "course_set": 10508,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "120": {
+        "race_instance_id": 307001,
+        "fans_needed": 1000,
+        "race_name": "Turquoise Stakes",
+        "race_id": 3070,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "121": {
+        "race_instance_id": 405901,
+        "fans_needed": 350,
+        "race_name": "Akhalteke Stakes",
+        "race_id": 4059,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "122": {
+        "race_instance_id": 406001,
+        "fans_needed": 350,
+        "race_name": "Tempozan Stakes",
+        "race_id": 4060,
+        "course_set": 10911,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "123": {
+        "race_instance_id": 406101,
+        "fans_needed": 350,
+        "race_name": "Yonago Stakes",
+        "race_id": 4061,
+        "course_set": 10903,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "124": {
+        "race_instance_id": 406201,
+        "fans_needed": 350,
+        "race_name": "Onuma Stakes",
+        "race_id": 4062,
+        "course_set": 10207,
+        "distance": "Mile - 1700m",
+        "ground": "Dirt"
+    },
+    "125": {
+        "race_instance_id": 406301,
+        "fans_needed": 350,
+        "race_name": "Paradise Stakes",
+        "race_id": 4063,
+        "course_set": 10601,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "126": {
+        "race_instance_id": 406401,
+        "fans_needed": 350,
+        "race_name": "Tomoe Sho",
+        "race_id": 4064,
+        "course_set": 10203,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "127": {
+        "race_instance_id": 406501,
+        "fans_needed": 350,
+        "race_name": "Marine Stakes",
+        "race_id": 4065,
+        "course_set": 10207,
+        "distance": "Mile - 1700m",
+        "ground": "Dirt"
+    },
+    "129": {
+        "race_instance_id": 406901,
+        "fans_needed": 350,
+        "race_name": "Fukushima TV Open",
+        "race_id": 4069,
+        "course_set": 10401,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "130": {
+        "race_instance_id": 407101,
+        "fans_needed": 350,
+        "race_name": "Sapporo Nikkei Open",
+        "race_id": 4071,
+        "course_set": 10105,
+        "distance": "Long - 2600m",
+        "ground": "Turf"
+    },
+    "131": {
+        "race_instance_id": 407201,
+        "fans_needed": 350,
+        "race_name": "UHB Sho",
+        "race_id": 4072,
+        "course_set": 10101,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "132": {
+        "race_instance_id": 407301,
+        "fans_needed": 350,
+        "race_name": "Aso Stakes",
+        "race_id": 4073,
+        "course_set": 11006,
+        "distance": "Mile - 1700m",
+        "ground": "Dirt"
+    },
+    "133": {
+        "race_instance_id": 407601,
+        "fans_needed": 350,
+        "race_name": "NST Sho",
+        "race_id": 4076,
+        "course_set": 10310,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "134": {
+        "race_instance_id": 407901,
+        "fans_needed": 350,
+        "race_name": "BSN Sho",
+        "race_id": 4079,
+        "course_set": 10311,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "135": {
+        "race_instance_id": 408001,
+        "fans_needed": 350,
+        "race_name": "Kokura Nikkei Open",
+        "race_id": 4080,
+        "course_set": 11002,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "136": {
+        "race_instance_id": 408101,
+        "fans_needed": 350,
+        "race_name": "Toki Stakes",
+        "race_id": 4081,
+        "course_set": 10303,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "137": {
+        "race_instance_id": 408201,
+        "fans_needed": 350,
+        "race_name": "Tancho Stakes",
+        "race_id": 4082,
+        "course_set": 10105,
+        "distance": "Long - 2600m",
+        "ground": "Turf"
+    },
+    "138": {
+        "race_instance_id": 408401,
+        "fans_needed": 350,
+        "race_name": "Enif Stakes",
+        "race_id": 4084,
+        "course_set": 10911,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "139": {
+        "race_instance_id": 408601,
+        "fans_needed": 350,
+        "race_name": "Radio Nippon Sho",
+        "race_id": 4086,
+        "course_set": 10509,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "140": {
+        "race_instance_id": 409001,
+        "fans_needed": 350,
+        "race_name": "Port Island Stakes",
+        "race_id": 4090,
+        "course_set": 10903,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "141": {
+        "race_instance_id": 409101,
+        "fans_needed": 350,
+        "race_name": "Opal Stakes",
+        "race_id": 4091,
+        "course_set": 10801,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "142": {
+        "race_instance_id": 409201,
+        "fans_needed": 350,
+        "race_name": "Green Channel Cup",
+        "race_id": 4092,
+        "course_set": 10610,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "143": {
+        "race_instance_id": 409401,
+        "fans_needed": 350,
+        "race_name": "October Stakes",
+        "race_id": 4094,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "144": {
+        "race_instance_id": 409501,
+        "fans_needed": 350,
+        "race_name": "Shinetsu Stakes",
+        "race_id": 4095,
+        "course_set": 10303,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "145": {
+        "race_instance_id": 409701,
+        "fans_needed": 350,
+        "race_name": "Muromachi Stakes",
+        "race_id": 4097,
+        "course_set": 10812,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "146": {
+        "race_instance_id": 409801,
+        "fans_needed": 350,
+        "race_name": "Brazil Cup",
+        "race_id": 4098,
+        "course_set": 10612,
+        "distance": "Medium - 2100m",
+        "ground": "Dirt"
+    },
+    "147": {
+        "race_instance_id": 410001,
+        "fans_needed": 350,
+        "race_name": "Cassiopeia Stakes",
+        "race_id": 4100,
+        "course_set": 10806,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "148": {
+        "race_instance_id": 410101,
+        "fans_needed": 350,
+        "race_name": "Lumiere Autumn Dash",
+        "race_id": 4101,
+        "course_set": 10301,
+        "distance": "Short - 1000m",
+        "ground": "Turf"
+    },
+    "149": {
+        "race_instance_id": 410201,
+        "fans_needed": 350,
+        "race_name": "Oro Cup",
+        "race_id": 4102,
+        "course_set": 10601,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "150": {
+        "race_instance_id": 410401,
+        "fans_needed": 350,
+        "race_name": "Andromeda Stakes",
+        "race_id": 4104,
+        "course_set": 10807,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "151": {
+        "race_instance_id": 410501,
+        "fans_needed": 350,
+        "race_name": "Shimotsuki Stakes",
+        "race_id": 4105,
+        "course_set": 10610,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "152": {
+        "race_instance_id": 410601,
+        "fans_needed": 350,
+        "race_name": "Fukushima Minyu Cup",
+        "race_id": 4106,
+        "course_set": 10406,
+        "distance": "Mile - 1700m",
+        "ground": "Dirt"
+    },
+    "153": {
+        "race_instance_id": 410701,
+        "fans_needed": 350,
+        "race_name": "Capital Stakes",
+        "race_id": 4107,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "154": {
+        "race_instance_id": 410801,
+        "fans_needed": 350,
+        "race_name": "Autumn Leaf Stakes",
+        "race_id": 4108,
+        "course_set": 10812,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "155": {
+        "race_instance_id": 410901,
+        "fans_needed": 350,
+        "race_name": "Lapis Lazuli Stakes",
+        "race_id": 4109,
+        "course_set": 10501,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "156": {
+        "race_instance_id": 411001,
+        "fans_needed": 350,
+        "race_name": "Shiwasu Stakes",
+        "race_id": 4110,
+        "course_set": 10509,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "157": {
+        "race_instance_id": 411101,
+        "fans_needed": 350,
+        "race_name": "Rigel Stakes",
+        "race_id": 4111,
+        "course_set": 10903,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "158": {
+        "race_instance_id": 411201,
+        "fans_needed": 350,
+        "race_name": "Tanzanite Stakes",
+        "race_id": 4112,
+        "course_set": 10901,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "159": {
+        "race_instance_id": 411301,
+        "fans_needed": 350,
+        "race_name": "December Stakes",
+        "race_id": 4113,
+        "course_set": 10503,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "160": {
+        "race_instance_id": 411501,
+        "fans_needed": 350,
+        "race_name": "Galaxy Stakes",
+        "race_id": 4115,
+        "course_set": 10911,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "161": {
+        "race_instance_id": 411601,
+        "fans_needed": 350,
+        "race_name": "Betelgeuse Stakes",
+        "race_id": 4116,
+        "course_set": 10912,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "162": {
+        "race_instance_id": 100401,
+        "fans_needed": 4500,
+        "race_name": "Oka Sho",
+        "race_id": 1004,
+        "course_set": 10903,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "163": {
+        "race_instance_id": 100501,
+        "fans_needed": 4500,
+        "race_name": "Satsuki Sho",
+        "race_id": 1005,
+        "course_set": 10504,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "164": {
+        "race_instance_id": 100701,
+        "fans_needed": 5000,
+        "race_name": "NHK Mile Cup",
+        "race_id": 1007,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "165": {
+        "race_instance_id": 100901,
+        "fans_needed": 6000,
+        "race_name": "Japanese Oaks",
+        "race_id": 1009,
+        "course_set": 10606,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "166": {
+        "race_instance_id": 101001,
+        "fans_needed": 6000,
+        "race_name": "Tokyo Yushun (Japanese Derby)",
+        "race_id": 1010,
+        "course_set": 10606,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "167": {
+        "race_instance_id": 101401,
+        "fans_needed": 7500,
+        "race_name": "Shuka Sho",
+        "race_id": 1014,
+        "course_set": 10807,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "168": {
+        "race_instance_id": 101501,
+        "fans_needed": 7500,
+        "race_name": "Kikuka Sho",
+        "race_id": 1015,
+        "course_set": 10810,
+        "distance": "Long - 3000m",
+        "ground": "Turf"
+    },
+    "169": {
+        "race_instance_id": 200601,
+        "fans_needed": 1750,
+        "race_name": "Yayoi Sho",
+        "race_id": 2006,
+        "course_set": 10504,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "170": {
+        "race_instance_id": 200801,
+        "fans_needed": 1750,
+        "race_name": "Fillies' Revue",
+        "race_id": 2008,
+        "course_set": 10902,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "171": {
+        "race_instance_id": 201001,
+        "fans_needed": 1750,
+        "race_name": "Spring Stakes",
+        "race_id": 2010,
+        "course_set": 10503,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "172": {
+        "race_instance_id": 201301,
+        "fans_needed": 1750,
+        "race_name": "New Zealand Trophy",
+        "race_id": 2013,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "173": {
+        "race_instance_id": 201501,
+        "fans_needed": 1750,
+        "race_name": "Flora Stakes",
+        "race_id": 2015,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "174": {
+        "race_instance_id": 201601,
+        "fans_needed": 1800,
+        "race_name": "Aoba Sho",
+        "race_id": 2016,
+        "course_set": 10606,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "175": {
+        "race_instance_id": 201701,
+        "fans_needed": 1750,
+        "race_name": "Kyoto Shimbun Hai",
+        "race_id": 2017,
+        "course_set": 10808,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "176": {
+        "race_instance_id": 202201,
+        "fans_needed": 1750,
+        "race_name": "Rose Stakes",
+        "race_id": 2022,
+        "course_set": 10904,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "177": {
+        "race_instance_id": 202301,
+        "fans_needed": 1750,
+        "race_name": "St. Lite Kinen",
+        "race_id": 2023,
+        "course_set": 10505,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "178": {
+        "race_instance_id": 300301,
+        "fans_needed": 1000,
+        "race_name": "Shinzan Kinen",
+        "race_id": 3003,
+        "course_set": 10805,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "179": {
+        "race_instance_id": 300401,
+        "fans_needed": 750,
+        "race_name": "Fairy Stakes",
+        "race_id": 3004,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "180": {
+        "race_instance_id": 300601,
+        "fans_needed": 1000,
+        "race_name": "Keisei Hai",
+        "race_id": 3006,
+        "course_set": 10504,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "181": {
+        "race_instance_id": 300901,
+        "fans_needed": 1000,
+        "race_name": "Kisaragi Sho",
+        "race_id": 3009,
+        "course_set": 10806,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "182": {
+        "race_instance_id": 301101,
+        "fans_needed": 750,
+        "race_name": "Queen Cup",
+        "race_id": 3011,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "183": {
+        "race_instance_id": 301201,
+        "fans_needed": 1000,
+        "race_name": "Kyodo News Hai",
+        "race_id": 3012,
+        "course_set": 10603,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "184": {
+        "race_instance_id": 301601,
+        "fans_needed": 1250,
+        "race_name": "Arlington Cup",
+        "race_id": 3016,
+        "course_set": 10903,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "185": {
+        "race_instance_id": 301801,
+        "fans_needed": 1750,
+        "race_name": "Tulip Sho",
+        "race_id": 3018,
+        "course_set": 10903,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "186": {
+        "race_instance_id": 302101,
+        "fans_needed": 1250,
+        "race_name": "Falcon Stakes",
+        "race_id": 3021,
+        "course_set": 10702,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "187": {
+        "race_instance_id": 302201,
+        "fans_needed": 750,
+        "race_name": "Flower Cup",
+        "race_id": 3022,
+        "course_set": 10503,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "188": {
+        "race_instance_id": 302301,
+        "fans_needed": 1250,
+        "race_name": "Mainichi Hai",
+        "race_id": 3023,
+        "course_set": 10904,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "189": {
+        "race_instance_id": 303301,
+        "fans_needed": 750,
+        "race_name": "Unicorn Stakes",
+        "race_id": 3033,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "190": {
+        "race_instance_id": 303601,
+        "fans_needed": 1250,
+        "race_name": "Radio Nikkei Sho",
+        "race_id": 3036,
+        "course_set": 10402,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "191": {
+        "race_instance_id": 304501,
+        "fans_needed": 1250,
+        "race_name": "Leopard Stakes",
+        "race_id": 3045,
+        "course_set": 10311,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "192": {
+        "race_instance_id": 305401,
+        "fans_needed": 1000,
+        "race_name": "Shion Stakes",
+        "race_id": 3054,
+        "course_set": 10504,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "193": {
+        "race_instance_id": 400201,
+        "fans_needed": 350,
+        "race_name": "Junior Cup",
+        "race_id": 4002,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "194": {
+        "race_instance_id": 400701,
+        "fans_needed": 350,
+        "race_name": "Kobai Stakes",
+        "race_id": 4007,
+        "course_set": 10803,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "195": {
+        "race_instance_id": 400901,
+        "fans_needed": 350,
+        "race_name": "Wakagoma Stakes",
+        "race_id": 4009,
+        "course_set": 10807,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "196": {
+        "race_instance_id": 401201,
+        "fans_needed": 350,
+        "race_name": "Crocus Stakes",
+        "race_id": 4012,
+        "course_set": 10601,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "197": {
+        "race_instance_id": 401401,
+        "fans_needed": 350,
+        "race_name": "Elfin Stakes",
+        "race_id": 4014,
+        "course_set": 10805,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "198": {
+        "race_instance_id": 401801,
+        "fans_needed": 350,
+        "race_name": "Hyacinth Stakes",
+        "race_id": 4018,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "199": {
+        "race_instance_id": 402001,
+        "fans_needed": 350,
+        "race_name": "Sumire Stakes",
+        "race_id": 4020,
+        "course_set": 10906,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "200": {
+        "race_instance_id": 402401,
+        "fans_needed": 350,
+        "race_name": "Anemone Stakes",
+        "race_id": 4024,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "201": {
+        "race_instance_id": 402501,
+        "fans_needed": 350,
+        "race_name": "Shoryu Stakes",
+        "race_id": 4025,
+        "course_set": 10707,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "202": {
+        "race_instance_id": 402701,
+        "fans_needed": 350,
+        "race_name": "Wakaba Stakes",
+        "race_id": 4027,
+        "course_set": 10905,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "203": {
+        "race_instance_id": 403201,
+        "fans_needed": 350,
+        "race_name": "Marguerite Stakes",
+        "race_id": 4032,
+        "course_set": 10901,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "204": {
+        "race_instance_id": 403301,
+        "fans_needed": 350,
+        "race_name": "Fukuryu Stakes",
+        "race_id": 4033,
+        "course_set": 10509,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "205": {
+        "race_instance_id": 403501,
+        "fans_needed": 350,
+        "race_name": "Wasurenagusa Sho",
+        "race_id": 4035,
+        "course_set": 10905,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "206": {
+        "race_instance_id": 403901,
+        "fans_needed": 350,
+        "race_name": "Tachibana Stakes",
+        "race_id": 4039,
+        "course_set": 10803,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "207": {
+        "race_instance_id": 404201,
+        "fans_needed": 350,
+        "race_name": "Tango Stakes",
+        "race_id": 4042,
+        "course_set": 10813,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "208": {
+        "race_instance_id": 404301,
+        "fans_needed": 350,
+        "race_name": "Sweetpea Stakes",
+        "race_id": 4043,
+        "course_set": 10603,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "209": {
+        "race_instance_id": 404501,
+        "fans_needed": 350,
+        "race_name": "Principal Stakes",
+        "race_id": 4045,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "210": {
+        "race_instance_id": 405001,
+        "fans_needed": 1250,
+        "race_name": "Aoi Stakes",
+        "race_id": 4050,
+        "course_set": 10801,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "211": {
+        "race_instance_id": 405201,
+        "fans_needed": 350,
+        "race_name": "Seiryu Stakes",
+        "race_id": 4052,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "212": {
+        "race_instance_id": 405401,
+        "fans_needed": 350,
+        "race_name": "Hosu Stakes",
+        "race_id": 4054,
+        "course_set": 10814,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "213": {
+        "race_instance_id": 405601,
+        "fans_needed": 350,
+        "race_name": "Shirayuri Stakes",
+        "race_id": 4056,
+        "course_set": 10806,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "215": {
+        "race_instance_id": 900880,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9057,
+        "course_set": 10508,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "216": {
+        "race_instance_id": 900882,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9057,
+        "course_set": 10508,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "217": {
+        "race_instance_id": 900884,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9057,
+        "course_set": 10508,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "220": {
+        "race_instance_id": 900881,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9057,
+        "course_set": 10508,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "223": {
+        "race_instance_id": 900940,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9063,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "224": {
+        "race_instance_id": 900943,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9063,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "225": {
+        "race_instance_id": 900944,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9063,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "227": {
+        "race_instance_id": 900970,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9066,
+        "course_set": 10509,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "228": {
+        "race_instance_id": 900971,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9066,
+        "course_set": 10509,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "229": {
+        "race_instance_id": 900973,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9066,
+        "course_set": 10509,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "236": {
+        "race_instance_id": 900991,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9068,
+        "course_set": 10503,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "239": {
+        "race_instance_id": 901050,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9074,
+        "course_set": 10504,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "240": {
+        "race_instance_id": 901052,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9074,
+        "course_set": 10504,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "241": {
+        "race_instance_id": 901054,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9074,
+        "course_set": 10504,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "244": {
+        "race_instance_id": 901080,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9077,
+        "course_set": 10505,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "246": {
+        "race_instance_id": 901081,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9077,
+        "course_set": 10505,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "247": {
+        "race_instance_id": 901083,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9077,
+        "course_set": 10505,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "260": {
+        "race_instance_id": 900990,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9068,
+        "course_set": 10503,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "261": {
+        "race_instance_id": 900941,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9063,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "266": {
+        "race_instance_id": 902431,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9212,
+        "course_set": 10609,
+        "distance": "Short - 1300m",
+        "ground": "Dirt"
+    },
+    "267": {
+        "race_instance_id": 902461,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9215,
+        "course_set": 10610,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "268": {
+        "race_instance_id": 902491,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9218,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "270": {
+        "race_instance_id": 902511,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9220,
+        "course_set": 10603,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "271": {
+        "race_instance_id": 902551,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9224,
+        "course_set": 10612,
+        "distance": "Medium - 2100m",
+        "ground": "Dirt"
+    },
+    "272": {
+        "race_instance_id": 902481,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9217,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "274": {
+        "race_instance_id": 900942,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9063,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "275": {
+        "race_instance_id": 900972,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9066,
+        "course_set": 10509,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "276": {
+        "race_instance_id": 900883,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9057,
+        "course_set": 10508,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "278": {
+        "race_instance_id": 901053,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9074,
+        "course_set": 10504,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "279": {
+        "race_instance_id": 900992,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9068,
+        "course_set": 10503,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "280": {
+        "race_instance_id": 901082,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9077,
+        "course_set": 10505,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "281": {
+        "race_instance_id": 902571,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9226,
+        "course_set": 10606,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "282": {
+        "race_instance_id": 902494,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9218,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "283": {
+        "race_instance_id": 902434,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9212,
+        "course_set": 10609,
+        "distance": "Short - 1300m",
+        "ground": "Dirt"
+    },
+    "284": {
+        "race_instance_id": 902464,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9215,
+        "course_set": 10610,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "285": {
+        "race_instance_id": 902484,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9217,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "286": {
+        "race_instance_id": 902514,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9220,
+        "course_set": 10603,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "287": {
+        "race_instance_id": 902532,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9222,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "291": {
+        "race_instance_id": 902466,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9215,
+        "course_set": 10610,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "292": {
+        "race_instance_id": 902556,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9224,
+        "course_set": 10612,
+        "distance": "Medium - 2100m",
+        "ground": "Dirt"
+    },
+    "293": {
+        "race_instance_id": 902486,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9217,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "294": {
+        "race_instance_id": 902496,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9218,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "295": {
+        "race_instance_id": 902436,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9212,
+        "course_set": 10609,
+        "distance": "Short - 1300m",
+        "ground": "Dirt"
+    },
+    "296": {
+        "race_instance_id": 902454,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9214,
+        "course_set": 10601,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "297": {
+        "race_instance_id": 902574,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9226,
+        "course_set": 10606,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "298": {
+        "race_instance_id": 904050,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9375,
+        "course_set": 10405,
+        "distance": "Short - 1150m",
+        "ground": "Dirt"
+    },
+    "299": {
+        "race_instance_id": 904000,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9370,
+        "course_set": 10402,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "300": {
+        "race_instance_id": 903981,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9368,
+        "course_set": 10406,
+        "distance": "Mile - 1700m",
+        "ground": "Dirt"
+    },
+    "303": {
+        "race_instance_id": 903941,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9364,
+        "course_set": 10405,
+        "distance": "Short - 1150m",
+        "ground": "Dirt"
+    },
+    "304": {
+        "race_instance_id": 904101,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9380,
+        "course_set": 10402,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "305": {
+        "race_instance_id": 904061,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9376,
+        "course_set": 10401,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "306": {
+        "race_instance_id": 904001,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9370,
+        "course_set": 10402,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "308": {
+        "race_instance_id": 903961,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9366,
+        "course_set": 10401,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "309": {
+        "race_instance_id": 904021,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9372,
+        "course_set": 10403,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "310": {
+        "race_instance_id": 903471,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9317,
+        "course_set": 10311,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "311": {
+        "race_instance_id": 903411,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9310,
+        "course_set": 10310,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "314": {
+        "race_instance_id": 903451,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9315,
+        "course_set": 10305,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "315": {
+        "race_instance_id": 903611,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9331,
+        "course_set": 10305,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "316": {
+        "race_instance_id": 903531,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9323,
+        "course_set": 10301,
+        "distance": "Short - 1000m",
+        "ground": "Turf"
+    },
+    "317": {
+        "race_instance_id": 903491,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9319,
+        "course_set": 10306,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "319": {
+        "race_instance_id": 903430,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9312,
+        "course_set": 10303,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "320": {
+        "race_instance_id": 903591,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9329,
+        "course_set": 10304,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "321": {
+        "race_instance_id": 903381,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9307,
+        "course_set": 10301,
+        "distance": "Short - 1000m",
+        "ground": "Turf"
+    },
+    "322": {
+        "race_instance_id": 901021,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9071,
+        "course_set": 10509,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "323": {
+        "race_instance_id": 900891,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9058,
+        "course_set": 10508,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "324": {
+        "race_instance_id": 901071,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9076,
+        "course_set": 10504,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "326": {
+        "race_instance_id": 900951,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9064,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "328": {
+        "race_instance_id": 900931,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9062,
+        "course_set": 10501,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "330": {
+        "race_instance_id": 902611,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9230,
+        "course_set": 10610,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "331": {
+        "race_instance_id": 902592,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9228,
+        "course_set": 10601,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "334": {
+        "race_instance_id": 902641,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9233,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "335": {
+        "race_instance_id": 902681,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9237,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "337": {
+        "race_instance_id": 902661,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9235,
+        "course_set": 10603,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "339": {
+        "race_instance_id": 902622,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9231,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "341": {
+        "race_instance_id": 902613,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9230,
+        "course_set": 10610,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "342": {
+        "race_instance_id": 902582,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9227,
+        "course_set": 10609,
+        "distance": "Short - 1300m",
+        "ground": "Dirt"
+    },
+    "344": {
+        "race_instance_id": 902594,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9228,
+        "course_set": 10601,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "345": {
+        "race_instance_id": 902624,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9231,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "347": {
+        "race_instance_id": 902663,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9235,
+        "course_set": 10603,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "351": {
+        "race_instance_id": 901023,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9071,
+        "course_set": 10509,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "352": {
+        "race_instance_id": 900933,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9062,
+        "course_set": 10501,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "353": {
+        "race_instance_id": 900953,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9064,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "356": {
+        "race_instance_id": 900893,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9058,
+        "course_set": 10508,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "357": {
+        "race_instance_id": 901073,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9076,
+        "course_set": 10504,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "361": {
+        "race_instance_id": 901042,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9073,
+        "course_set": 10503,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "362": {
+        "race_instance_id": 901051,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9074,
+        "course_set": 10504,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "363": {
+        "race_instance_id": 902554,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9224,
+        "course_set": 10612,
+        "distance": "Medium - 2100m",
+        "ground": "Dirt"
+    },
+    "398": {
+        "race_instance_id": 902430,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9212,
+        "course_set": 10609,
+        "distance": "Short - 1300m",
+        "ground": "Dirt"
+    },
+    "399": {
+        "race_instance_id": 902432,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9212,
+        "course_set": 10609,
+        "distance": "Short - 1300m",
+        "ground": "Dirt"
+    },
+    "400": {
+        "race_instance_id": 902433,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9212,
+        "course_set": 10609,
+        "distance": "Short - 1300m",
+        "ground": "Dirt"
+    },
+    "401": {
+        "race_instance_id": 902435,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9212,
+        "course_set": 10609,
+        "distance": "Short - 1300m",
+        "ground": "Dirt"
+    },
+    "404": {
+        "race_instance_id": 902450,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9214,
+        "course_set": 10601,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "405": {
+        "race_instance_id": 902451,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9214,
+        "course_set": 10601,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "406": {
+        "race_instance_id": 902452,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9214,
+        "course_set": 10601,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "407": {
+        "race_instance_id": 902453,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9214,
+        "course_set": 10601,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "408": {
+        "race_instance_id": 902460,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9215,
+        "course_set": 10610,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "409": {
+        "race_instance_id": 902462,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9215,
+        "course_set": 10610,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "410": {
+        "race_instance_id": 902463,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9215,
+        "course_set": 10610,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "411": {
+        "race_instance_id": 902465,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9215,
+        "course_set": 10610,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "417": {
+        "race_instance_id": 902480,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9217,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "418": {
+        "race_instance_id": 902482,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9217,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "419": {
+        "race_instance_id": 902483,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9217,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "420": {
+        "race_instance_id": 902485,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9217,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "422": {
+        "race_instance_id": 902490,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9218,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "423": {
+        "race_instance_id": 902492,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9218,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "424": {
+        "race_instance_id": 902493,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9218,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "425": {
+        "race_instance_id": 902495,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9218,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "430": {
+        "race_instance_id": 902510,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9220,
+        "course_set": 10603,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "431": {
+        "race_instance_id": 902512,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9220,
+        "course_set": 10603,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "432": {
+        "race_instance_id": 902513,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9220,
+        "course_set": 10603,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "433": {
+        "race_instance_id": 902515,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9220,
+        "course_set": 10603,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "437": {
+        "race_instance_id": 902530,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9222,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "438": {
+        "race_instance_id": 902531,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9222,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "439": {
+        "race_instance_id": 902533,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9222,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "442": {
+        "race_instance_id": 902550,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9224,
+        "course_set": 10612,
+        "distance": "Medium - 2100m",
+        "ground": "Dirt"
+    },
+    "443": {
+        "race_instance_id": 902552,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9224,
+        "course_set": 10612,
+        "distance": "Medium - 2100m",
+        "ground": "Dirt"
+    },
+    "444": {
+        "race_instance_id": 902553,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9224,
+        "course_set": 10612,
+        "distance": "Medium - 2100m",
+        "ground": "Dirt"
+    },
+    "445": {
+        "race_instance_id": 902555,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9224,
+        "course_set": 10612,
+        "distance": "Medium - 2100m",
+        "ground": "Dirt"
+    },
+    "446": {
+        "race_instance_id": 902560,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9225,
+        "course_set": 10605,
+        "distance": "Medium - 2300m",
+        "ground": "Turf"
+    },
+    "448": {
+        "race_instance_id": 902570,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9226,
+        "course_set": 10606,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "449": {
+        "race_instance_id": 902572,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9226,
+        "course_set": 10606,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "450": {
+        "race_instance_id": 902573,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9226,
+        "course_set": 10606,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "538": {
+        "race_instance_id": 903380,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9307,
+        "course_set": 10301,
+        "distance": "Short - 1000m",
+        "ground": "Turf"
+    },
+    "548": {
+        "race_instance_id": 903410,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9310,
+        "course_set": 10310,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "556": {
+        "race_instance_id": 903440,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9313,
+        "course_set": 10304,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "560": {
+        "race_instance_id": 903450,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9315,
+        "course_set": 10305,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "561": {
+        "race_instance_id": 901022,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9071,
+        "course_set": 10509,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "565": {
+        "race_instance_id": 903470,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9317,
+        "course_set": 10311,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "574": {
+        "race_instance_id": 903490,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9319,
+        "course_set": 10306,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "581": {
+        "race_instance_id": 903520,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9322,
+        "course_set": 10309,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "603": {
+        "race_instance_id": 903940,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9364,
+        "course_set": 10405,
+        "distance": "Short - 1150m",
+        "ground": "Dirt"
+    },
+    "606": {
+        "race_instance_id": 903960,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9366,
+        "course_set": 10401,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "610": {
+        "race_instance_id": 903980,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9368,
+        "course_set": 10406,
+        "distance": "Mile - 1700m",
+        "ground": "Dirt"
+    },
+    "618": {
+        "race_instance_id": 904020,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9372,
+        "course_set": 10403,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "622": {
+        "race_instance_id": 904040,
+        "fans_needed": 0,
+        "race_name": "Classic Maiden Race",
+        "race_id": 9374,
+        "course_set": 10404,
+        "distance": "Long - 2600m",
+        "ground": "Turf"
+    },
+    "623": {
+        "race_instance_id": 102101,
+        "fans_needed": 1000,
+        "race_name": "Hanshin Juvenile Fillies",
+        "race_id": 1021,
+        "course_set": 10903,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "624": {
+        "race_instance_id": 102201,
+        "fans_needed": 1000,
+        "race_name": "Asahi Hai Futurity Stakes",
+        "race_id": 1022,
+        "course_set": 10903,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "625": {
+        "race_instance_id": 102401,
+        "fans_needed": 1000,
+        "race_name": "Hopeful Stakes",
+        "race_id": 1024,
+        "course_set": 10504,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "626": {
+        "race_instance_id": 203001,
+        "fans_needed": 375,
+        "race_name": "Keio Hai Junior Stakes",
+        "race_id": 2030,
+        "course_set": 10601,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "627": {
+        "race_instance_id": 203201,
+        "fans_needed": 375,
+        "race_name": "Daily Hai Junior Stakes",
+        "race_id": 2032,
+        "course_set": 10805,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "628": {
+        "race_instance_id": 304101,
+        "fans_needed": 350,
+        "race_name": "Hakodate Junior Stakes",
+        "race_id": 3041,
+        "course_set": 10202,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "629": {
+        "race_instance_id": 304901,
+        "fans_needed": 350,
+        "race_name": "Niigata Junior Stakes",
+        "race_id": 3049,
+        "course_set": 10304,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "630": {
+        "race_instance_id": 305101,
+        "fans_needed": 350,
+        "race_name": "Sapporo Junior Stakes",
+        "race_id": 3051,
+        "course_set": 10103,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "631": {
+        "race_instance_id": 305201,
+        "fans_needed": 350,
+        "race_name": "Kokura Junior Stakes",
+        "race_id": 3052,
+        "course_set": 11001,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "632": {
+        "race_instance_id": 305701,
+        "fans_needed": 350,
+        "race_name": "Saudi Arabia Royal Cup",
+        "race_id": 3057,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "633": {
+        "race_instance_id": 305901,
+        "fans_needed": 350,
+        "race_name": "Artemis Stakes",
+        "race_id": 3059,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "634": {
+        "race_instance_id": 306001,
+        "fans_needed": 350,
+        "race_name": "Fantasy Stakes",
+        "race_id": 3060,
+        "course_set": 10803,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "635": {
+        "race_instance_id": 306401,
+        "fans_needed": 350,
+        "race_name": "Tokyo Sports Hai Junior Stakes",
+        "race_id": 3064,
+        "course_set": 10603,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "636": {
+        "race_instance_id": 306501,
+        "fans_needed": 350,
+        "race_name": "Kyoto Junior Stakes",
+        "race_id": 3065,
+        "course_set": 10807,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "637": {
+        "race_instance_id": 406801,
+        "fans_needed": 350,
+        "race_name": "Chukyo Junior Stakes",
+        "race_id": 4068,
+        "course_set": 10703,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "638": {
+        "race_instance_id": 407001,
+        "fans_needed": 350,
+        "race_name": "Dahlia Sho",
+        "race_id": 4070,
+        "course_set": 10303,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "639": {
+        "race_instance_id": 407401,
+        "fans_needed": 350,
+        "race_name": "Phoenix Sho",
+        "race_id": 4074,
+        "course_set": 11001,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "640": {
+        "race_instance_id": 407501,
+        "fans_needed": 350,
+        "race_name": "Cosmos Sho",
+        "race_id": 4075,
+        "course_set": 10103,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "641": {
+        "race_instance_id": 407701,
+        "fans_needed": 350,
+        "race_name": "Clover Sho",
+        "race_id": 4077,
+        "course_set": 10102,
+        "distance": "Mile - 1500m",
+        "ground": "Turf"
+    },
+    "643": {
+        "race_instance_id": 408301,
+        "fans_needed": 350,
+        "race_name": "Suzuran Sho",
+        "race_id": 4083,
+        "course_set": 10101,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "644": {
+        "race_instance_id": 408501,
+        "fans_needed": 350,
+        "race_name": "Nojigiku Stakes",
+        "race_id": 4085,
+        "course_set": 10904,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "645": {
+        "race_instance_id": 408701,
+        "fans_needed": 350,
+        "race_name": "Kikyo Stakes",
+        "race_id": 4087,
+        "course_set": 10902,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "646": {
+        "race_instance_id": 408801,
+        "fans_needed": 350,
+        "race_name": "Fuyo Stakes",
+        "race_id": 4088,
+        "course_set": 10504,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "647": {
+        "race_instance_id": 408901,
+        "fans_needed": 350,
+        "race_name": "Canna Stakes",
+        "race_id": 4089,
+        "course_set": 10501,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "648": {
+        "race_instance_id": 409301,
+        "fans_needed": 350,
+        "race_name": "Momiji Stakes",
+        "race_id": 4093,
+        "course_set": 10803,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "649": {
+        "race_instance_id": 409601,
+        "fans_needed": 350,
+        "race_name": "Ivy Stakes",
+        "race_id": 4096,
+        "course_set": 10603,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "650": {
+        "race_instance_id": 409901,
+        "fans_needed": 350,
+        "race_name": "Hagi Stakes",
+        "race_id": 4099,
+        "course_set": 10806,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "651": {
+        "race_instance_id": 410301,
+        "fans_needed": 350,
+        "race_name": "Fukushima Junior Stakes",
+        "race_id": 4103,
+        "course_set": 10401,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "652": {
+        "race_instance_id": 411401,
+        "fans_needed": 350,
+        "race_name": "Christmas Rose Stakes",
+        "race_id": 4114,
+        "course_set": 10501,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "653": {
+        "race_instance_id": 900890,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9058,
+        "course_set": 10508,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "656": {
+        "race_instance_id": 900892,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9058,
+        "course_set": 10508,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "660": {
+        "race_instance_id": 900930,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9062,
+        "course_set": 10501,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "661": {
+        "race_instance_id": 900932,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9062,
+        "course_set": 10501,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "662": {
+        "race_instance_id": 900950,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9064,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "663": {
+        "race_instance_id": 900952,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9064,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "666": {
+        "race_instance_id": 901020,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9071,
+        "course_set": 10509,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "669": {
+        "race_instance_id": 901040,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9073,
+        "course_set": 10503,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "670": {
+        "race_instance_id": 901041,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9073,
+        "course_set": 10503,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "671": {
+        "race_instance_id": 901070,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9076,
+        "course_set": 10504,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "673": {
+        "race_instance_id": 901072,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9076,
+        "course_set": 10504,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "676": {
+        "race_instance_id": 901110,
+        "fans_needed": 0,
+        "race_name": "Junior Make Debut",
+        "race_id": 9080,
+        "course_set": 10501,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "685": {
+        "race_instance_id": 901210,
+        "fans_needed": 0,
+        "race_name": "Junior Make Debut",
+        "race_id": 9090,
+        "course_set": 10503,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "689": {
+        "race_instance_id": 901240,
+        "fans_needed": 0,
+        "race_name": "Junior Make Debut",
+        "race_id": 9093,
+        "course_set": 10504,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "806": {
+        "race_instance_id": 902580,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9227,
+        "course_set": 10609,
+        "distance": "Short - 1300m",
+        "ground": "Dirt"
+    },
+    "807": {
+        "race_instance_id": 902581,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9227,
+        "course_set": 10609,
+        "distance": "Short - 1300m",
+        "ground": "Dirt"
+    },
+    "808": {
+        "race_instance_id": 902590,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9228,
+        "course_set": 10601,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "809": {
+        "race_instance_id": 902591,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9228,
+        "course_set": 10601,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "810": {
+        "race_instance_id": 902593,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9228,
+        "course_set": 10601,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "812": {
+        "race_instance_id": 902610,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9230,
+        "course_set": 10610,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "813": {
+        "race_instance_id": 902612,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9230,
+        "course_set": 10610,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "816": {
+        "race_instance_id": 902621,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9231,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "817": {
+        "race_instance_id": 902623,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9231,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "820": {
+        "race_instance_id": 902640,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9233,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "821": {
+        "race_instance_id": 902642,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9233,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "822": {
+        "race_instance_id": 902643,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9233,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "825": {
+        "race_instance_id": 902660,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9235,
+        "course_set": 10603,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "826": {
+        "race_instance_id": 902662,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9235,
+        "course_set": 10603,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "828": {
+        "race_instance_id": 902680,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9237,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "829": {
+        "race_instance_id": 902682,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9237,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "830": {
+        "race_instance_id": 902683,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9237,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "831": {
+        "race_instance_id": 902730,
+        "fans_needed": 0,
+        "race_name": "Junior Make Debut",
+        "race_id": 9242,
+        "course_set": 10609,
+        "distance": "Short - 1300m",
+        "ground": "Dirt"
+    },
+    "846": {
+        "race_instance_id": 902790,
+        "fans_needed": 0,
+        "race_name": "Junior Make Debut",
+        "race_id": 9248,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "851": {
+        "race_instance_id": 902810,
+        "fans_needed": 0,
+        "race_name": "Junior Make Debut",
+        "race_id": 9250,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "892": {
+        "race_instance_id": 903530,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9323,
+        "course_set": 10301,
+        "distance": "Short - 1000m",
+        "ground": "Turf"
+    },
+    "894": {
+        "race_instance_id": 903540,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9324,
+        "course_set": 10302,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "897": {
+        "race_instance_id": 903550,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9325,
+        "course_set": 10310,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "900": {
+        "race_instance_id": 903570,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9327,
+        "course_set": 10303,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "905": {
+        "race_instance_id": 903590,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9329,
+        "course_set": 10304,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "909": {
+        "race_instance_id": 903610,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9331,
+        "course_set": 10305,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "911": {
+        "race_instance_id": 903620,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9332,
+        "course_set": 10311,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "931": {
+        "race_instance_id": 903720,
+        "fans_needed": 0,
+        "race_name": "Junior Make Debut",
+        "race_id": 9342,
+        "course_set": 10306,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "946": {
+        "race_instance_id": 904060,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9376,
+        "course_set": 10401,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "951": {
+        "race_instance_id": 904100,
+        "fans_needed": 0,
+        "race_name": "Junior Maiden Race",
+        "race_id": 9380,
+        "course_set": 10402,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "1022": {
+        "race_instance_id": 110101,
+        "fans_needed": 12000,
+        "race_name": "Teio Sho",
+        "race_id": 1101,
+        "course_set": 11103,
+        "distance": "Medium - 2000m",
+        "ground": "Dirt"
+    },
+    "1023": {
+        "race_instance_id": 110201,
+        "fans_needed": 4000,
+        "race_name": "Japan Dirt Derby",
+        "race_id": 1102,
+        "course_set": 11103,
+        "distance": "Medium - 2000m",
+        "ground": "Dirt"
+    },
+    "1024": {
+        "race_instance_id": 110301,
+        "fans_needed": 12000,
+        "race_name": "JBC Ladies’ Classic",
+        "race_id": 1103,
+        "course_set": 11102,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "1025": {
+        "race_instance_id": 110401,
+        "fans_needed": 12000,
+        "race_name": "JBC Sprint",
+        "race_id": 1104,
+        "course_set": 11101,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "1026": {
+        "race_instance_id": 110501,
+        "fans_needed": 12000,
+        "race_name": "JBC Classic",
+        "race_id": 1105,
+        "course_set": 11103,
+        "distance": "Medium - 2000m",
+        "ground": "Dirt"
+    },
+    "1027": {
+        "race_instance_id": 110601,
+        "fans_needed": 12000,
+        "race_name": "Tokyo Daishoten",
+        "race_id": 1106,
+        "course_set": 11103,
+        "distance": "Medium - 2000m",
+        "ground": "Dirt"
+    },
+    "1031": {
+        "race_instance_id": 450101,
+        "fans_needed": 350,
+        "race_name": "Aster Sho",
+        "race_id": 4501,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "1032": {
+        "race_instance_id": 450201,
+        "fans_needed": 350,
+        "race_name": "Saffron Sho",
+        "race_id": 4502,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "1033": {
+        "race_instance_id": 450301,
+        "fans_needed": 350,
+        "race_name": "Rindo Sho",
+        "race_id": 4503,
+        "course_set": 10803,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "1034": {
+        "race_instance_id": 450401,
+        "fans_needed": 350,
+        "race_name": "Shigiku Sho",
+        "race_id": 4504,
+        "course_set": 10807,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "1035": {
+        "race_instance_id": 450501,
+        "fans_needed": 350,
+        "race_name": "Platanus Sho",
+        "race_id": 4505,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "1036": {
+        "race_instance_id": 450601,
+        "fans_needed": 350,
+        "race_name": "Nadeshiko Sho",
+        "race_id": 4506,
+        "course_set": 10813,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "1037": {
+        "race_instance_id": 450701,
+        "fans_needed": 350,
+        "race_name": "Hyakunichiso Tokubetsu",
+        "race_id": 4507,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "1038": {
+        "race_instance_id": 450801,
+        "fans_needed": 350,
+        "race_name": "Kimmokusei Tokubetsu",
+        "race_id": 4508,
+        "course_set": 10402,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "1039": {
+        "race_instance_id": 450901,
+        "fans_needed": 350,
+        "race_name": "Oxalis Sho",
+        "race_id": 4509,
+        "course_set": 10610,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "1040": {
+        "race_instance_id": 451001,
+        "fans_needed": 350,
+        "race_name": "Kigiku Sho",
+        "race_id": 4510,
+        "course_set": 10807,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "1041": {
+        "race_instance_id": 451101,
+        "fans_needed": 350,
+        "race_name": "Mochinoki Sho",
+        "race_id": 4511,
+        "course_set": 10814,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "1042": {
+        "race_instance_id": 451201,
+        "fans_needed": 350,
+        "race_name": "Akamatsu Sho",
+        "race_id": 4512,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "1043": {
+        "race_instance_id": 451301,
+        "fans_needed": 350,
+        "race_name": "Shumeigiku Sho",
+        "race_id": 4513,
+        "course_set": 10803,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "1044": {
+        "race_instance_id": 451401,
+        "fans_needed": 350,
+        "race_name": "Cattleya Sho",
+        "race_id": 4514,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "1045": {
+        "race_instance_id": 451501,
+        "fans_needed": 350,
+        "race_name": "Begonia Sho",
+        "race_id": 4515,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "1046": {
+        "race_instance_id": 451601,
+        "fans_needed": 350,
+        "race_name": "Shiragiku Sho",
+        "race_id": 4516,
+        "course_set": 10805,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "1047": {
+        "race_instance_id": 451701,
+        "fans_needed": 350,
+        "race_name": "Habotan Sho",
+        "race_id": 4517,
+        "course_set": 10504,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "1048": {
+        "race_instance_id": 451801,
+        "fans_needed": 350,
+        "race_name": "Koyamaki Sho",
+        "race_id": 4518,
+        "course_set": 10703,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "1049": {
+        "race_instance_id": 451901,
+        "fans_needed": 350,
+        "race_name": "Manryo Sho",
+        "race_id": 4519,
+        "course_set": 10902,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "1050": {
+        "race_instance_id": 452001,
+        "fans_needed": 350,
+        "race_name": "Kuromatsu Sho",
+        "race_id": 4520,
+        "course_set": 10501,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "1051": {
+        "race_instance_id": 452101,
+        "fans_needed": 350,
+        "race_name": "Erica Sho",
+        "race_id": 4521,
+        "course_set": 10905,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "1052": {
+        "race_instance_id": 452201,
+        "fans_needed": 350,
+        "race_name": "Tsuwabuki Sho",
+        "race_id": 4522,
+        "course_set": 10702,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "1053": {
+        "race_instance_id": 452301,
+        "fans_needed": 350,
+        "race_name": "Hiiragi Sho",
+        "race_id": 4523,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "1054": {
+        "race_instance_id": 452401,
+        "fans_needed": 350,
+        "race_name": "Sazanka Sho",
+        "race_id": 4524,
+        "course_set": 10901,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "1055": {
+        "race_instance_id": 452501,
+        "fans_needed": 350,
+        "race_name": "Kantsubaki Sho",
+        "race_id": 4525,
+        "course_set": 10707,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "1056": {
+        "race_instance_id": 452601,
+        "fans_needed": 350,
+        "race_name": "Senryo Sho",
+        "race_id": 4526,
+        "course_set": 10903,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "1057": {
+        "race_instance_id": 411801,
+        "fans_needed": 350,
+        "race_name": "Kitakyushu Tankyori Stakes",
+        "race_id": 4118,
+        "course_set": 11001,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "1058": {
+        "race_instance_id": 411901,
+        "fans_needed": 350,
+        "race_name": "Azumakofuji Stakes",
+        "race_id": 4119,
+        "course_set": 10406,
+        "distance": "Mile - 1700m",
+        "ground": "Dirt"
+    },
+    "1059": {
+        "race_instance_id": 412001,
+        "fans_needed": 350,
+        "race_name": "Sleipnir Stakes",
+        "race_id": 4120,
+        "course_set": 10612,
+        "distance": "Medium - 2100m",
+        "ground": "Dirt"
+    },
+    "1060": {
+        "race_instance_id": 412101,
+        "fans_needed": 350,
+        "race_name": "Sannomiya Stakes",
+        "race_id": 4121,
+        "course_set": 10912,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "1061": {
+        "race_instance_id": 412201,
+        "fans_needed": 350,
+        "race_name": "Kanetsu Stakes",
+        "race_id": 4122,
+        "course_set": 10305,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "1062": {
+        "race_instance_id": 412301,
+        "fans_needed": 350,
+        "race_name": "Nagatsuki Stakes",
+        "race_id": 4123,
+        "course_set": 10508,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "1063": {
+        "race_instance_id": 412401,
+        "fans_needed": 350,
+        "race_name": "Uzumasa Stakes",
+        "race_id": 4124,
+        "course_set": 10814,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "1064": {
+        "race_instance_id": 406601,
+        "fans_needed": 350,
+        "race_name": "Meitetsu Hai",
+        "race_id": 4066,
+        "course_set": 10708,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "1065": {
+        "race_instance_id": 904181,
+        "fans_needed": 0,
+        "race_name": "Junior Make Debut",
+        "race_id": 9389,
+        "course_set": 10704,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "1066": {
+        "race_instance_id": 904182,
+        "fans_needed": 0,
+        "race_name": "Junior Make Debut",
+        "race_id": 9390,
+        "course_set": 10804,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "1067": {
+        "race_instance_id": 904183,
+        "fans_needed": 0,
+        "race_name": "Junior Make Debut",
+        "race_id": 9391,
+        "course_set": 10807,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "1068": {
+        "race_instance_id": 904184,
+        "fans_needed": 0,
+        "race_name": "Junior Make Debut",
+        "race_id": 9392,
+        "course_set": 10104,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "1069": {
+        "race_instance_id": 904185,
+        "fans_needed": 0,
+        "race_name": "Junior Make Debut",
+        "race_id": 9187,
+        "course_set": 10905,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "1070": {
+        "race_instance_id": 904186,
+        "fans_needed": 0,
+        "race_name": "Junior Make Debut",
+        "race_id": 9183,
+        "course_set": 10903,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "1071": {
+        "race_instance_id": 102501,
+        "fans_needed": 20000,
+        "race_name": "Takarazuka Kinen",
+        "race_id": 1025,
+        "course_set": 10808,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "1072": {
+        "race_instance_id": 101201,
+        "fans_needed": 20000,
+        "race_name": "Takarazuka Kinen",
+        "race_id": 1012,
+        "course_set": 10906,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "1073": {
+        "race_instance_id": 101501,
+        "fans_needed": 7500,
+        "race_name": "Kikuka Sho",
+        "race_id": 1015,
+        "course_set": 10810,
+        "distance": "Long - 3000m",
+        "ground": "Turf"
+    },
+    "1074": {
+        "race_instance_id": 201001,
+        "fans_needed": 1750,
+        "race_name": "Spring Stakes",
+        "race_id": 2010,
+        "course_set": 10503,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "1075": {
+        "race_instance_id": 904187,
+        "fans_needed": 0,
+        "race_name": "Junior Make Debut",
+        "race_id": 9393,
+        "course_set": 10703,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "1076": {
+        "race_instance_id": 102701,
+        "fans_needed": 20000,
+        "race_name": "Tenno Sho (Spring)",
+        "race_id": 1027,
+        "course_set": 10914,
+        "distance": "Long - 3200m",
+        "ground": "Turf"
+    },
+    "1077": {
+        "race_instance_id": 904188,
+        "fans_needed": 0,
+        "race_name": "Junior Make Debut",
+        "race_id": 9394,
+        "course_set": 10901,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "1078": {
+        "race_instance_id": 904189,
+        "fans_needed": 0,
+        "race_name": "Junior Make Debut",
+        "race_id": 9395,
+        "course_set": 10203,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "1079": {
+        "race_instance_id": 100601,
+        "fans_needed": 20000,
+        "race_name": "Tenno Sho (Spring)",
+        "race_id": 1006,
+        "course_set": 10811,
+        "distance": "Long - 3200m",
+        "ground": "Turf"
+    },
+    "1080": {
+        "race_instance_id": 101601,
+        "fans_needed": 20000,
+        "race_name": "Tenno Sho (Autumn)",
+        "race_id": 1016,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "1081": {
+        "race_instance_id": 101901,
+        "fans_needed": 25000,
+        "race_name": "Japan Cup",
+        "race_id": 1019,
+        "course_set": 10606,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "1082": {
+        "race_instance_id": 102301,
+        "fans_needed": 25000,
+        "race_name": "Arima Kinen",
+        "race_id": 1023,
+        "course_set": 10506,
+        "distance": "Long - 2500m",
+        "ground": "Turf"
+    },
+    "1083": {
+        "race_instance_id": 100601,
+        "fans_needed": 20000,
+        "race_name": "Tenno Sho (Spring)",
+        "race_id": 1006,
+        "course_set": 10811,
+        "distance": "Long - 3200m",
+        "ground": "Turf"
+    },
+    "1084": {
+        "race_instance_id": 101601,
+        "fans_needed": 20000,
+        "race_name": "Tenno Sho (Autumn)",
+        "race_id": 1016,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "1085": {
+        "race_instance_id": 101901,
+        "fans_needed": 25000,
+        "race_name": "Japan Cup",
+        "race_id": 1019,
+        "course_set": 10606,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "1086": {
+        "race_instance_id": 102301,
+        "fans_needed": 25000,
+        "race_name": "Arima Kinen",
+        "race_id": 1023,
+        "course_set": 10506,
+        "distance": "Long - 2500m",
+        "ground": "Turf"
+    },
+    "1087": {
+        "race_instance_id": 101601,
+        "fans_needed": 20000,
+        "race_name": "Tenno Sho (Autumn)",
+        "race_id": 1016,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "1088": {
+        "race_instance_id": 101901,
+        "fans_needed": 25000,
+        "race_name": "Japan Cup",
+        "race_id": 1019,
+        "course_set": 10606,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "1089": {
+        "race_instance_id": 102301,
+        "fans_needed": 25000,
+        "race_name": "Arima Kinen",
+        "race_id": 1023,
+        "course_set": 10506,
+        "distance": "Long - 2500m",
+        "ground": "Turf"
+    },
+    "1090": {
+        "race_instance_id": 904190,
+        "fans_needed": 0,
+        "race_name": "Junior Make Debut",
+        "race_id": 9396,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "1091": {
+        "race_instance_id": 904191,
+        "fans_needed": 0,
+        "race_name": "Junior Make Debut",
+        "race_id": 9397,
+        "course_set": 10304,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "1092": {
+        "race_instance_id": 904192,
+        "fans_needed": 0,
+        "race_name": "Junior Make Debut",
+        "race_id": 9398,
+        "course_set": 10102,
+        "distance": "Mile - 1500m",
+        "ground": "Turf"
+    },
+    "1093": {
+        "race_instance_id": 300601,
+        "fans_needed": 1000,
+        "race_name": "Keisei Hai",
+        "race_id": 3006,
+        "course_set": 10504,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "1094": {
+        "race_instance_id": 904193,
+        "fans_needed": 0,
+        "race_name": "Junior Make Debut",
+        "race_id": 9399,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "1095": {
+        "race_instance_id": 102801,
+        "fans_needed": 4500,
+        "race_name": "Satsuki Sho",
+        "race_id": 1028,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "1096": {
+        "race_instance_id": 904194,
+        "fans_needed": 0,
+        "race_name": "Junior Make Debut",
+        "race_id": 9400,
+        "course_set": 10603,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "1097": {
+        "race_instance_id": 101601,
+        "fans_needed": 20000,
+        "race_name": "Tenno Sho (Autumn)",
+        "race_id": 1016,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "1098": {
+        "race_instance_id": 101601,
+        "fans_needed": 20000,
+        "race_name": "Tenno Sho (Autumn)",
+        "race_id": 1016,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "1099": {
+        "race_instance_id": 101601,
+        "fans_needed": 20000,
+        "race_name": "Tenno Sho (Autumn)",
+        "race_id": 1016,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "1100": {
+        "race_instance_id": 102301,
+        "fans_needed": 25000,
+        "race_name": "Arima Kinen",
+        "race_id": 1023,
+        "course_set": 10506,
+        "distance": "Long - 2500m",
+        "ground": "Turf"
+    },
+    "1101": {
+        "race_instance_id": 102301,
+        "fans_needed": 25000,
+        "race_name": "Arima Kinen",
+        "race_id": 1023,
+        "course_set": 10506,
+        "distance": "Long - 2500m",
+        "ground": "Turf"
+    },
+    "1102": {
+        "race_instance_id": 904195,
+        "fans_needed": 0,
+        "race_name": "Junior Make Debut",
+        "race_id": 9401,
+        "course_set": 10101,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "2001": {
+        "race_instance_id": 910001,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9500,
+        "course_set": 10701,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "2002": {
+        "race_instance_id": 910002,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9501,
+        "course_set": 10702,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "2003": {
+        "race_instance_id": 910003,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9502,
+        "course_set": 10501,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "2004": {
+        "race_instance_id": 910004,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9503,
+        "course_set": 10801,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "2005": {
+        "race_instance_id": 910005,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9504,
+        "course_set": 10803,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "2006": {
+        "race_instance_id": 910006,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9505,
+        "course_set": 10902,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "2007": {
+        "race_instance_id": 910007,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9506,
+        "course_set": 10601,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "2008": {
+        "race_instance_id": 910008,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9510,
+        "course_set": 10903,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "2009": {
+        "race_instance_id": 910009,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9511,
+        "course_set": 10904,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "2010": {
+        "race_instance_id": 910010,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9512,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "2011": {
+        "race_instance_id": 910011,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9513,
+        "course_set": 10805,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "2012": {
+        "race_instance_id": 910012,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9514,
+        "course_set": 10806,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "2013": {
+        "race_instance_id": 910013,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9515,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "2014": {
+        "race_instance_id": 910014,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9516,
+        "course_set": 10503,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "2015": {
+        "race_instance_id": 910015,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9517,
+        "course_set": 10603,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "2016": {
+        "race_instance_id": 910016,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9520,
+        "course_set": 10905,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2017": {
+        "race_instance_id": 910017,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9521,
+        "course_set": 10906,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "2018": {
+        "race_instance_id": 910018,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9522,
+        "course_set": 10504,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2019": {
+        "race_instance_id": 910019,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9523,
+        "course_set": 10505,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "2020": {
+        "race_instance_id": 910020,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9524,
+        "course_set": 10606,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "2021": {
+        "race_instance_id": 910021,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9525,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2022": {
+        "race_instance_id": 910022,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9526,
+        "course_set": 10807,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2023": {
+        "race_instance_id": 910023,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9527,
+        "course_set": 10808,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "2024": {
+        "race_instance_id": 910024,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9528,
+        "course_set": 10809,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "2025": {
+        "race_instance_id": 910025,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9529,
+        "course_set": 10704,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2026": {
+        "race_instance_id": 910026,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9530,
+        "course_set": 10811,
+        "distance": "Long - 3200m",
+        "ground": "Turf"
+    },
+    "2027": {
+        "race_instance_id": 910027,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9531,
+        "course_set": 10810,
+        "distance": "Long - 3000m",
+        "ground": "Turf"
+    },
+    "2028": {
+        "race_instance_id": 910028,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9532,
+        "course_set": 10506,
+        "distance": "Long - 2500m",
+        "ground": "Turf"
+    },
+    "2029": {
+        "race_instance_id": 910029,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9533,
+        "course_set": 10507,
+        "distance": "Long - 3600m",
+        "ground": "Turf"
+    },
+    "2030": {
+        "race_instance_id": 910030,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9534,
+        "course_set": 10607,
+        "distance": "Long - 2500m",
+        "ground": "Turf"
+    },
+    "2031": {
+        "race_instance_id": 910031,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9535,
+        "course_set": 10608,
+        "distance": "Long - 3400m",
+        "ground": "Turf"
+    },
+    "2032": {
+        "race_instance_id": 910032,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9536,
+        "course_set": 10909,
+        "distance": "Long - 3000m",
+        "ground": "Turf"
+    },
+    "2033": {
+        "race_instance_id": 910033,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9540,
+        "course_set": 10610,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "2034": {
+        "race_instance_id": 910034,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9541,
+        "course_set": 10707,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "2035": {
+        "race_instance_id": 910035,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9542,
+        "course_set": 10812,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "2036": {
+        "race_instance_id": 910036,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9543,
+        "course_set": 10813,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "2037": {
+        "race_instance_id": 910037,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9550,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "2038": {
+        "race_instance_id": 910038,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9551,
+        "course_set": 10708,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "2039": {
+        "race_instance_id": 910039,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9552,
+        "course_set": 10814,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "2040": {
+        "race_instance_id": 910040,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9561,
+        "course_set": 10612,
+        "distance": "Medium - 2100m",
+        "ground": "Dirt"
+    },
+    "2041": {
+        "race_instance_id": 910041,
+        "fans_needed": 0,
+        "race_name": "URA Finale Qualifier",
+        "race_id": 9562,
+        "course_set": 10815,
+        "distance": "Medium - 1900m",
+        "ground": "Dirt"
+    },
+    "2101": {
+        "race_instance_id": 910101,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9600,
+        "course_set": 10701,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "2102": {
+        "race_instance_id": 910102,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9601,
+        "course_set": 10702,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "2103": {
+        "race_instance_id": 910103,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9602,
+        "course_set": 10501,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "2104": {
+        "race_instance_id": 910104,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9603,
+        "course_set": 10801,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "2105": {
+        "race_instance_id": 910105,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9604,
+        "course_set": 10803,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "2106": {
+        "race_instance_id": 910106,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9605,
+        "course_set": 10902,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "2107": {
+        "race_instance_id": 910107,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9606,
+        "course_set": 10601,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "2108": {
+        "race_instance_id": 910108,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9610,
+        "course_set": 10903,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "2109": {
+        "race_instance_id": 910109,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9611,
+        "course_set": 10904,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "2110": {
+        "race_instance_id": 910110,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9612,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "2111": {
+        "race_instance_id": 910111,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9613,
+        "course_set": 10805,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "2112": {
+        "race_instance_id": 910112,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9614,
+        "course_set": 10806,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "2113": {
+        "race_instance_id": 910113,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9615,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "2114": {
+        "race_instance_id": 910114,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9616,
+        "course_set": 10503,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "2115": {
+        "race_instance_id": 910115,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9617,
+        "course_set": 10603,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "2116": {
+        "race_instance_id": 910116,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9620,
+        "course_set": 10905,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2117": {
+        "race_instance_id": 910117,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9621,
+        "course_set": 10906,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "2118": {
+        "race_instance_id": 910118,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9622,
+        "course_set": 10504,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2119": {
+        "race_instance_id": 910119,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9623,
+        "course_set": 10505,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "2120": {
+        "race_instance_id": 910120,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9624,
+        "course_set": 10606,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "2121": {
+        "race_instance_id": 910121,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9625,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2122": {
+        "race_instance_id": 910122,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9626,
+        "course_set": 10807,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2123": {
+        "race_instance_id": 910123,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9627,
+        "course_set": 10808,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "2124": {
+        "race_instance_id": 910124,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9628,
+        "course_set": 10809,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "2125": {
+        "race_instance_id": 910125,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9629,
+        "course_set": 10704,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2126": {
+        "race_instance_id": 910126,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9630,
+        "course_set": 10811,
+        "distance": "Long - 3200m",
+        "ground": "Turf"
+    },
+    "2127": {
+        "race_instance_id": 910127,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9631,
+        "course_set": 10810,
+        "distance": "Long - 3000m",
+        "ground": "Turf"
+    },
+    "2128": {
+        "race_instance_id": 910128,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9632,
+        "course_set": 10506,
+        "distance": "Long - 2500m",
+        "ground": "Turf"
+    },
+    "2129": {
+        "race_instance_id": 910129,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9633,
+        "course_set": 10507,
+        "distance": "Long - 3600m",
+        "ground": "Turf"
+    },
+    "2130": {
+        "race_instance_id": 910130,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9634,
+        "course_set": 10607,
+        "distance": "Long - 2500m",
+        "ground": "Turf"
+    },
+    "2131": {
+        "race_instance_id": 910131,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9635,
+        "course_set": 10608,
+        "distance": "Long - 3400m",
+        "ground": "Turf"
+    },
+    "2132": {
+        "race_instance_id": 910132,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9636,
+        "course_set": 10909,
+        "distance": "Long - 3000m",
+        "ground": "Turf"
+    },
+    "2133": {
+        "race_instance_id": 910133,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9640,
+        "course_set": 10610,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "2134": {
+        "race_instance_id": 910134,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9641,
+        "course_set": 10707,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "2135": {
+        "race_instance_id": 910135,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9642,
+        "course_set": 10812,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "2136": {
+        "race_instance_id": 910136,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9643,
+        "course_set": 10813,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "2137": {
+        "race_instance_id": 910137,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9650,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "2138": {
+        "race_instance_id": 910138,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9651,
+        "course_set": 10708,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "2139": {
+        "race_instance_id": 910139,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9652,
+        "course_set": 10814,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "2140": {
+        "race_instance_id": 910140,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9661,
+        "course_set": 10612,
+        "distance": "Medium - 2100m",
+        "ground": "Dirt"
+    },
+    "2141": {
+        "race_instance_id": 910141,
+        "fans_needed": 0,
+        "race_name": "URA Finale Semifinal",
+        "race_id": 9662,
+        "course_set": 10815,
+        "distance": "Medium - 1900m",
+        "ground": "Dirt"
+    },
+    "2201": {
+        "race_instance_id": 910201,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9700,
+        "course_set": 10701,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "2202": {
+        "race_instance_id": 910202,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9701,
+        "course_set": 10702,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "2203": {
+        "race_instance_id": 910203,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9702,
+        "course_set": 10501,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "2204": {
+        "race_instance_id": 910204,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9703,
+        "course_set": 10801,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "2205": {
+        "race_instance_id": 910205,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9704,
+        "course_set": 10803,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "2206": {
+        "race_instance_id": 910206,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9705,
+        "course_set": 10902,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "2207": {
+        "race_instance_id": 910207,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9706,
+        "course_set": 10601,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "2208": {
+        "race_instance_id": 910208,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9710,
+        "course_set": 10903,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "2209": {
+        "race_instance_id": 910209,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9711,
+        "course_set": 10904,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "2210": {
+        "race_instance_id": 910210,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9712,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "2211": {
+        "race_instance_id": 910211,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9713,
+        "course_set": 10805,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "2212": {
+        "race_instance_id": 910212,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9714,
+        "course_set": 10806,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "2213": {
+        "race_instance_id": 910213,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9715,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "2214": {
+        "race_instance_id": 910214,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9716,
+        "course_set": 10503,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "2215": {
+        "race_instance_id": 910215,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9717,
+        "course_set": 10603,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "2216": {
+        "race_instance_id": 910216,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9720,
+        "course_set": 10905,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2217": {
+        "race_instance_id": 910217,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9721,
+        "course_set": 10906,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "2218": {
+        "race_instance_id": 910218,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9722,
+        "course_set": 10504,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2219": {
+        "race_instance_id": 910219,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9723,
+        "course_set": 10505,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "2220": {
+        "race_instance_id": 910220,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9724,
+        "course_set": 10606,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "2221": {
+        "race_instance_id": 910221,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9725,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2222": {
+        "race_instance_id": 910222,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9726,
+        "course_set": 10807,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2223": {
+        "race_instance_id": 910223,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9727,
+        "course_set": 10808,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "2224": {
+        "race_instance_id": 910224,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9728,
+        "course_set": 10809,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "2225": {
+        "race_instance_id": 910225,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9729,
+        "course_set": 10704,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2226": {
+        "race_instance_id": 910226,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9730,
+        "course_set": 10811,
+        "distance": "Long - 3200m",
+        "ground": "Turf"
+    },
+    "2227": {
+        "race_instance_id": 910227,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9731,
+        "course_set": 10810,
+        "distance": "Long - 3000m",
+        "ground": "Turf"
+    },
+    "2228": {
+        "race_instance_id": 910228,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9732,
+        "course_set": 10506,
+        "distance": "Long - 2500m",
+        "ground": "Turf"
+    },
+    "2229": {
+        "race_instance_id": 910229,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9733,
+        "course_set": 10507,
+        "distance": "Long - 3600m",
+        "ground": "Turf"
+    },
+    "2230": {
+        "race_instance_id": 910230,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9734,
+        "course_set": 10607,
+        "distance": "Long - 2500m",
+        "ground": "Turf"
+    },
+    "2231": {
+        "race_instance_id": 910231,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9735,
+        "course_set": 10608,
+        "distance": "Long - 3400m",
+        "ground": "Turf"
+    },
+    "2232": {
+        "race_instance_id": 910232,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9736,
+        "course_set": 10909,
+        "distance": "Long - 3000m",
+        "ground": "Turf"
+    },
+    "2233": {
+        "race_instance_id": 910233,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9740,
+        "course_set": 10610,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "2234": {
+        "race_instance_id": 910234,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9741,
+        "course_set": 10707,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "2235": {
+        "race_instance_id": 910235,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9742,
+        "course_set": 10812,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "2236": {
+        "race_instance_id": 910236,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9743,
+        "course_set": 10813,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "2237": {
+        "race_instance_id": 910237,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9750,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "2238": {
+        "race_instance_id": 910238,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9751,
+        "course_set": 10708,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "2239": {
+        "race_instance_id": 910239,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9752,
+        "course_set": 10814,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "2240": {
+        "race_instance_id": 910240,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9761,
+        "course_set": 10612,
+        "distance": "Medium - 2100m",
+        "ground": "Dirt"
+    },
+    "2241": {
+        "race_instance_id": 910241,
+        "fans_needed": 0,
+        "race_name": "URA Finale Finals",
+        "race_id": 9762,
+        "course_set": 10815,
+        "distance": "Medium - 1900m",
+        "ground": "Dirt"
+    },
+    "2301": {
+        "race_instance_id": 920001,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9801,
+        "course_set": 10701,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "2302": {
+        "race_instance_id": 920002,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9802,
+        "course_set": 10702,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "2303": {
+        "race_instance_id": 920003,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9803,
+        "course_set": 10501,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "2304": {
+        "race_instance_id": 920004,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9804,
+        "course_set": 10801,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "2305": {
+        "race_instance_id": 920005,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9805,
+        "course_set": 10803,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "2306": {
+        "race_instance_id": 920006,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9806,
+        "course_set": 10902,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "2307": {
+        "race_instance_id": 920007,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9807,
+        "course_set": 10601,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "2308": {
+        "race_instance_id": 920008,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9808,
+        "course_set": 10903,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "2309": {
+        "race_instance_id": 920009,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9809,
+        "course_set": 10904,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "2310": {
+        "race_instance_id": 920010,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9810,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "2311": {
+        "race_instance_id": 920011,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9811,
+        "course_set": 10805,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "2312": {
+        "race_instance_id": 920012,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9812,
+        "course_set": 10806,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "2313": {
+        "race_instance_id": 920013,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9813,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "2314": {
+        "race_instance_id": 920014,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9814,
+        "course_set": 10503,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "2315": {
+        "race_instance_id": 920015,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9815,
+        "course_set": 10603,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "2316": {
+        "race_instance_id": 920016,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9816,
+        "course_set": 10905,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2317": {
+        "race_instance_id": 920017,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9817,
+        "course_set": 10906,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "2318": {
+        "race_instance_id": 920018,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9818,
+        "course_set": 10504,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2319": {
+        "race_instance_id": 920019,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9819,
+        "course_set": 10505,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "2320": {
+        "race_instance_id": 920020,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9820,
+        "course_set": 10606,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "2321": {
+        "race_instance_id": 920021,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9821,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2322": {
+        "race_instance_id": 920022,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9822,
+        "course_set": 10807,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2323": {
+        "race_instance_id": 920023,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9823,
+        "course_set": 10808,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "2324": {
+        "race_instance_id": 920024,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9824,
+        "course_set": 10809,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "2325": {
+        "race_instance_id": 920025,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9825,
+        "course_set": 10704,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2326": {
+        "race_instance_id": 920026,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9826,
+        "course_set": 10811,
+        "distance": "Long - 3200m",
+        "ground": "Turf"
+    },
+    "2327": {
+        "race_instance_id": 920027,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9827,
+        "course_set": 10810,
+        "distance": "Long - 3000m",
+        "ground": "Turf"
+    },
+    "2328": {
+        "race_instance_id": 920028,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9828,
+        "course_set": 10506,
+        "distance": "Long - 2500m",
+        "ground": "Turf"
+    },
+    "2329": {
+        "race_instance_id": 920029,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9829,
+        "course_set": 10507,
+        "distance": "Long - 3600m",
+        "ground": "Turf"
+    },
+    "2330": {
+        "race_instance_id": 920030,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9830,
+        "course_set": 10607,
+        "distance": "Long - 2500m",
+        "ground": "Turf"
+    },
+    "2331": {
+        "race_instance_id": 920031,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9831,
+        "course_set": 10608,
+        "distance": "Long - 3400m",
+        "ground": "Turf"
+    },
+    "2332": {
+        "race_instance_id": 920032,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9832,
+        "course_set": 10909,
+        "distance": "Long - 3000m",
+        "ground": "Turf"
+    },
+    "2333": {
+        "race_instance_id": 920033,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9833,
+        "course_set": 10610,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "2334": {
+        "race_instance_id": 920034,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9834,
+        "course_set": 10707,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "2335": {
+        "race_instance_id": 920035,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9835,
+        "course_set": 10812,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "2336": {
+        "race_instance_id": 920036,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9836,
+        "course_set": 10813,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "2337": {
+        "race_instance_id": 920037,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9837,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "2338": {
+        "race_instance_id": 920038,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9838,
+        "course_set": 10708,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "2339": {
+        "race_instance_id": 920039,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9839,
+        "course_set": 10814,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "2340": {
+        "race_instance_id": 920040,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9840,
+        "course_set": 10612,
+        "distance": "Medium - 2100m",
+        "ground": "Dirt"
+    },
+    "2341": {
+        "race_instance_id": 920041,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 1",
+        "race_id": 9841,
+        "course_set": 10815,
+        "distance": "Medium - 1900m",
+        "ground": "Dirt"
+    },
+    "2401": {
+        "race_instance_id": 920042,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9842,
+        "course_set": 10701,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "2402": {
+        "race_instance_id": 920043,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9843,
+        "course_set": 10702,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "2403": {
+        "race_instance_id": 920044,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9844,
+        "course_set": 10501,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "2404": {
+        "race_instance_id": 920045,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9845,
+        "course_set": 10801,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "2405": {
+        "race_instance_id": 920046,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9846,
+        "course_set": 10803,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "2406": {
+        "race_instance_id": 920047,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9847,
+        "course_set": 10902,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "2407": {
+        "race_instance_id": 920048,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9848,
+        "course_set": 10601,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "2408": {
+        "race_instance_id": 920049,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9849,
+        "course_set": 10903,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "2409": {
+        "race_instance_id": 920050,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9850,
+        "course_set": 10904,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "2410": {
+        "race_instance_id": 920051,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9851,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "2411": {
+        "race_instance_id": 920052,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9852,
+        "course_set": 10805,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "2412": {
+        "race_instance_id": 920053,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9853,
+        "course_set": 10806,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "2413": {
+        "race_instance_id": 920054,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9854,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "2414": {
+        "race_instance_id": 920055,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9855,
+        "course_set": 10503,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "2415": {
+        "race_instance_id": 920056,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9856,
+        "course_set": 10603,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "2416": {
+        "race_instance_id": 920057,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9857,
+        "course_set": 10905,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2417": {
+        "race_instance_id": 920058,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9858,
+        "course_set": 10906,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "2418": {
+        "race_instance_id": 920059,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9859,
+        "course_set": 10504,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2419": {
+        "race_instance_id": 920060,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9860,
+        "course_set": 10505,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "2420": {
+        "race_instance_id": 920061,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9861,
+        "course_set": 10606,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "2421": {
+        "race_instance_id": 920062,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9862,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2422": {
+        "race_instance_id": 920063,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9863,
+        "course_set": 10807,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2423": {
+        "race_instance_id": 920064,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9864,
+        "course_set": 10808,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "2424": {
+        "race_instance_id": 920065,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9865,
+        "course_set": 10809,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "2425": {
+        "race_instance_id": 920066,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9866,
+        "course_set": 10704,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2426": {
+        "race_instance_id": 920067,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9867,
+        "course_set": 10811,
+        "distance": "Long - 3200m",
+        "ground": "Turf"
+    },
+    "2427": {
+        "race_instance_id": 920068,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9868,
+        "course_set": 10810,
+        "distance": "Long - 3000m",
+        "ground": "Turf"
+    },
+    "2428": {
+        "race_instance_id": 920069,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9869,
+        "course_set": 10506,
+        "distance": "Long - 2500m",
+        "ground": "Turf"
+    },
+    "2429": {
+        "race_instance_id": 920070,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9870,
+        "course_set": 10507,
+        "distance": "Long - 3600m",
+        "ground": "Turf"
+    },
+    "2430": {
+        "race_instance_id": 920071,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9871,
+        "course_set": 10607,
+        "distance": "Long - 2500m",
+        "ground": "Turf"
+    },
+    "2431": {
+        "race_instance_id": 920072,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9872,
+        "course_set": 10608,
+        "distance": "Long - 3400m",
+        "ground": "Turf"
+    },
+    "2432": {
+        "race_instance_id": 920073,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9873,
+        "course_set": 10909,
+        "distance": "Long - 3000m",
+        "ground": "Turf"
+    },
+    "2433": {
+        "race_instance_id": 920074,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9874,
+        "course_set": 10610,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "2434": {
+        "race_instance_id": 920075,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9875,
+        "course_set": 10707,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "2435": {
+        "race_instance_id": 920076,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9876,
+        "course_set": 10812,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "2436": {
+        "race_instance_id": 920077,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9877,
+        "course_set": 10813,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "2437": {
+        "race_instance_id": 920078,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9878,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "2438": {
+        "race_instance_id": 920079,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9879,
+        "course_set": 10708,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "2439": {
+        "race_instance_id": 920080,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9880,
+        "course_set": 10814,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "2440": {
+        "race_instance_id": 920081,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9881,
+        "course_set": 10612,
+        "distance": "Medium - 2100m",
+        "ground": "Dirt"
+    },
+    "2441": {
+        "race_instance_id": 920082,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 2",
+        "race_id": 9882,
+        "course_set": 10815,
+        "distance": "Medium - 1900m",
+        "ground": "Dirt"
+    },
+    "2501": {
+        "race_instance_id": 920083,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9883,
+        "course_set": 10701,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "2502": {
+        "race_instance_id": 920084,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9884,
+        "course_set": 10702,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "2503": {
+        "race_instance_id": 920085,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9885,
+        "course_set": 10501,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "2504": {
+        "race_instance_id": 920086,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9886,
+        "course_set": 10801,
+        "distance": "Short - 1200m",
+        "ground": "Turf"
+    },
+    "2505": {
+        "race_instance_id": 920087,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9887,
+        "course_set": 10803,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "2506": {
+        "race_instance_id": 920088,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9888,
+        "course_set": 10902,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "2507": {
+        "race_instance_id": 920089,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9889,
+        "course_set": 10601,
+        "distance": "Short - 1400m",
+        "ground": "Turf"
+    },
+    "2508": {
+        "race_instance_id": 920090,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9890,
+        "course_set": 10903,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "2509": {
+        "race_instance_id": 920091,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9891,
+        "course_set": 10904,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "2510": {
+        "race_instance_id": 920092,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9892,
+        "course_set": 10602,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "2511": {
+        "race_instance_id": 920093,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9893,
+        "course_set": 10805,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "2512": {
+        "race_instance_id": 920094,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9894,
+        "course_set": 10806,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "2513": {
+        "race_instance_id": 920095,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9895,
+        "course_set": 10502,
+        "distance": "Mile - 1600m",
+        "ground": "Turf"
+    },
+    "2514": {
+        "race_instance_id": 920096,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9896,
+        "course_set": 10503,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "2515": {
+        "race_instance_id": 920097,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9897,
+        "course_set": 10603,
+        "distance": "Mile - 1800m",
+        "ground": "Turf"
+    },
+    "2516": {
+        "race_instance_id": 920098,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9898,
+        "course_set": 10905,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2517": {
+        "race_instance_id": 920099,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9899,
+        "course_set": 10906,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "2518": {
+        "race_instance_id": 920100,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9900,
+        "course_set": 10504,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2519": {
+        "race_instance_id": 920101,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9901,
+        "course_set": 10505,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "2520": {
+        "race_instance_id": 920102,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9902,
+        "course_set": 10606,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "2521": {
+        "race_instance_id": 920103,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9903,
+        "course_set": 10604,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2522": {
+        "race_instance_id": 920104,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9904,
+        "course_set": 10807,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2523": {
+        "race_instance_id": 920105,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9905,
+        "course_set": 10808,
+        "distance": "Medium - 2200m",
+        "ground": "Turf"
+    },
+    "2524": {
+        "race_instance_id": 920106,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9906,
+        "course_set": 10809,
+        "distance": "Medium - 2400m",
+        "ground": "Turf"
+    },
+    "2525": {
+        "race_instance_id": 920107,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9907,
+        "course_set": 10704,
+        "distance": "Medium - 2000m",
+        "ground": "Turf"
+    },
+    "2526": {
+        "race_instance_id": 920108,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9908,
+        "course_set": 10811,
+        "distance": "Long - 3200m",
+        "ground": "Turf"
+    },
+    "2527": {
+        "race_instance_id": 920109,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9909,
+        "course_set": 10810,
+        "distance": "Long - 3000m",
+        "ground": "Turf"
+    },
+    "2528": {
+        "race_instance_id": 920110,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9910,
+        "course_set": 10506,
+        "distance": "Long - 2500m",
+        "ground": "Turf"
+    },
+    "2529": {
+        "race_instance_id": 920111,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9911,
+        "course_set": 10507,
+        "distance": "Long - 3600m",
+        "ground": "Turf"
+    },
+    "2530": {
+        "race_instance_id": 920112,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9912,
+        "course_set": 10607,
+        "distance": "Long - 2500m",
+        "ground": "Turf"
+    },
+    "2531": {
+        "race_instance_id": 920113,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9913,
+        "course_set": 10608,
+        "distance": "Long - 3400m",
+        "ground": "Turf"
+    },
+    "2532": {
+        "race_instance_id": 920114,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9914,
+        "course_set": 10909,
+        "distance": "Long - 3000m",
+        "ground": "Turf"
+    },
+    "2533": {
+        "race_instance_id": 920115,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9915,
+        "course_set": 10610,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "2534": {
+        "race_instance_id": 920116,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9916,
+        "course_set": 10707,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "2535": {
+        "race_instance_id": 920117,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9917,
+        "course_set": 10812,
+        "distance": "Short - 1200m",
+        "ground": "Dirt"
+    },
+    "2536": {
+        "race_instance_id": 920118,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9918,
+        "course_set": 10813,
+        "distance": "Short - 1400m",
+        "ground": "Dirt"
+    },
+    "2537": {
+        "race_instance_id": 920119,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9919,
+        "course_set": 10611,
+        "distance": "Mile - 1600m",
+        "ground": "Dirt"
+    },
+    "2538": {
+        "race_instance_id": 920120,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9920,
+        "course_set": 10708,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "2539": {
+        "race_instance_id": 920121,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9921,
+        "course_set": 10814,
+        "distance": "Mile - 1800m",
+        "ground": "Dirt"
+    },
+    "2540": {
+        "race_instance_id": 920122,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9922,
+        "course_set": 10612,
+        "distance": "Medium - 2100m",
+        "ground": "Dirt"
+    },
+    "2541": {
+        "race_instance_id": 920123,
+        "fans_needed": 0,
+        "race_name": "Twinkle Star Climax Race 3",
+        "race_id": 9923,
+        "course_set": 10815,
+        "distance": "Medium - 1900m",
+        "ground": "Dirt"
+    }
+}
