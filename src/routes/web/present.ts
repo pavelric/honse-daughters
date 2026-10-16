@@ -121,7 +121,7 @@ const routes = async (fastify: FastifyInstance) => {
                             <div class="form-group">
                                 <label>Reward Type</label>
                                 <input type="number" name="reward_type" value="90" required>
-                                <small>Common types: 90 (Jewel), 43 (Support Pt), 30 (Money), 20 (Item)</small>
+                                <small>Client ItemCategory: 90 Jewel, 91 Monies, 30 Support Pt, 102 Card pieces (ID = card id), 51 Support card (ID = support card id), 164 Uncap crystal (144 SSR / 145 SR), 11 Training items (talent / hint), 34 Alarm clock (95)</small>
                             </div>
                             <div class="form-group">
                                 <label>Reward ID</label>

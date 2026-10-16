@@ -1,44 +1,17 @@
-import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { generateDataHeaders, RequestCommon } from "../../utils";
-import { computeResponseSid } from "../../crypto";
-import { verifySession } from "../../data/honseData";
+import { FastifyInstance } from "fastify";
+import { route } from "../route";
+import { RELEASED_CARD_ARRAY } from "../../data/defaults";
+import { strengthenCardTalent, upgradeCardSkill, upgradeCardRarity, unlockCard } from "../../data/cardProgress";
 
-
+// Trainee (uma) cards. Shapes: Gallop.Card*Request / *Response, see docs/api-catalog.md#card.
 const routes = async (fastify: FastifyInstance) => {
-    fastify.post("/get_release_card_array", async (request: FastifyRequest, reply: FastifyReply) => {
-        const body = request.body as RequestCommon
-
-        reply.header("content-type", "application/x-msgpack; charset=utf-8")
-
-        let viewerId = body.viewer_id
-        if (!viewerId) return reply.status(400).send({
-            "error": "Bad Request",
-            "message": "Invalid request body"
-        })
-
-        const session = verifySession(viewerId.toString())
-        if (!session) return reply.status(400).send({
-            "error": "Bad Request",
-            "message": "Invalid viewer_id"
-        })
-
-        
-        var response = {
-            "data_headers": generateDataHeaders({
-                sid: request.umaHeader?.sid ? computeResponseSid(request.umaHeader.sid) : undefined,
-                viewer_id: viewerId,
-                notifications: {
-                    unread_information_exists: 1,
-                }
-            }),
-            response_code: 1
-        }
-
-        reply.status(200).send(response)
-    })
-
-
+    route(fastify, "/get_release_card_array", () => ({ release_card_array: RELEASED_CARD_ARRAY }))
+    route(fastify, "/talent_strengthen", (body, viewerId) => strengthenCardTalent(viewerId, body.card_id, body.new_talent_level))
+    route(fastify, "/skill_upgrade", (body, viewerId) => upgradeCardSkill(viewerId, body.card_id, body.skill_id, body.new_skill_level))
+    route(fastify, "/rarity_upgrade", (body, viewerId) => upgradeCardRarity(viewerId, body.card_id, body.new_rarity))
+    route(fastify, "/unlock", (body, viewerId) => unlockCard(viewerId, body.card_id))
+    // Event skill previews come from story data that isn't extracted yet.
+    route(fastify, "/get_card_event_skill", () => ({ event_skill_list: [] }))
 }
-
 
 export default routes;

@@ -3668,7 +3668,7 @@ export interface CampaignWalkingIndexResponseData {
   chara_walking_act_array: NoteDataForDisplay[];
 }
 
-/** POST /card/get_card_event_skill (missing) */
+/** POST /card/get_card_event_skill (implemented) */
 export interface CardGetCardEventSkillRequest extends RequestCommon {
   card_id: number;
 }
@@ -3683,7 +3683,7 @@ export interface CardGetReleaseCardResponseData {
   release_card_array: number[];
 }
 
-/** POST /card/rarity_upgrade (missing) */
+/** POST /card/rarity_upgrade (implemented) */
 export interface CardRarityUpgradeRequest extends RequestCommon {
   card_id: number;
   new_rarity: number;
@@ -3703,7 +3703,7 @@ export interface CardSellPieceResponseData {
   piece_data: PieceData[];
 }
 
-/** POST /card/skill_upgrade (missing) */
+/** POST /card/skill_upgrade (implemented) */
 export interface CardSkillUpgradeRequest extends RequestCommon {
   card_id: number;
   skill_id: number;
@@ -3715,7 +3715,7 @@ export interface CardSkillUpgradeResponseData {
   item_data_array: UserItem[];
 }
 
-/** POST /card/talent_strengthen (missing) */
+/** POST /card/talent_strengthen (implemented) */
 export interface CardTalentStrengthenRequest extends RequestCommon {
   card_id: number;
   talent_level: number;
@@ -3726,7 +3726,7 @@ export interface CardTalentStrengthenResponseData {
   item_data_array: UserItem[];
 }
 
-/** POST /card/unlock (missing) */
+/** POST /card/unlock (implemented) */
 export interface CardUnlockRequest extends RequestCommon {
   card_id: number;
 }
@@ -6700,7 +6700,7 @@ export interface SerialCodeRegisterResponseData {
   campaign_name: string;
 }
 
-/** POST /single_mode/change_running_style (missing) */
+/** POST /single_mode/change_running_style (implemented) */
 export interface SingleModeChangeRunningStyleRequest extends RequestCommon {
   program_id: number;
   running_style: number;
@@ -6709,7 +6709,7 @@ export interface SingleModeChangeRunningStyleRequest extends RequestCommon {
 export interface SingleModeChangeRunningStyleResponseData {
 }
 
-/** POST /single_mode/change_short_cut (missing) */
+/** POST /single_mode/change_short_cut (implemented) */
 export interface SingleModeChangeShortCutRequest extends RequestCommon {
   short_cut_state: number;
   current_turn: number;
@@ -6740,7 +6740,7 @@ export interface SingleModeCheckEventResponseData {
   ura_data_set: SingleModeUraDataSet;
 }
 
-/** POST /single_mode/continue (missing) */
+/** POST /single_mode/continue (implemented) */
 export interface SingleModeContinueRequest extends RequestCommon {
   continue_type: number;
   current_turn: number;
@@ -6774,7 +6774,7 @@ export interface SingleModeExecCommandResponseData {
   ura_data_set: SingleModeUraDataSet;
 }
 
-/** POST /single_mode/factor_lottery (missing) */
+/** POST /single_mode/factor_lottery (implemented) */
 export interface SingleModeFactorLotteryRequest extends RequestCommon {
   lottery_count: number;
   tp_info: TpInfo;
@@ -6784,7 +6784,7 @@ export interface SingleModeFactorLotteryResponseData {
   single_mode_factor_lottery_common: SingleModeFactorLotteryCommon;
 }
 
-/** POST /single_mode/factor_select (missing) */
+/** POST /single_mode/factor_select (implemented) */
 export interface SingleModeFactorSelectRequest extends RequestCommon {
   current_turn: number;
   skill_id_array: number[];
@@ -6793,7 +6793,7 @@ export interface SingleModeFactorSelectResponseData {
   single_mode_factor_select_common: SingleModeFactorSelectCommon;
 }
 
-/** POST /single_mode/finish (missing) */
+/** POST /single_mode/finish (implemented) */
 export interface SingleModeFinishRequest extends RequestCommon {
   is_force_delete: boolean;
   current_turn: number;
@@ -6803,7 +6803,7 @@ export interface SingleModeFinishResponseData {
   single_mode_finish_common: SingleModeFinishCommon;
 }
 
-/** POST /single_mode/gain_skills (missing) */
+/** POST /single_mode/gain_skills (implemented) */
 export interface SingleModeGainSkillsRequest extends RequestCommon {
   gain_skill_info_array: GainSkillInfo[];
   current_turn: number;
@@ -6814,7 +6814,7 @@ export interface SingleModeGainSkillsResponseData {
   ura_data_set: SingleModeUraDataSet;
 }
 
-/** POST /single_mode/get_choice_reward (missing) */
+/** POST /single_mode/get_choice_reward (implemented) */
 export interface SingleModeGetChoiceRewardRequest extends RequestCommon {
   event_id: number;
 }
@@ -6852,7 +6852,7 @@ export interface SingleModeMultiRaceReserveResponseData {
   reserved_race_array: SingleModeReservedRaceDeck[];
 }
 
-/** POST /single_mode/race_analyze (missing) */
+/** POST /single_mode/race_analyze (implemented) */
 export interface RaceAnalyzeRequest extends RequestCommon {
   program_id: number;
   current_turn: number;
@@ -6861,7 +6861,7 @@ export interface RaceAnalyzeResponseData {
   race_horse_data_array: RaceHorseData[];
 }
 
-/** POST /single_mode/race_end (missing) */
+/** POST /single_mode/race_end (implemented) */
 export interface SingleModeRaceEndRequest extends RequestCommon {
   current_turn: number;
 }
@@ -6880,7 +6880,7 @@ export interface SingleModeRaceEndResponseData {
   ura_data_set: SingleModeUraDataSet;
 }
 
-/** POST /single_mode/race_entry (missing) */
+/** POST /single_mode/race_entry (implemented) */
 export interface SingleModeRaceEntryRequest extends RequestCommon {
   program_id: number;
   current_turn: number;
@@ -6893,7 +6893,7 @@ export interface SingleModeRaceEntryResponseData {
   ura_data_set: SingleModeUraDataSet;
 }
 
-/** POST /single_mode/race_out (missing) */
+/** POST /single_mode/race_out (implemented) */
 export interface SingleModeRaceOutRequest extends RequestCommon {
   current_turn: number;
 }
@@ -6904,7 +6904,7 @@ export interface SingleModeRaceOutResponseData {
   ura_data_set: SingleModeUraDataSet;
 }
 
-/** POST /single_mode/race_start (missing) */
+/** POST /single_mode/race_start (implemented) */
 export interface SingleModeRaceStartRequest extends RequestCommon {
   is_short: number;
   current_turn: number;
@@ -8156,7 +8156,7 @@ export interface StoryEventStoryClearResponseData {
   add_music_array: UserMusic[];
 }
 
-/** POST /support_card/change_lock (missing) */
+/** POST /support_card/change_lock (implemented) */
 export interface SupportCardChangeLockRequest extends RequestCommon {
   support_card_id: number;
   lock_flag: number;
@@ -8183,7 +8183,7 @@ export interface SupportCardLimitBreakResponseData {
   support_card_data: UserSupportCard;
 }
 
-/** POST /support_card/limit_break_item (missing) */
+/** POST /support_card/limit_break_item (implemented) */
 export interface SupportCardLimitBreakItemRequest extends RequestCommon {
   support_card_id: number;
   limit_break_item_id: number;
@@ -8664,7 +8664,7 @@ export interface TrainedCharaGetSuccessionHistoryArrayResponseData {
   succession_history_array: SuccessionHistory[];
 }
 
-/** POST /trained_chara/load (missing) */
+/** POST /trained_chara/load (implemented) */
 export interface TrainedCharaLoadRequest extends RequestCommon {
 }
 export interface TrainedCharaLoadResponseData {

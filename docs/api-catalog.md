@@ -14,8 +14,8 @@ Conventions:
 | | count |
 |---|---|
 | Client endpoints (URL path resolved) | 511 |
-| Implemented in honse-daughters | 45 |
-| Missing | 466 |
+| Implemented in honse-daughters | 66 |
+| Missing | 445 |
 | Request classes whose URL could not be resolved | 1 |
 | Server routes the client never calls | 1 |
 
@@ -23,7 +23,7 @@ Conventions:
 
 _The counts in this section are regenerated with the tables. The prose ranking was written against `main` at e973603 (2026-10-17), before the URA career work on `ura-career`._
 
-The server implements 45 of 511 client endpoints (about 9%). It covers the boot path (`tool/*`, `load/index`, `tutorial/*`), presents, missions, gacha, team stadium, and four career calls. Ranked roughly by how soon a player would hit each gap:
+The server implements 66 of 511 client endpoints (about 13%). It covers the boot path (`tool/*`, `load/index`, `tutorial/*`), presents, missions, gacha, team stadium, and four career calls. Ranked roughly by how soon a player would hit each gap:
 
 1. **Career (training) core: `single_mode/*`, 15 of 19 missing.** `start`, `check_event`, `exec_command` and `load` exist. A run cannot finish without `race_entry`, `race_start`, `race_end`, `race_out`, `gain_skills`, `continue`, `finish`, `factor_lottery`, `factor_select`, `change_running_style` and the others. `trained_chara/*` (6, including `load`) is also needed afterwards to view and manage the resulting horses.
 2. **Scenario-specific career APIs: 106 endpoints, none implemented.** `single_mode_team` (28), `single_mode_venus` (26), `single_mode_live` (23), `single_mode_free` (22) and `idle_single_mode` (7). Each later scenario needs its own family. The URA base scenario needs only `single_mode/*`.
@@ -53,7 +53,6 @@ Other notes:
 | [team_building](#prefix-team-building) | 17 | 0 | 17 |
 | [user](#prefix-user) | 20 | 3 | 17 |
 | [circle_user](#prefix-circle-user) | 16 | 0 | 16 |
-| [single_mode](#prefix-single-mode) | 19 | 4 | 15 |
 | [account](#prefix-account) | 12 | 0 | 12 |
 | [circle](#prefix-circle) | 12 | 0 | 12 |
 | [daily_race](#prefix-daily-race) | 10 | 0 | 10 |
@@ -66,11 +65,10 @@ Other notes:
 | [idle_single_mode](#prefix-idle-single-mode) | 7 | 0 | 7 |
 | [item](#prefix-item) | 7 | 0 | 7 |
 | [story_event](#prefix-story-event) | 7 | 0 | 7 |
-| [card](#prefix-card) | 7 | 1 | 6 |
 | [circle_chat](#prefix-circle-chat) | 6 | 0 | 6 |
 | [jukebox](#prefix-jukebox) | 8 | 2 | 6 |
-| [trained_chara](#prefix-trained-chara) | 6 | 0 | 6 |
 | [map_event](#prefix-map-event) | 5 | 0 | 5 |
+| [trained_chara](#prefix-trained-chara) | 6 | 1 | 5 |
 | [circle_item_request](#prefix-circle-item-request) | 4 | 0 | 4 |
 | [collect_raid](#prefix-collect-raid) | 4 | 0 | 4 |
 | [gacha](#prefix-gacha) | 6 | 2 | 4 |
@@ -79,7 +77,6 @@ Other notes:
 | [payment](#prefix-payment) | 7 | 3 | 4 |
 | [campaign_walking](#prefix-campaign-walking) | 3 | 0 | 3 |
 | [factor_research](#prefix-factor-research) | 3 | 0 | 3 |
-| [support_card](#prefix-support-card) | 6 | 3 | 3 |
 | [tool](#prefix-tool) | 7 | 4 | 3 |
 | [training_challenge](#prefix-training-challenge) | 3 | 0 | 3 |
 | [transfer](#prefix-transfer) | 3 | 0 | 3 |
@@ -92,10 +89,12 @@ Other notes:
 | [live_theater_performers_preset](#prefix-live-theater-performers-preset) | 2 | 0 | 2 |
 | [photo](#prefix-photo) | 2 | 0 | 2 |
 | [raffle](#prefix-raffle) | 2 | 0 | 2 |
+| [single_mode](#prefix-single-mode) | 19 | 17 | 2 |
 | [team_stadium](#prefix-team-stadium) | 9 | 7 | 2 |
 | [valentine](#prefix-valentine) | 2 | 0 | 2 |
 | [(unresolved)](#prefix--unresolved-) | 1 | 0 | 1 |
 | [banner](#prefix-banner) | 1 | 0 | 1 |
+| [card](#prefix-card) | 7 | 6 | 1 |
 | [character_story](#prefix-character-story) | 1 | 0 | 1 |
 | [cygames_id_external](#prefix-cygames-id-external) | 1 | 0 | 1 |
 | [daily_race_skip](#prefix-daily-race-skip) | 1 | 0 | 1 |
@@ -105,6 +104,7 @@ Other notes:
 | [option](#prefix-option) | 1 | 0 | 1 |
 | [present](#prefix-present) | 4 | 3 | 1 |
 | [serial_code](#prefix-serial-code) | 1 | 0 | 1 |
+| [support_card](#prefix-support-card) | 6 | 5 | 1 |
 | [support_card_ranking](#prefix-support-card-ranking) | 1 | 0 | 1 |
 | [talk_gallery](#prefix-talk-gallery) | 1 | 0 | 1 |
 | [load](#prefix-load) | 1 | 1 | 0 |
@@ -159,13 +159,13 @@ Other notes:
 
 | Path | Status | Client class | Request fields | Response `data` fields |
 |---|---|---|---|---|
-| `/card/get_card_event_skill` | ❌ missing | `CardGetCardEventSkill` | `card_id`: int | `event_skill_list`: [EventSkill](#type-eventskill)[] |
+| `/card/get_card_event_skill` | ✅ implemented | `CardGetCardEventSkill` | `card_id`: int | `event_skill_list`: [EventSkill](#type-eventskill)[] |
 | `/card/get_release_card_array` | ✅ implemented | `CardGetReleaseCard` | — | `release_card_array`: int[] |
-| `/card/rarity_upgrade` | ❌ missing | `CardRarityUpgrade` | `card_id`: int<br>`new_rarity`: int<br>`now_rarity`: int | `card_data`: [UserCard](#type-usercard)<br>`piece_data`: [PieceData](#type-piecedata)[] |
+| `/card/rarity_upgrade` | ✅ implemented | `CardRarityUpgrade` | `card_id`: int<br>`new_rarity`: int<br>`now_rarity`: int | `card_data`: [UserCard](#type-usercard)<br>`piece_data`: [PieceData](#type-piecedata)[] |
 | `/card/sell_piece` | ❌ missing | `CardSellPiece` | `sell_piece_data_array`: [PieceData](#type-piecedata)[] | `reward_summary_info`: [RewardSummaryInfo](#type-rewardsummaryinfo)<br>`piece_data`: [PieceData](#type-piecedata)[] |
-| `/card/skill_upgrade` | ❌ missing | `CardSkillUpgrade` | `card_id`: int<br>`skill_id`: int<br>`skill_level`: int<br>`new_skill_level`: int | `card_data`: [UserCard](#type-usercard)<br>`item_data_array`: [UserItem](#type-useritem)[] |
-| `/card/talent_strengthen` | ❌ missing | `CardTalentStrengthen` | `card_id`: int<br>`talent_level`: int<br>`new_talent_level`: int | `card_data`: [UserCard](#type-usercard)<br>`item_data_array`: [UserItem](#type-useritem)[] |
-| `/card/unlock` | ❌ missing | `CardUnlock` | `card_id`: int | `reward_summary_info`: [RewardSummaryInfo](#type-rewardsummaryinfo)<br>`piece_data`: [PieceData](#type-piecedata)[] |
+| `/card/skill_upgrade` | ✅ implemented | `CardSkillUpgrade` | `card_id`: int<br>`skill_id`: int<br>`skill_level`: int<br>`new_skill_level`: int | `card_data`: [UserCard](#type-usercard)<br>`item_data_array`: [UserItem](#type-useritem)[] |
+| `/card/talent_strengthen` | ✅ implemented | `CardTalentStrengthen` | `card_id`: int<br>`talent_level`: int<br>`new_talent_level`: int | `card_data`: [UserCard](#type-usercard)<br>`item_data_array`: [UserItem](#type-useritem)[] |
+| `/card/unlock` | ✅ implemented | `CardUnlock` | `card_id`: int | `reward_summary_info`: [RewardSummaryInfo](#type-rewardsummaryinfo)<br>`piece_data`: [PieceData](#type-piecedata)[] |
 
 <a id="prefix-challenge-match"></a>
 ### challenge_match
@@ -736,24 +736,24 @@ Other notes:
 
 | Path | Status | Client class | Request fields | Response `data` fields |
 |---|---|---|---|---|
-| `/single_mode/change_running_style` | ❌ missing | `SingleModeChangeRunningStyle` | `program_id`: int<br>`running_style`: int<br>`current_turn`: int | `{}` (no fields) |
-| `/single_mode/change_short_cut` | ❌ missing | `SingleModeChangeShortCut` | `short_cut_state`: int<br>`current_turn`: int | `chara_info`: [SingleModeChara](#type-singlemodechara)<br>`unchecked_event_array`: [SingleModeEventInfo](#type-singlemodeeventinfo)[]<br>`ura_data_set`: [SingleModeUraDataSet](#type-singlemodeuradataset) |
+| `/single_mode/change_running_style` | ✅ implemented | `SingleModeChangeRunningStyle` | `program_id`: int<br>`running_style`: int<br>`current_turn`: int | `{}` (no fields) |
+| `/single_mode/change_short_cut` | ✅ implemented | `SingleModeChangeShortCut` | `short_cut_state`: int<br>`current_turn`: int | `chara_info`: [SingleModeChara](#type-singlemodechara)<br>`unchecked_event_array`: [SingleModeEventInfo](#type-singlemodeeventinfo)[]<br>`ura_data_set`: [SingleModeUraDataSet](#type-singlemodeuradataset) |
 | `/single_mode/check_event` | ✅ implemented | `SingleModeCheckEvent` | `event_id`: int<br>`chara_id`: int<br>`choice_number`: int<br>`current_turn`: int | `chara_info`: [SingleModeChara](#type-singlemodechara)<br>`not_up_parameter_info`: [NotUpParameterInfo](#type-notupparameterinfo)<br>`not_down_parameter_info`: [NotDownParameterInfo](#type-notdownparameterinfo)<br>`home_info`: [SingleModeHomeInfo](#type-singlemodehomeinfo)<br>`unchecked_event_array`: [SingleModeEventInfo](#type-singlemodeeventinfo)[]<br>`event_effected_factor_array`: [SuccessionEffectedFactor](#type-successioneffectedfactor)[]<br>`race_condition_array`: [SingleModeRaceCondition](#type-singlemoderacecondition)[]<br>`race_start_info`: [SingleRaceStartInfo](#type-singleracestartinfo)<br>`race_running_style`: int<br>`ura_data_set`: [SingleModeUraDataSet](#type-singlemodeuradataset) |
-| `/single_mode/continue` | ❌ missing | `SingleModeContinue` | `continue_type`: int<br>`current_turn`: int | `chara_info`: [SingleModeChara](#type-singlemodechara)<br>`home_info`: [SingleModeHomeInfo](#type-singlemodehomeinfo)<br>`race_start_info`: [SingleRaceStartInfo](#type-singleracestartinfo)<br>`unchecked_event_array`: [SingleModeEventInfo](#type-singlemodeeventinfo)[]<br>`user_item`: [UserItem](#type-useritem)<br>`ura_data_set`: [SingleModeUraDataSet](#type-singlemodeuradataset) |
+| `/single_mode/continue` | ✅ implemented | `SingleModeContinue` | `continue_type`: int<br>`current_turn`: int | `chara_info`: [SingleModeChara](#type-singlemodechara)<br>`home_info`: [SingleModeHomeInfo](#type-singlemodehomeinfo)<br>`race_start_info`: [SingleRaceStartInfo](#type-singleracestartinfo)<br>`unchecked_event_array`: [SingleModeEventInfo](#type-singlemodeeventinfo)[]<br>`user_item`: [UserItem](#type-useritem)<br>`ura_data_set`: [SingleModeUraDataSet](#type-singlemodeuradataset) |
 | `/single_mode/exec_command` | ✅ implemented | `SingleModeExecCommand` | `command_type`: int<br>`command_id`: int<br>`command_group_id`: int<br>`select_id`: int<br>`current_turn`: int<br>`current_vital`: int | `chara_info`: [SingleModeChara](#type-singlemodechara)<br>`race_condition_array`: [SingleModeRaceCondition](#type-singlemoderacecondition)[]<br>`not_up_parameter_info`: [NotUpParameterInfo](#type-notupparameterinfo)<br>`not_down_parameter_info`: [NotDownParameterInfo](#type-notdownparameterinfo)<br>`home_info`: [SingleModeHomeInfo](#type-singlemodehomeinfo)<br>`command_result`: [SingleModeCommandResult](#type-singlemodecommandresult)<br>`unchecked_event_array`: [SingleModeEventInfo](#type-singlemodeeventinfo)[]<br>`ura_data_set`: [SingleModeUraDataSet](#type-singlemodeuradataset) |
-| `/single_mode/factor_lottery` | ❌ missing | `SingleModeFactorLottery` | `lottery_count`: int<br>`tp_info`: [TpInfo](#type-tpinfo)<br>`use_tp`: int | `single_mode_factor_lottery_common`: [SingleModeFactorLotteryCommon](#type-singlemodefactorlotterycommon) |
-| `/single_mode/factor_select` | ❌ missing | `SingleModeFactorSelect` | `current_turn`: int<br>`skill_id_array`: int[] | `single_mode_factor_select_common`: [SingleModeFactorSelectCommon](#type-singlemodefactorselectcommon) |
-| `/single_mode/finish` | ❌ missing | `SingleModeFinish` | `is_force_delete`: bool<br>`current_turn`: int<br>`factor_lottery_id`: int | `single_mode_finish_common`: [SingleModeFinishCommon](#type-singlemodefinishcommon) |
-| `/single_mode/gain_skills` | ❌ missing | `SingleModeGainSkills` | `gain_skill_info_array`: [GainSkillInfo](#type-gainskillinfo)[]<br>`current_turn`: int | `chara_info`: [SingleModeChara](#type-singlemodechara)<br>`home_info`: [SingleModeHomeInfo](#type-singlemodehomeinfo)<br>`ura_data_set`: [SingleModeUraDataSet](#type-singlemodeuradataset) |
-| `/single_mode/get_choice_reward` | ❌ missing | `SingleModeGetChoiceReward` | `event_id`: int | `choice_reward_array`: [EventChoiceReward](#type-eventchoicereward)[] |
+| `/single_mode/factor_lottery` | ✅ implemented | `SingleModeFactorLottery` | `lottery_count`: int<br>`tp_info`: [TpInfo](#type-tpinfo)<br>`use_tp`: int | `single_mode_factor_lottery_common`: [SingleModeFactorLotteryCommon](#type-singlemodefactorlotterycommon) |
+| `/single_mode/factor_select` | ✅ implemented | `SingleModeFactorSelect` | `current_turn`: int<br>`skill_id_array`: int[] | `single_mode_factor_select_common`: [SingleModeFactorSelectCommon](#type-singlemodefactorselectcommon) |
+| `/single_mode/finish` | ✅ implemented | `SingleModeFinish` | `is_force_delete`: bool<br>`current_turn`: int<br>`factor_lottery_id`: int | `single_mode_finish_common`: [SingleModeFinishCommon](#type-singlemodefinishcommon) |
+| `/single_mode/gain_skills` | ✅ implemented | `SingleModeGainSkills` | `gain_skill_info_array`: [GainSkillInfo](#type-gainskillinfo)[]<br>`current_turn`: int | `chara_info`: [SingleModeChara](#type-singlemodechara)<br>`home_info`: [SingleModeHomeInfo](#type-singlemodehomeinfo)<br>`ura_data_set`: [SingleModeUraDataSet](#type-singlemodeuradataset) |
+| `/single_mode/get_choice_reward` | ✅ implemented | `SingleModeGetChoiceReward` | `event_id`: int | `choice_reward_array`: [EventChoiceReward](#type-eventchoicereward)[] |
 | `/single_mode/load` | ✅ implemented | `SingleModeLoad` | — | `single_mode_load_common`: [SingleModeLoadCommon](#type-singlemodeloadcommon)<br>`ura_data_set`: [SingleModeUraDataSet](#type-singlemodeuradataset) |
 | `/single_mode/minigame_end` | ❌ missing | `SingleModeMinigameEnd` | `result`: [MinigameResult](#type-minigameresult)<br>`current_turn`: int | `chara_info`: [SingleModeChara](#type-singlemodechara)<br>`unchecked_event_array`: [SingleModeEventInfo](#type-singlemodeeventinfo)[]<br>`ura_data_set`: [SingleModeUraDataSet](#type-singlemodeuradataset) |
 | `/single_mode/multi_race_reserve` | ❌ missing | `SingleModeMultiRaceReserve` | `deck_num`: int<br>`deck_name`: string<br>`add_race_array`: [SingleModeReservedRace](#type-singlemodereservedrace)[]<br>`cancel_race_array`: [SingleModeReservedRace](#type-singlemodereservedrace)[] | `reserved_race_array`: [SingleModeReservedRaceDeck](#type-singlemodereservedracedeck)[] |
-| `/single_mode/race_analyze` | ❌ missing | `RaceAnalyze` | `program_id`: int<br>`current_turn`: int | `race_horse_data_array`: [RaceHorseData](#type-racehorsedata)[] |
-| `/single_mode/race_end` | ❌ missing | `SingleModeRaceEnd` | `current_turn`: int | `race_reward_info`: [CharaRaceReward](#type-chararacereward)<br>`chara_info`: [SingleModeChara](#type-singlemodechara)<br>`home_info`: [SingleModeHomeInfo](#type-singlemodehomeinfo)<br>`add_music`: [UserMusic](#type-usermusic)<br>`race_history`: [SingleRaceHistory](#type-singleracehistory)[]<br>`win_saddle_id_array`: int[]<br>`race_condition_array`: [SingleModeRaceCondition](#type-singlemoderacecondition)[]<br>`add_trophy_info`: [LoginUserTrophyInfo](#type-loginusertrophyinfo)<br>`trophy_reward_info`: [RaceRewardData](#type-racerewarddata)<br>`reward_summary_info`: [RewardSummaryInfo](#type-rewardsummaryinfo)<br>`race_add_reward_info`: [SingleModeRaceAddRewardInfo](#type-singlemoderaceaddrewardinfo)[]<br>`ura_data_set`: [SingleModeUraDataSet](#type-singlemodeuradataset) |
-| `/single_mode/race_entry` | ❌ missing | `SingleModeRaceEntry` | `program_id`: int<br>`current_turn`: int | `chara_info`: [SingleModeChara](#type-singlemodechara)<br>`home_info`: [SingleModeHomeInfo](#type-singlemodehomeinfo)<br>`race_start_info`: [SingleRaceStartInfo](#type-singleracestartinfo)<br>`unchecked_event_array`: [SingleModeEventInfo](#type-singlemodeeventinfo)[]<br>`ura_data_set`: [SingleModeUraDataSet](#type-singlemodeuradataset) |
-| `/single_mode/race_out` | ❌ missing | `SingleModeRaceOut` | `current_turn`: int | `chara_info`: [SingleModeChara](#type-singlemodechara)<br>`home_info`: [SingleModeHomeInfo](#type-singlemodehomeinfo)<br>`unchecked_event_array`: [SingleModeEventInfo](#type-singlemodeeventinfo)[]<br>`ura_data_set`: [SingleModeUraDataSet](#type-singlemodeuradataset) |
-| `/single_mode/race_start` | ❌ missing | `SingleModeRaceStart` | `is_short`: int<br>`current_turn`: int | `race_start_info`: [SingleRaceStartInfo](#type-singleracestartinfo)<br>`race_scenario`: string |
+| `/single_mode/race_analyze` | ✅ implemented | `RaceAnalyze` | `program_id`: int<br>`current_turn`: int | `race_horse_data_array`: [RaceHorseData](#type-racehorsedata)[] |
+| `/single_mode/race_end` | ✅ implemented | `SingleModeRaceEnd` | `current_turn`: int | `race_reward_info`: [CharaRaceReward](#type-chararacereward)<br>`chara_info`: [SingleModeChara](#type-singlemodechara)<br>`home_info`: [SingleModeHomeInfo](#type-singlemodehomeinfo)<br>`add_music`: [UserMusic](#type-usermusic)<br>`race_history`: [SingleRaceHistory](#type-singleracehistory)[]<br>`win_saddle_id_array`: int[]<br>`race_condition_array`: [SingleModeRaceCondition](#type-singlemoderacecondition)[]<br>`add_trophy_info`: [LoginUserTrophyInfo](#type-loginusertrophyinfo)<br>`trophy_reward_info`: [RaceRewardData](#type-racerewarddata)<br>`reward_summary_info`: [RewardSummaryInfo](#type-rewardsummaryinfo)<br>`race_add_reward_info`: [SingleModeRaceAddRewardInfo](#type-singlemoderaceaddrewardinfo)[]<br>`ura_data_set`: [SingleModeUraDataSet](#type-singlemodeuradataset) |
+| `/single_mode/race_entry` | ✅ implemented | `SingleModeRaceEntry` | `program_id`: int<br>`current_turn`: int | `chara_info`: [SingleModeChara](#type-singlemodechara)<br>`home_info`: [SingleModeHomeInfo](#type-singlemodehomeinfo)<br>`race_start_info`: [SingleRaceStartInfo](#type-singleracestartinfo)<br>`unchecked_event_array`: [SingleModeEventInfo](#type-singlemodeeventinfo)[]<br>`ura_data_set`: [SingleModeUraDataSet](#type-singlemodeuradataset) |
+| `/single_mode/race_out` | ✅ implemented | `SingleModeRaceOut` | `current_turn`: int | `chara_info`: [SingleModeChara](#type-singlemodechara)<br>`home_info`: [SingleModeHomeInfo](#type-singlemodehomeinfo)<br>`unchecked_event_array`: [SingleModeEventInfo](#type-singlemodeeventinfo)[]<br>`ura_data_set`: [SingleModeUraDataSet](#type-singlemodeuradataset) |
+| `/single_mode/race_start` | ✅ implemented | `SingleModeRaceStart` | `is_short`: int<br>`current_turn`: int | `race_start_info`: [SingleRaceStartInfo](#type-singleracestartinfo)<br>`race_scenario`: string |
 | `/single_mode/start` | ✅ implemented | `SingleModeStart` | `start_chara`: [SingleModeStartChara](#type-singlemodestartchara)<br>`tp_info`: [TpInfo](#type-tpinfo)<br>`use_tp`: int<br>`current_money`: int<br>`current_succession_rank_point`: int | `single_mode_start_common`: [SingleModeStartCommon](#type-singlemodestartcommon)<br>`ura_data_set`: [SingleModeUraDataSet](#type-singlemodeuradataset) |
 
 <a id="prefix-single-mode-free"></a>
@@ -897,10 +897,10 @@ Other notes:
 
 | Path | Status | Client class | Request fields | Response `data` fields |
 |---|---|---|---|---|
-| `/support_card/change_lock` | ❌ missing | `SupportCardChangeLock` | `support_card_id`: int<br>`lock_flag`: int | `support_card_id`: int<br>`is_locked`: int |
+| `/support_card/change_lock` | ✅ implemented | `SupportCardChangeLock` | `support_card_id`: int<br>`lock_flag`: int | `support_card_id`: int<br>`is_locked`: int |
 | `/support_card/get_support_card_event_skill` | ✅ implemented | `SupportCardGetSupportCardEventSkill` | `support_card_id`: int | `event_skill_list`: [EventSkill](#type-eventskill)[] |
 | `/support_card/limit_break` | ✅ implemented | `SupportCardLimitBreak` | `support_card_id`: int<br>`material_support_card_num`: int | `support_card_data`: [UserSupportCard](#type-usersupportcard) |
-| `/support_card/limit_break_item` | ❌ missing | `SupportCardLimitBreakItem` | `support_card_id`: int<br>`limit_break_item_id`: int<br>`limit_break_count`: int | `support_card_data`: [UserSupportCard](#type-usersupportcard)<br>`item_data_array`: [UserItem](#type-useritem)[] |
+| `/support_card/limit_break_item` | ✅ implemented | `SupportCardLimitBreakItem` | `support_card_id`: int<br>`limit_break_item_id`: int<br>`limit_break_count`: int | `support_card_data`: [UserSupportCard](#type-usersupportcard)<br>`item_data_array`: [UserItem](#type-useritem)[] |
 | `/support_card/sell` | ❌ missing | `SupportCardSell` | `sell_support_card_info_array`: [SellSupportCardInfo](#type-sellsupportcardinfo)[] | `reward_summary_info`: [RewardSummaryInfo](#type-rewardsummaryinfo)<br>`reward_info_array`: [DisplayRewardInfo](#type-displayrewardinfo)[] |
 | `/support_card/strengthen` | ✅ implemented | `SupportCardStrengthen` | `support_card_id`: int<br>`use_global_exp`: int<br>`current_global_exp`: int<br>`use_money`: int<br>`current_money`: int | `support_card_data`: [UserSupportCard](#type-usersupportcard)<br>`item_data_array`: [UserItem](#type-useritem)[] |
 
@@ -986,7 +986,7 @@ Other notes:
 | `/trained_chara/change_memo` | ❌ missing | `TrainedCharaChangeMemo` | `trained_chara_id`: int<br>`memo`: string | `{}` (no fields) |
 | `/trained_chara/change_nickname` | ❌ missing | `TrainedCharaChangeNickname` | `trained_chara_id`: int<br>`nickname_id`: int | `trained_chara_info`: [TrainedChara](#type-trainedchara) |
 | `/trained_chara/get_succession_history_array` | ❌ missing | `TrainedCharaGetSuccessionHistoryArray` | `target_viewer_id`: long<br>`target_trained_chara_id`: int | `succession_history_array`: [SuccessionHistory](#type-successionhistory)[] |
-| `/trained_chara/load` | ❌ missing | `TrainedCharaLoad` | — | `trained_chara_array`: [TrainedChara](#type-trainedchara)[]<br>`trained_chara_favorite_array`: [TrainedCharaFavorite](#type-trainedcharafavorite)[]<br>`room_match_entry_chara_id_array`: int[] |
+| `/trained_chara/load` | ✅ implemented | `TrainedCharaLoad` | — | `trained_chara_array`: [TrainedChara](#type-trainedchara)[]<br>`trained_chara_favorite_array`: [TrainedCharaFavorite](#type-trainedcharafavorite)[]<br>`room_match_entry_chara_id_array`: int[] |
 | `/trained_chara/remove` | ❌ missing | `TrainedCharaRemove` | `trained_chara_id_array`: int[] | `trained_chara_array`: [TrainedChara](#type-trainedchara)[]<br>`reward_summary_info`: [RewardSummaryInfo](#type-rewardsummaryinfo)<br>`transfer_event_info`: [TransferEventInfo](#type-transfereventinfo) |
 
 <a id="prefix-training-challenge"></a>
