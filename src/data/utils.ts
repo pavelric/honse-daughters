@@ -1,5 +1,6 @@
 import { ChallengeMatchLoadInfo, ChampionsMeetingInfo, CircleInfo, CircleUser, ClientPlayerData, ClientUserInfo, CommonDefine, LegendRacePlayingInfo, TeamStadiumBorderLine, UserCircleData, UserCoinInfo, UserDailyLegendRacePlayingInfo, UserDailyRacePlayingInfo, UserHomePositionInfo, UserHonorInfo, UserJukeboxInfo, UserJukeboxRequestHistory, UserLimitedShopInfo, UserMenuBadgeInfo, UserRpInfo, UserSeasonPackInfo, UserTeamBuildingLoadInfo, UserTeamStadiumRanking, UserTeamStadiumRecord, UserTpInfo, Player, UserCardList, UserCharaList, UserSupportCardList, UserSupportCardDeck, UserTrainedChara, UserTeamStadiumData, UserItemList, UserCharaProfile, RewardItemInfo, SummaryUserInfo } from './types';
-import { getPlayer, getPlayerBorderline, getUserCards, getUserCharas, getUserDecks, getUserItems, getUserProfile, getUserSupportCards, getUserTeamData, getUserTrainedCharas, getUserCharaProfiles, getUserPieces, countUserPresents, getRandomViewerIds, getCircleMembership, getUserSupportCardById } from './honseData';
+import { trainingCharaLight } from './honseTraining';
+import { getPlayer, getPlayerBorderline, getUserCards, getUserCharas, getUserDecks, getUserItems, getUserProfile, getUserSupportCards, getUserTeamData, getUserTrainedCharas, getUserCharaProfiles, getUserPieces, countUserPresents, getRandomViewerIds, getCircleMembership, getUserSupportCardById, getTpInfo } from './honseData';
 import { getServerTime, formatTimestamp, formatServerTimestamp } from '../utils';
 import { RESOURCE_VERSION } from '../config';
 import { COMMON_DEFINE, RELEASED_CARD_ARRAY, SINGLE_MODE_DIFFICULTY_INFO_ARRAY, DEFAULT_PAYMENT_PURCHASED_TIMES_LIST } from './defaults';
@@ -56,11 +57,7 @@ export function getClientSerializedData(viewerId: number): ClientPlayerData | nu
         max_rp: 5
     };
 
-    const tpInfo: UserTpInfo = isSignup ? [] as any : {
-        current_tp: playerData.tp,
-        max_recovery_time: 0,// 0 if full, logic to implement later unixSeconds,
-        max_tp: 100
-    };
+    const tpInfo: UserTpInfo = isSignup ? [] as any : getTpInfo(viewerId);
 
 
     const challengeMatchLoadInfo: ChallengeMatchLoadInfo = (isSignup || isInTutorial) ? [] as any : {
@@ -371,7 +368,7 @@ export function getClientSerializedData(viewerId: number): ClientPlayerData | nu
         scenario_record_array: [],
         season_pack_info: seasonPackInfo,
         short_episode_data_array: [],
-        single_mode_chara_light: [],
+        single_mode_chara_light: (isSignup || isInTutorial ? null : trainingCharaLight(viewerId)) ?? [] as any,
         single_mode_difficulty_info_array: SINGLE_MODE_DIFFICULTY_INFO_ARRAY,
         single_mode_rental_succession_num: 0,
         single_mode_succession_free_rental_time: 0,

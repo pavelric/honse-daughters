@@ -14,7 +14,7 @@
  */
 import { TrainingSupportCard, TrainingStartChara, UserTpInfo } from './types'
 import { RequestCommon, formatServerTimestamp } from '../utils'
-import { getUserSupportCardById, getUserCards, incrementUserCharaTrainingStats, incrementSingleModePlayCount, insertTrainedChara, getUserTrainedCharas } from './honseData'
+import { getUserSupportCardById, getUserCards, incrementUserCharaTrainingStats, incrementSingleModePlayCount, insertTrainedChara, getUserTrainedCharas, spendTp } from './honseData'
 import { toClientTrainedChara } from './utils'
 import { generateRaceScenario, performanceScore, ScenarioHorse, mulberry32 } from './raceScenario'
 import { readFileSync } from 'fs'
@@ -39,6 +39,7 @@ const URA_SCENARIO_ID = 1
 const LAST_TURN = 78
 const MAX_CONTINUES = 3
 const MAX_FREE_CONTINUES = 1
+const CAREER_TP_COST = 30
 
 // ---------------------------------------------------------------------------
 // Requests (field names from Gallop.SingleMode*Request)
@@ -93,6 +94,8 @@ interface UraData {
     chara_grades: { id: number, win_num: number, run_num: number, need_fan_count: number }[]
     unique_factor_cards: number[]
     skill_need_points: Record<string, number>
+    skill_sets: Record<string, SkillData[]>
+    succession_initial_factors: { factor_type: number, value_1: number, value_2: number, add_point: number }[]
 }
 
 let uraCache: UraData | null = null
@@ -231,6 +234,8 @@ interface TrainingRunState {
 // ---------------------------------------------------------------------------
 
 export function startTrainingRun(req: TrainingStartRequest) {
+    const tpInfo = spendTp(req.viewer_id, req.use_tp || CAREER_TP_COST)
+    if (!tpInfo) return null
     const state = buildInitialState(req)
     persistTrainingState(state)
     return {
@@ -239,7 +244,7 @@ export function startTrainingRun(req: TrainingStartRequest) {
             race_condition_array: [],
             home_info: toHomeInfo(state),
             unchecked_event_array: [],
-            tp_info: req.tp_info ?? { current_tp: 100, max_tp: 100, max_recovery_time: 0 },
+            tp_info: tpInfo,
             user_item_array: [],
             add_trained_chara_array: [],
             reserved_race_array: emptyReservedRaceDecks(),
@@ -281,6 +286,46 @@ export function loadTrainingRun(viewerId: number) {
             race_random_program_array: [],
         },
         ura_data_set: uraDataSet(state),
+    }
+}
+
+/**
+ * load/index's single_mode_chara_light (Gallop.SingleModeCharaLight): its presence is how the
+ * client knows a career is in progress and offers to resume it (then calls single_mode/load).
+ */
+export function trainingCharaLight(viewerId: number) {
+    const state = loadTrainingState(viewerId)
+    if (!state) return null
+    return {
+        single_mode_chara_id: 1,
+        card_id: state.card_id,
+        chara_grade: state.chara_grade,
+        speed: state.speed, stamina: state.stamina, power: state.power, wiz: state.wiz, guts: state.guts,
+        vital: state.vital, max_vital: state.max_vital, motivation: state.motivation, fans: state.fans,
+        rarity: state.rarity,
+        race_program_id: state._race?.program_id ?? 0,
+        reserve_race_turn: 0,
+        reserve_race_program_id: 0,
+        race_running_style: state.race_running_style,
+        talent_level: state.talent_level,
+        proper_distance_short: state.proper_distance_short, proper_distance_mile: state.proper_distance_mile,
+        proper_distance_middle: state.proper_distance_middle, proper_distance_long: state.proper_distance_long,
+        proper_running_style_nige: state.proper_running_style_nige, proper_running_style_senko: state.proper_running_style_senko,
+        proper_running_style_sashi: state.proper_running_style_sashi, proper_running_style_oikomi: state.proper_running_style_oikomi,
+        proper_ground_turf: state.proper_ground_turf, proper_ground_dirt: state.proper_ground_dirt,
+        turn: state.turn,
+        skill_point: state.skill_point,
+        short_cut_state: state.short_cut_state,
+        state: state.state,
+        playing_state: state.playing_state,
+        scenario_id: state.scenario_id,
+        route_id: state.route_id,
+        succession_trained_chara_id_1: state.succession_trained_chara_id_1,
+        succession_trained_chara_id_2: state.succession_trained_chara_id_2,
+        route_race_id_array: state._goals.map(g => g.id),
+        difficulty_id: 0,
+        difficulty: 0,
+        training_challenge_id: 0,
     }
 }
 
@@ -609,7 +654,8 @@ function buildInitialState(req: TrainingStartRequest): TrainingRunState {
         runs: 0,
         chara_grade: 1,
         skill_point: 120,   // approximation of the career starting skill points
-        skill_array: [],
+        // the card's unique skill; the client's inspiration screen looks it up here and stalls without it
+        skill_array: startingSkills(card.skill_set),
 
         speed: card.speed,
         stamina: card.stamina,
@@ -639,7 +685,69 @@ function buildInitialState(req: TrainingStartRequest): TrainingRunState {
         _select_lottery_id: 0,
     }
     placePartners(state)
+    applyStartSuccession(state, req.viewer_id)
     return state
+}
+
+function startingSkills(skillSet: number | undefined): SkillData[] {
+    return (skillSet ? ura().skill_sets[String(skillSet)] ?? [] : []).map(s => ({ ...s }))
+}
+
+const BLUE_STATS = ['speed', 'stamina', 'power', 'guts', 'wiz'] as const
+const PINK_APTITUDES: Record<number, keyof TrainingRunState> = {
+    11: 'proper_ground_turf', 12: 'proper_ground_dirt',
+    21: 'proper_running_style_nige', 22: 'proper_running_style_senko', 23: 'proper_running_style_sashi', 24: 'proper_running_style_oikomi',
+    31: 'proper_distance_short', 32: 'proper_distance_mile', 33: 'proper_distance_middle', 34: 'proper_distance_long',
+}
+
+/**
+ * Career-start inheritance, mirroring the client's WorkDataUtil.CalcSuccessionBonusParameter
+ * (it shows these gains on the inspiration screen and expects chara_info to include them).
+ * Factors of both parents and their parents (not further back) count. Blue: each factor adds the
+ * succession_initial_factor points for its stars to the stat (value_2 0) and its cap (value_2 1).
+ * Pink: stars are summed per aptitude and the total's range gives the aptitude levels gained.
+ */
+function applyStartSuccession(state: TrainingRunState, viewerId: number) {
+    const parentIds = [state.succession_trained_chara_id_1, state.succession_trained_chara_id_2].filter(Boolean)
+    if (!parentIds.length) return
+    const owned = getUserTrainedCharas(viewerId)
+    const factorIds: number[] = []
+    for (const id of parentIds) {
+        const tc = owned.find((t: any) => t.trained_chara_id === id)
+        if (!tc) continue   // rental parents live on another account
+        factorIds.push(...parseJson<number[]>(tc.factor_id_array, []))
+        // the parent's own parents sit at position_id 10 and 20 (11/12/21/22 are a generation further)
+        for (const gp of parseJson<any[]>(tc.succession_chara_array, [])) {
+            if (gp.position_id % 10 === 0) factorIds.push(...(gp.factor_id_array ?? []))
+        }
+    }
+
+    const initial = ura().succession_initial_factors
+    const pinkStars: Record<number, number> = {}
+    for (const factorId of factorIds) {
+        const group = Math.floor(factorId / 100), stars = factorId % 100
+        if (group >= 1 && group <= 5) {
+            const stat = BLUE_STATS[group - 1]
+            const maxKey = `max_${stat}` as const
+            for (const row of initial.filter(r => r.factor_type === 1 && r.value_1 === stars)) {
+                if (row.value_2 === 1) state[maxKey] += row.add_point
+                else state[stat] += row.add_point
+            }
+        } else if (PINK_APTITUDES[group]) {
+            pinkStars[group] = (pinkStars[group] ?? 0) + stars
+        }
+    }
+    for (const stat of BLUE_STATS) state[stat] = Math.min(state[stat], state[`max_${stat}` as const])
+    for (const [group, total] of Object.entries(pinkStars)) {
+        const row = initial.find(r => r.factor_type === 2 && total >= r.value_1 && total <= r.value_2)
+        const key = PINK_APTITUDES[Number(group)]
+        if (row) (state as any)[key] = Math.min(8, (state[key] as number) + row.add_point)
+    }
+}
+
+function parseJson<T>(value: unknown, fallback: T): T {
+    if (typeof value !== 'string') return (value as T) ?? fallback
+    try { return JSON.parse(value) as T } catch { return fallback }
 }
 
 // ---------------------------------------------------------------------------
@@ -1386,7 +1494,10 @@ function loadTrainingState(viewerId: number): TrainingRunState | null {
     try {
         const state = JSON.parse(row.run_state) as TrainingRunState
         // runs saved by the earlier engine lack the race/finish fields; treat them as gone
-        return state._goals ? state : null
+        if (!state._goals) return null
+        // runs started before the unique skill was seeded
+        if (!state.skill_array.length) state.skill_array = startingSkills(getCardRarityData(state.card_id, state.rarity).skill_set)
+        return state
     } catch {
         return null
     }

@@ -38,6 +38,17 @@ def rows(conn, query, args=()):
     return [dict(r) for r in conn.execute(query, args)]
 
 
+def skill_sets(conn):
+    used = [r['skill_set'] for r in rows(conn, "SELECT DISTINCT skill_set FROM card_rarity_data")]
+    out = {}
+    for sid in used:
+        r = rows(conn, "SELECT * FROM skill_set WHERE id = ?", (sid,))
+        if r:
+            out[sid] = [{'skill_id': r[0][f'skill_id{i}'], 'level': r[0][f'skill_level{i}']}
+                        for i in range(1, 21) if r[0][f'skill_id{i}']]
+    return out
+
+
 def build(db_path, output_path):
     if not os.path.exists(db_path):
         print(f"Error: Database file not found at '{db_path}'", file=sys.stderr)
@@ -147,6 +158,12 @@ def build(db_path, output_path):
             conn, "SELECT DISTINCT factor_group_id FROM succession_factor WHERE factor_type = 3")],
         'skill_need_points': {r['id']: r['need_skill_point'] for r in rows(
             conn, "SELECT id, need_skill_point FROM single_mode_skill_need_point")},
+        # skills a card starts a career with (its unique skill), keyed by card_rarity_data.skill_set
+        'skill_sets': skill_sets(conn),
+        # career-start inheritance: factor_type 1 = blue (value_1 stars, value_2 0 stat / 1 cap),
+        # 2 = pink (value_1..value_2 total stars -> aptitude levels), 3 = unique skill hint
+        'succession_initial_factors': rows(
+            conn, "SELECT factor_type, value_1, value_2, add_point FROM succession_initial_factor ORDER BY id"),
     }
 
     os.makedirs(os.path.dirname(output_path), exist_ok=True)

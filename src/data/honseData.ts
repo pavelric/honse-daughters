@@ -1,5 +1,5 @@
 import getDatabase, { Database } from './index';
-import { Account, Session, Player, TeamStadiumBorderLine, UserTeamStadiumRanking, UserDirectoryCard, LovePointInfo, RewardItemInfo, UserCharaList, UserCharaProfile, UserTrainedChara, UserPresent, UserItemList, UserClothList, SupportCardNum } from './types';
+import { Account, Session, Player, TeamStadiumBorderLine, UserTeamStadiumRanking, UserDirectoryCard, LovePointInfo, RewardItemInfo, UserCharaList, UserCharaProfile, UserTrainedChara, UserPresent, UserItemList, UserClothList, SupportCardNum, UserTpInfo } from './types';
 import { generateViewerId, getServerTime, formatServerTimestamp } from '../utils';
 import { generateAuthKey } from '../crypto';
 import { getDefaultPlayerData, makeRewardItemInfo } from './utils';
@@ -267,6 +267,33 @@ export function getPlayer(viewerId: number | string): Player | null {
     if (player === undefined) return null
 
     return player
+}
+
+// Trainer points (career stamina). TP refills 1 per TP_RECOVERY_SECONDS up to MAX_TP; the refill
+// state is just the unix time it becomes full (user_profiles.tp_max_recovery_time), and
+// players.tp holds the value as of the last spend (or more, from recovery items).
+export const MAX_TP = 100
+const TP_RECOVERY_SECONDS = 600
+
+export function getTpInfo(viewerId: number | string): UserTpInfo {
+    const now = Math.floor(Date.now() / 1000)
+    const tp = (db.prepare('SELECT tp FROM players WHERE viewer_id = ?').get(viewerId.toString()) as { tp: number } | undefined)?.tp ?? 0
+    const fullAt = (db.prepare('SELECT tp_max_recovery_time t FROM user_profiles WHERE viewer_id = ?').get(viewerId.toString()) as { t: number } | undefined)?.t ?? 0
+    if (fullAt <= now) return { current_tp: Math.max(tp, MAX_TP), max_tp: MAX_TP, max_recovery_time: 0 }
+    const missing = Math.ceil((fullAt - now) / TP_RECOVERY_SECONDS)
+    return { current_tp: Math.max(0, MAX_TP - missing), max_tp: MAX_TP, max_recovery_time: fullAt }
+}
+
+/** Spends TP for a career start. Returns the new TP info, or null when there isn't enough. */
+export function spendTp(viewerId: number | string, amount: number): UserTpInfo | null {
+    const before = getTpInfo(viewerId)
+    if (before.current_tp < amount) return null
+    const tp = before.current_tp - amount
+    const now = Math.floor(Date.now() / 1000)
+    const fullAt = tp >= MAX_TP ? 0 : now + (MAX_TP - tp) * TP_RECOVERY_SECONDS
+    db.prepare('UPDATE players SET tp = ? WHERE viewer_id = ?').run(tp, viewerId.toString())
+    db.prepare('UPDATE user_profiles SET tp_max_recovery_time = ? WHERE viewer_id = ?').run(fullAt, viewerId.toString())
+    return { current_tp: tp, max_tp: MAX_TP, max_recovery_time: fullAt }
 }
 
 export function ensurePlayerExists(account: Account): void {
