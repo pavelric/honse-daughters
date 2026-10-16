@@ -1761,7 +1761,7 @@ export const COMMON_DEFINE = {
     "single_mode_free_auto_item_use_open_date": "2026-03-12 22:00:00",
     "single_mode_scenario_free_shop_item_motivation_up_condition_check_open_date": "2022-03-04 12:00:00",
     "single_mode_trained_chara_rental_max_num": 3,
-    "single_mode_trainer_point_use_value": 30,
+    "single_mode_trainer_point_use_value": 3,     // test setting (live game: 30)
     "skill_upgrade_max_level": 3,
     "story_event_max_total_bonus": 200,
     "talk_gallery_open_date": "2022-02-14 12:00:00",
@@ -1773,7 +1773,7 @@ export const COMMON_DEFINE = {
     "trained_chara_default_save_num": 230,
     "trained_chara_default_succession_num": 2,
     "trainer_point_recovery_calc_base": 1000,
-    "trainer_point_recovery_time": 600,
+    "trainer_point_recovery_time": 12,     // seconds per TP; test setting (live game: 600)
     "trainer_point_recovery_unit_value": 30,
     "update_tp_rp_limit_open_date": "2025-02-14 12:00:00"
 };

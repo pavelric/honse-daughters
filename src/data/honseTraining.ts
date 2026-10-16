@@ -16,6 +16,7 @@ import { TrainingSupportCard, TrainingStartChara, UserTpInfo } from './types'
 import { RequestCommon, formatServerTimestamp } from '../utils'
 import { getUserSupportCardById, getUserCards, incrementUserCharaTrainingStats, incrementSingleModePlayCount, insertTrainedChara, getUserTrainedCharas, spendTp } from './honseData'
 import { toClientTrainedChara } from './utils'
+import { COMMON_DEFINE } from './defaults'
 import { generateRaceScenario, performanceScore, ScenarioHorse, mulberry32 } from './raceScenario'
 import { readFileSync } from 'fs'
 import path from 'path'
@@ -39,7 +40,6 @@ const URA_SCENARIO_ID = 1
 const LAST_TURN = 78
 const MAX_CONTINUES = 3
 const MAX_FREE_CONTINUES = 1
-const CAREER_TP_COST = 30
 
 // ---------------------------------------------------------------------------
 // Requests (field names from Gallop.SingleMode*Request)
@@ -235,7 +235,8 @@ interface TrainingRunState {
 // ---------------------------------------------------------------------------
 
 export function startTrainingRun(req: TrainingStartRequest) {
-    const tpInfo = spendTp(req.viewer_id, req.use_tp || CAREER_TP_COST)
+    // the cost comes from common_define, which load/index also sends the client
+    const tpInfo = spendTp(req.viewer_id, COMMON_DEFINE.single_mode_trainer_point_use_value)
     if (!tpInfo) return null
     const state = buildInitialState(req)
     persistTrainingState(state)

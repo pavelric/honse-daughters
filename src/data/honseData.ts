@@ -3,7 +3,7 @@ import { Account, Session, Player, TeamStadiumBorderLine, UserTeamStadiumRanking
 import { generateViewerId, getServerTime, formatServerTimestamp } from '../utils';
 import { generateAuthKey } from '../crypto';
 import { getDefaultPlayerData, makeRewardItemInfo } from './utils';
-import { DEFAULT_CARDS, DEFAULT_CHARAS, DEFAULT_ITEMS, DEFAULT_SUPPORT_CARDS, DEFAULT_TRAINED_CHARAS, DEFAULT_TEAM_DATA, DEFAULT_CHARA_PROFILES, DEFAULT_USER_PROFILE, TUTORIAL_FINISH_TRAINED_CHARA, DEFAULT_SUPPORT_CARD_DATA_ARRAY } from './defaults';
+import { DEFAULT_CARDS, DEFAULT_CHARAS, DEFAULT_ITEMS, DEFAULT_SUPPORT_CARDS, DEFAULT_TRAINED_CHARAS, DEFAULT_TEAM_DATA, DEFAULT_CHARA_PROFILES, DEFAULT_USER_PROFILE, TUTORIAL_FINISH_TRAINED_CHARA, DEFAULT_SUPPORT_CARD_DATA_ARRAY, COMMON_DEFINE } from './defaults';
 
 const db = getDatabase(Database.HONSE_DATA);
 
@@ -269,16 +269,19 @@ export function getPlayer(viewerId: number | string): Player | null {
     return player
 }
 
-// Trainer points (career stamina). TP refills 1 per TP_RECOVERY_SECONDS up to MAX_TP; the refill
-// state is just the unix time it becomes full (user_profiles.tp_max_recovery_time), and
-// players.tp holds the value as of the last spend (or more, from recovery items).
+// Trainer points (career stamina). TP refills 1 per common_define.trainer_point_recovery_time
+// seconds up to MAX_TP (the client counts it down with the same define); the refill state is
+// just the unix time it becomes full (user_profiles.tp_max_recovery_time), and players.tp holds
+// the value as of the last spend (or more, from recovery items).
 export const MAX_TP = 100
-const TP_RECOVERY_SECONDS = 600
+const TP_RECOVERY_SECONDS = COMMON_DEFINE.trainer_point_recovery_time
 
 export function getTpInfo(viewerId: number | string): UserTpInfo {
     const now = Math.floor(Date.now() / 1000)
     const tp = (db.prepare('SELECT tp FROM players WHERE viewer_id = ?').get(viewerId.toString()) as { tp: number } | undefined)?.tp ?? 0
-    const fullAt = (db.prepare('SELECT tp_max_recovery_time t FROM user_profiles WHERE viewer_id = ?').get(viewerId.toString()) as { t: number } | undefined)?.t ?? 0
+    let fullAt = (db.prepare('SELECT tp_max_recovery_time t FROM user_profiles WHERE viewer_id = ?').get(viewerId.toString()) as { t: number } | undefined)?.t ?? 0
+    // a refill scheduled under a slower recovery time ends no later than it would now
+    fullAt = Math.min(fullAt, now + Math.max(0, MAX_TP - tp) * TP_RECOVERY_SECONDS)
     if (fullAt <= now) return { current_tp: Math.max(tp, MAX_TP), max_tp: MAX_TP, max_recovery_time: 0 }
     const missing = Math.ceil((fullAt - now) / TP_RECOVERY_SECONDS)
     return { current_tp: Math.max(0, MAX_TP - missing), max_tp: MAX_TP, max_recovery_time: fullAt }
