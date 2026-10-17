@@ -29,6 +29,8 @@ import getDatabase, { Database } from './index'
 
 // Gallop.RaceDefine.RaceNpcType
 const RaceNpcType = { Normal: 0, Boss: 3, User: 11 }
+// Gallop.SingleModeEventPlayTiming
+const EventPlayTiming = { TurnStart: 1, RaceStart: 2, RaceEnd: 3, TurnEnd: 4 }
 const CharaState = { Playing: 0, NoWinEnd: 1, TargetFailedEnd: 2, TrueEnd: 3, FinishComplete: 4 }
 const PlayingState = { TurnStart: 1, Race: 2, RaceInGame: 3, RaceResult: 4, TurnEnd: 5, FactorSelect: 11, FactorLotteryEnd: 20 }
 const CommandType = { Training: 1, Outing: 3, RaceEntry: 4, Holiday: 7, Hospital: 8 }
@@ -103,6 +105,14 @@ interface UraData {
     hint_gains: Record<string, [number, number, number][]>
     skill_groups: Record<string, [number, number]>
     support_card_levels: Record<string, number[]>
+    stories: {
+        support_card_chains: Record<string, number[]>
+        support_chara_chains: Record<string, number[]>
+        support_chara_random: Record<string, number[]>
+        trainee_intro: Record<string, number>
+        trainee_random: Record<string, number[]>
+        trainee_card_random: Record<string, number[]>
+    }
 }
 
 let uraCache: UraData | null = null
@@ -236,6 +246,9 @@ interface TrainingRunState {
     _race: PendingRace | null
     _factor_lotteries: { lottery_id: number, factor_info_array: { factor_id: number, level: number }[] }[]
     _select_lottery_id: number
+    _events: PendingEvent[]                            // shown to the client, waiting for check_event
+    _seen_stories: number[]
+    _chain_step: Record<number, number>                // support card position -> chain steps played
 }
 
 // ---------------------------------------------------------------------------
@@ -247,13 +260,15 @@ export function startTrainingRun(req: TrainingStartRequest) {
     const tpInfo = spendTp(req.viewer_id, COMMON_DEFINE.single_mode_trainer_point_use_value)
     if (!tpInfo) return null
     const state = buildInitialState(req)
+    const intro = ura().stories.trainee_intro[String(state.chara_id)]
+    if (intro) queueEvent(state, { story_id: intro, chara_id: state.chara_id, kind: 'trainee' })
     persistTrainingState(state)
     return {
         single_mode_start_common: {
             chara_info: toCharaInfo(state),
             race_condition_array: [],
             home_info: toHomeInfo(state),
-            unchecked_event_array: [],
+            unchecked_event_array: eventInfos(state),
             tp_info: tpInfo,
             user_item_array: [],
             add_trained_chara_array: [],
@@ -275,7 +290,7 @@ export function loadTrainingRun(viewerId: number) {
         single_mode_load_common: {
             chara_info: toCharaInfo(state),
             race_condition_array: [],
-            unchecked_event_array: [],
+            unchecked_event_array: eventInfos(state),
             home_info: toHomeInfo(state),
             race_history: state.race_history,
             win_saddle_id_array: [],
@@ -343,8 +358,13 @@ export function execTrainingCommand(req: ExecCommandRequest) {
     const state = loadTrainingState(req.viewer_id)
     if (!state) return null
 
+    state._events = []   // anything still pending was skipped by the client
+    const trainedWith = state.partners[req.command_id] ?? []
     const result = runCommand(state, req.command_type, req.command_id)
-    if (result.advance) advanceTurn(state)
+    if (result.advance) {
+        advanceTurn(state)
+        if (state.state === CharaState.Playing) rollTurnEvent(state, result.result_state === ResultState.Success ? trainedWith : [])
+    }
     persistTrainingState(state)
 
     return {
@@ -354,25 +374,31 @@ export function execTrainingCommand(req: ExecCommandRequest) {
         not_down_parameter_info: null,
         home_info: toHomeInfo(state),
         command_result: { command_id: req.command_id, sub_id: result.sub_id, result_state: result.result_state },
-        unchecked_event_array: [],
+        unchecked_event_array: eventInfos(state),
         ura_data_set: uraDataSet(state),
     }
 }
 
 /**
- * Story events are not implemented: the real ones need single_mode_story_data content and
- * their choice effects. Returning no events lets the turn continue; a fabricated story_id
- * would make the client try to load a story asset that doesn't exist.
+ * The client played an event's story (and picked `choiceNumber` if it had choices): apply its
+ * rewards and return the events still to play.
  */
-export function checkTrainingEvent(viewerId: number) {
+export function checkTrainingEvent(viewerId: number, eventId: number, choiceNumber: number) {
     const state = loadTrainingState(viewerId)
     if (!state) return null
+    const idx = state._events.findIndex(e => e.story_id === eventId)
+    if (idx >= 0) {
+        const [event] = state._events.splice(idx, 1)
+        applyEventRewards(state, event, choiceNumber)
+        state._seen_stories.push(event.story_id)
+        persistTrainingState(state)
+    }
     return {
         chara_info: toCharaInfo(state),
         not_up_parameter_info: null,
         not_down_parameter_info: null,
         home_info: toHomeInfo(state),
-        unchecked_event_array: [],
+        unchecked_event_array: eventInfos(state),
         event_effected_factor_array: [],
         race_condition_array: [],
         race_start_info: state._race ? raceStartInfo(state._race) : null,
@@ -695,6 +721,9 @@ function buildInitialState(req: TrainingStartRequest): TrainingRunState {
         _race: null,
         _factor_lotteries: [],
         _select_lottery_id: 0,
+        _events: [],
+        _seen_stories: [],
+        _chain_step: {},
     }
     placePartners(state)
     applyStartSuccession(state, req.viewer_id)
@@ -895,7 +924,6 @@ function advanceTurn(state: TrainingRunState) {
     placePartners(state)
 }
 
-/** Each support card shows up at one training per turn (or sits the turn out). */
 /**
  * Spreads the deck over this turn's trainings. Each card picks a training (or sits out) with
  * weight 100 per training, 100 + specialty priority on its own specialty, and 50 for sitting out
@@ -1045,7 +1073,7 @@ function supportCardLevel(card: { support_card_id: number, exp: number, limit_br
     return Math.min(level, cap)
 }
 
-let supportCardInfoById: Map<number, { rarity: number, command_id: number, support_card_type: number }> | null = null
+let supportCardInfoById: Map<number, { chara_id: number, rarity: number, command_id: number, support_card_type: number }> | null = null
 function supportCardInfo(supportCardId: number) {
     if (!supportCardInfoById) {
         const rows = JSON.parse(readFileSync(path.join(process.cwd(), 'assets', 'support_cards_data.json'), 'utf-8')) as any[]
@@ -1366,6 +1394,176 @@ function hintLevelOf(state: TrainingRunState, skillId: number): number {
     return (g && state.skill_tips.find(t => t.group_id === g[0] && t.rarity === g[1])?.level) || 0
 }
 
+// ---------------------------------------------------------------------------
+// Story events
+// ---------------------------------------------------------------------------
+//
+// Which stories exist and who they belong to comes from single_mode_story_data (see
+// build_ura_career_data.py `stories`); how many choices each story offers comes from the story
+// assets (assets/story_choices.json). Event outcomes aren't in the game data, so rewards are
+// random for now, seeded per story and choice so a choice always gives the same thing.
+
+interface PendingEvent {
+    story_id: number
+    chara_id: number
+    kind: 'trainee' | 'support' | 'chain' | 'first_meet'
+    position?: number                 // support card position for support events
+    chain_last?: boolean
+}
+
+// odds per turn (%), checked in order; at most one event a turn
+const CHAIN_EVENT_PCT = 30
+const SUPPORT_EVENT_PCT = 20
+const TRAINEE_EVENT_PCT = 20
+const FIRST_MEET_STORY = 2            // 809<chara>002: a friend card's first meeting
+
+function queueEvent(state: TrainingRunState, event: PendingEvent) {
+    state._events.push(event)
+}
+
+function eventInfos(state: TrainingRunState) {
+    return state._events.map(e => {
+        const card = e.position ? state.support_card_array.find(c => c.position === e.position) : undefined
+        const choices = storyChoices()[String(e.story_id)] ?? 0
+        return {
+            event_id: e.story_id,
+            chara_id: e.chara_id,
+            story_id: e.story_id,
+            play_timing: EventPlayTiming.TurnStart,
+            event_contents_info: {
+                support_card_id: card?.support_card_id ?? 0,
+                show_clear: 0,
+                show_clear_sort_id: 0,
+                choice_array: Array.from({ length: choices }, (_, i) => ({
+                    select_index: i + 1, receive_item_id: 0, target_race_id: 0, gain_select_id_index: 0, select_icon: 0,
+                })),
+                is_effected_multi_chara: false,
+                tips_training_partner_id: 0,
+            },
+            succession_event_info: null,
+            minigame_result: null,
+        }
+    })
+}
+
+/** Picks this turn's event (if any) from the cards trained with and the trainee's own events. */
+function rollTurnEvent(state: TrainingRunState, trainedWith: number[]) {
+    const stories = ura().stories
+    const seen = new Set(state._seen_stories)
+    const unseen = (ids: number[] | undefined) => (ids ?? []).filter(id => !seen.has(id))
+    const pick = <T>(xs: T[]) => xs[randomInt(0, xs.length)]
+
+    for (const pos of trainedWith) {
+        const card = state.support_card_array.find(c => c.position === pos)
+        const info = card && supportCardInfo(card.support_card_id)
+        if (!card || !info) continue
+        // a friend card's first meeting plays the first time you train together
+        const meet = (stories.support_chara_random[String(info.chara_id)] ?? []).find(id => id % 1000 === FIRST_MEET_STORY)
+        if (meet && !seen.has(meet)) {
+            queueEvent(state, { story_id: meet, chara_id: info.chara_id, kind: 'first_meet', position: pos })
+            return
+        }
+    }
+    if (randomInt(0, 100) < CHAIN_EVENT_PCT) {
+        const options = trainedWith.flatMap(pos => {
+            const card = state.support_card_array.find(c => c.position === pos)
+            const chain = card ? supportChain(card.support_card_id) : []
+            const step = state._chain_step[pos] ?? 0
+            return step < chain.length ? [{ pos, card: card!, story: chain[step], last: step === chain.length - 1 }] : []
+        })
+        if (options.length) {
+            const o = pick(options)
+            state._chain_step[o.pos] = (state._chain_step[o.pos] ?? 0) + 1
+            queueEvent(state, { story_id: o.story, chara_id: supportCardInfo(o.card.support_card_id)!.chara_id, kind: 'chain', position: o.pos, chain_last: o.last })
+            return
+        }
+    }
+    if (randomInt(0, 100) < SUPPORT_EVENT_PCT) {
+        const options = trainedWith.flatMap(pos => {
+            const card = state.support_card_array.find(c => c.position === pos)
+            const info = card && supportCardInfo(card.support_card_id)
+            return info ? unseen(stories.support_chara_random[String(info.chara_id)])
+                .filter(id => id % 1000 !== FIRST_MEET_STORY)
+                .map(story => ({ pos, story, chara_id: info.chara_id })) : []
+        })
+        if (options.length) {
+            const o = pick(options)
+            queueEvent(state, { story_id: o.story, chara_id: o.chara_id, kind: 'support', position: o.pos })
+            return
+        }
+    }
+    if (randomInt(0, 100) < TRAINEE_EVENT_PCT) {
+        const options = [...unseen(stories.trainee_random[String(state.chara_id)]), ...unseen(stories.trainee_card_random[String(state.card_id)])]
+        if (options.length) queueEvent(state, { story_id: pick(options), chara_id: state.chara_id, kind: 'trainee' })
+    }
+}
+
+/** A friend card's chain is its character's shared steps followed by the card's own; others have their own. */
+function supportChain(supportCardId: number): number[] {
+    const info = supportCardInfo(supportCardId)
+    const stories = ura().stories
+    return [
+        ...(info ? stories.support_chara_chains[String(info.chara_id)] ?? [] : []),
+        ...(stories.support_card_chains[String(supportCardId)] ?? []),
+    ]
+}
+
+/**
+ * Placeholder rewards until real event outcomes are sourced: one or two small gains, picked
+ * deterministically from the story and choice. Support events add bond; a chain's last step
+ * also gives a skill hint from the card; a friend's first meeting gives mood and skill points.
+ */
+function applyEventRewards(state: TrainingRunState, event: PendingEvent, choice: number) {
+    const rng = mulberry32(event.story_id * 31 + choice)
+    const roll = (lo: number, hi: number) => lo + Math.floor(rng() * (hi - lo + 1))
+    const card = event.position ? state.support_card_array.find(c => c.position === event.position) : undefined
+    const params: { target_type: number, value: number }[] = []
+
+    if (event.kind === 'first_meet') {
+        params.push({ target_type: Target.Motivation, value: 1 }, { target_type: Target.SkillPoint, value: 15 })
+    } else {
+        const specialty = card ? NORMAL_TRAININGS.indexOf(supportCardInfo(card.support_card_id)?.command_id ?? 0) : -1
+        const statOf = (i: number) => [Target.Speed, Target.Stamina, Target.Power, Target.Guts, Target.Wiz][i]
+        const gains = 1 + (rng() < 0.5 ? 1 : 0)
+        for (let i = 0; i < gains; i++) {
+            const r = rng()
+            if (r < 0.55) params.push({ target_type: statOf(specialty >= 0 && rng() < 0.6 ? specialty : roll(0, 4)), value: roll(1, 3) * 5 })
+            else if (r < 0.7) params.push({ target_type: Target.SkillPoint, value: roll(1, 3) * 5 })
+            else if (r < 0.85) params.push({ target_type: Target.Vital, value: roll(1, 2) * 5 })
+            else params.push({ target_type: Target.Motivation, value: 1 })
+        }
+    }
+    applyParams(state, params)
+    if (event.position) {
+        const bond = event.kind === 'chain' ? 10 : 5
+        state.friendship[event.position] = clamp((state.friendship[event.position] ?? 0) + bond, 0, 100)
+    }
+    if (event.chain_last && card) {
+        const hints = (ura().hint_gains[String(card.support_card_id)] ?? []).filter(([type]) => type === 0)
+        if (hints.length) {
+            const [, skillId] = hints[Math.floor(rng() * hints.length)]
+            const g = ura().skill_groups[String(skillId)]
+            if (g) {
+                const tip = state.skill_tips.find(t => t.group_id === g[0] && t.rarity === g[1])
+                if (tip) tip.level = Math.min(MAX_HINT_LEVEL, tip.level + 2)
+                else state.skill_tips.push({ group_id: g[0], rarity: g[1], level: 2 })
+            }
+        }
+    }
+}
+
+let storyChoicesCache: Record<string, number> | null = null
+function storyChoices(): Record<string, number> {
+    if (!storyChoicesCache) {
+        try {
+            storyChoicesCache = JSON.parse(readFileSync(path.join(process.cwd(), 'assets', 'story_choices.json'), 'utf-8'))
+        } catch {
+            storyChoicesCache = {}
+        }
+    }
+    return storyChoicesCache!
+}
+
 function learnSkills(state: TrainingRunState, skills: SkillData[]) {
     for (const s of skills ?? []) {
         if (!s?.skill_id) continue
@@ -1632,6 +1830,9 @@ function loadTrainingState(viewerId: number): TrainingRunState | null {
         if (!state._goals) return null
         state.tips ??= {}
         state.skill_tips ??= []
+        state._events ??= []
+        state._seen_stories ??= []
+        state._chain_step ??= {}
         // an entered-but-unrun race built with the old entrant data (npc_type 1, made-up card ids)
         if (state._race && !state._race.outcomes && state._race.race_horse_data.some((h: any) => h.npc_type === 1)) {
             state._race = null

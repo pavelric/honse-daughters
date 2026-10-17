@@ -5,3 +5,4 @@ msgpack==1.0.8
 apsw-sqlite3mc
 aiohttp
 lz4
+UnityPy

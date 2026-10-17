@@ -15,7 +15,7 @@ const routes = async (fastify: FastifyInstance) => {
     route(fastify, "/start", (body) => startTrainingRun(body as TrainingStartRequest))
     route(fastify, "/load", (_, viewerId) => loadTrainingRun(viewerId))
     route(fastify, "/exec_command", (body) => execTrainingCommand(body as ExecCommandRequest))
-    route(fastify, "/check_event", (_, viewerId) => checkTrainingEvent(viewerId))
+    route(fastify, "/check_event", (body, viewerId) => checkTrainingEvent(viewerId, body.event_id, body.choice_number))
 
     route(fastify, "/race_entry", (body, viewerId) => raceEntry(viewerId, body.program_id))
     route(fastify, "/race_start", (_, viewerId) => raceStart(viewerId))

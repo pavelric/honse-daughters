@@ -65,6 +65,47 @@ def support_card_levels(conn):
     return out
 
 
+def stories(conn):
+    """Career story events (single_mode_story_data), grouped by what triggers them.
+
+    support_card_chains   support card id -> its chain stories in order (show_progress_1 = step)
+    support_chara_chains  support character -> chain steps shared by its cards (friend cards); a
+                          card's own final step is under support_card_chains
+    support_chara_random  support character -> random events shared by all its cards
+    trainee_intro         trainee character -> the "Introducing ..." story played on turn 1
+    trainee_random        trainee character -> random events (category 2, not race/ending/turn-bound)
+    trainee_card_random   trainee card id -> events specific to that card (category 3)
+    """
+    out = {k: defaultdict(list) for k in ('support_card_chains', 'support_chara_chains', 'support_chara_random',
+                                          'trainee_random', 'trainee_card_random')}
+    out['trainee_intro'] = {}
+    card_ids = {r['id'] for r in rows(conn, "SELECT id FROM support_card_data")}
+    seen = set()
+    for r in rows(conn, "SELECT * FROM single_mode_story_data ORDER BY show_progress_1, story_id"):
+        sid = r['story_id']
+        if sid in seen:
+            continue
+        seen.add(sid)
+        if r['support_card_id']:
+            out['support_card_chains'][r['support_card_id']].append(sid)
+        elif r['support_chara_id']:
+            owner_card = sid // 1000 - 800000   # 8<support card id><nnn>: a card-specific step
+            if r['show_progress_1'] and owner_card in card_ids:
+                out['support_card_chains'][owner_card].append(sid)
+            else:
+                key = 'support_chara_chains' if r['show_progress_1'] else 'support_chara_random'
+                out[key][r['support_chara_id']].append(sid)
+        elif r['card_id'] and r['event_category'] == 3:
+            out['trainee_card_random'][r['card_id']].append(sid)
+        elif r['card_chara_id'] and r['event_category'] == 2 and not r['race_event_flag'] and not r['ending_type']:
+            n = sid % 1000
+            if n == 100:
+                out['trainee_intro'][r['card_chara_id']] = sid
+            elif 101 <= n < 200:
+                out['trainee_random'][r['card_chara_id']].append(sid)
+    return out
+
+
 def build(db_path, output_path):
     if not os.path.exists(db_path):
         print(f"Error: Database file not found at '{db_path}'", file=sys.stderr)
@@ -199,6 +240,7 @@ def build(db_path, output_path):
         # skill id -> [group_id, rarity] (chara_info.skill_tips_array is keyed by group and rarity)
         'skill_groups': {r['id']: [r['group_id'], r['rarity']] for r in rows(conn, "SELECT id, group_id, rarity FROM skill_data")},
         'support_card_levels': support_card_levels(conn),
+        'stories': stories(conn),
         'succession_initial_factors': rows(
             conn, "SELECT factor_type, value_1, value_2, add_point FROM succession_initial_factor ORDER BY id"),
     }
