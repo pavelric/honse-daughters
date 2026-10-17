@@ -279,6 +279,9 @@ def build(db_path, output_path):
         'support_card_levels': support_card_levels(conn),
         'stories': stories(conn),
         'succession_factors': succession_factors(conn),
+        # win saddles: [saddle id, [race_instance_id, ...]], earned by winning every listed race
+        'win_saddles': [[r['id'], [r[f'race_instance_id_{i}'] for i in range(1, 9) if r[f'race_instance_id_{i}']]]
+                        for r in rows(conn, "SELECT * FROM single_mode_wins_saddle ORDER BY id")],
         'succession_initial_factors': rows(
             conn, "SELECT factor_type, value_1, value_2, add_point FROM succession_initial_factor ORDER BY id"),
     }

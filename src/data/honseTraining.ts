@@ -72,7 +72,7 @@ export interface ExecCommandRequest extends RequestCommon {
 
 interface Program {
     id: number, race_instance_id: number, month: number, half: number, race_permission: number,
-    fan_set_id: number, reward_set_id: number, grade: number, entry_num: number, race_id: number,
+    need_fan_count: number, fan_set_id: number, reward_set_id: number, grade: number, entry_num: number, race_id: number,
     distance: number, ground: number, finish_time_min: number, finish_time_max: number, is_ura_final?: number
 }
 interface FinalRace { race_id: number, race_instance_id: number, entry_num: number, distance: number, ground: number, finish_time_min: number, finish_time_max: number }
@@ -110,6 +110,7 @@ interface UraData {
         races: Record<string, number>              // race id -> factor_group_id
         scenario: Record<string, number>           // scenario id -> factor_group_id
     }
+    win_saddles: [number, number[]][]   // [saddle id, race_instance_ids that must all be won]
     support_card_levels: Record<string, number[]>
     stories: {
         support_card_chains: Record<string, number[]>
@@ -631,6 +632,8 @@ export function finishTrainingRun(viewerId: number, isForceDelete: boolean, fact
         proper_running_style_oikomi: state.proper_running_style_oikomi,
         succession_trained_chara_id_1: state.succession_trained_chara_id_1,
         succession_trained_chara_id_2: state.succession_trained_chara_id_2,
+        succession_chara_array: successionCharaArray(state),
+        win_saddle_id_array: winSaddleIds(state),
     })
     incrementUserCharaTrainingStats(state.viewer_id, state.chara_id, state.fans)
     incrementSingleModePlayCount(state.viewer_id)
@@ -641,6 +644,50 @@ export function finishTrainingRun(viewerId: number, isForceDelete: boolean, fact
     // then looks the new horse up among the saved ones and throws if it is missing.
     const trainedCharas = getUserTrainedCharas(viewerId).map((t: any) => toClientTrainedChara(t, viewerId))
     return { single_mode_finish_common: finishCommon(state, trainedCharas, trainedCharaId) }
+}
+
+/** Saddles whose races were all won during the career. */
+function winSaddleIds(state: TrainingRunState): number[] {
+    const won = new Set<number>()
+    for (const r of state.race_result_list) {
+        const program = r.result_rank === 1 ? getProgram(r.program_id) : undefined
+        if (program && !program.is_ura_final) won.add(program.race_instance_id)
+    }
+    return ura().win_saddles.filter(([, races]) => races.every(id => won.has(id))).map(([id]) => id)
+}
+
+/**
+ * The new horse's parents (position_id 10 and 20) and grandparents (11/12 and 21/22). The client's
+ * affinity code (SingleModeUtils.CalcRelation) dereferences both parents of every listed trained
+ * chara, so a parent we can't look up (a rental from another account) is stood in for by the horse
+ * itself, without factors.
+ */
+function successionCharaArray(state: TrainingRunState): any[] {
+    const owned = getUserTrainedCharas(state.viewer_id)
+    const entry = (tc: any, positionId: number) => ({
+        card_id: tc.card_id,
+        factor_id_array: parseJson<number[]>(tc.factor_id_array, []),
+        factor_info_array: parseJson<any[]>(tc.factor_info_array, []),
+        owner_viewer_id: 0,
+        position_id: positionId,
+        rank: tc.rank,
+        rarity: tc.rarity,
+        talent_level: tc.talent_level ?? 1,
+        win_saddle_id_array: parseJson<number[]>(tc.win_saddle_id_array, []),
+    })
+    const out: any[] = []
+    for (const [id, pos] of [[state.succession_trained_chara_id_1, 10], [state.succession_trained_chara_id_2, 20]]) {
+        const parent = owned.find((t: any) => t.trained_chara_id === id)
+        if (!parent) {
+            out.push(entry({ card_id: state.card_id, rank: 1, rarity: state.rarity, talent_level: state.talent_level }, pos))
+            continue
+        }
+        out.push(entry(parent, pos))
+        for (const gp of parseJson<any[]>(parent.succession_chara_array, [])) {
+            if (gp.position_id === 10 || gp.position_id === 20) out.push({ ...gp, position_id: pos + gp.position_id / 10 })
+        }
+    }
+    return out
 }
 
 // ---------------------------------------------------------------------------
@@ -930,6 +977,13 @@ function advanceTurn(state: TrainingRunState) {
         return
     }
     placePartners(state)
+    // A goal race the player hasn't the fans to enter ends the career on that turn; otherwise
+    // the client sits on Race Day with every race locked.
+    const goals = state._goals.filter(g => g.turn === state.turn)
+    if (goals.length && goals.every(g => state.fans < (getProgram(g.condition_id)?.need_fan_count ?? 0))) {
+        state.state = CharaState.TargetFailedEnd
+        state.playing_state = PlayingState.TurnEnd
+    }
 }
 
 /**

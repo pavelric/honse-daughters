@@ -5,6 +5,10 @@ import { getServerTime, formatTimestamp, formatServerTimestamp } from '../utils'
 import { RESOURCE_VERSION } from '../config';
 import { COMMON_DEFINE, RELEASED_CARD_ARRAY, SINGLE_MODE_DIFFICULTY_INFO_ARRAY, DEFAULT_PAYMENT_PURCHASED_TIMES_LIST } from './defaults';
 
+// When the in-game news was last updated. Fixed, so the Notices popup only shows on the first
+// login of an in-game day (the day changes at 00:00 JST) instead of on every login.
+const LAST_INFORMATION_UPDATE_TIME = '2025-01-01 00:00:00';
+
 
 export function getDefaultPlayerData(viewerId: number): Omit<Player, 'id'> {
     return {
@@ -348,7 +352,8 @@ export function getClientSerializedData(viewerId: number): ClientPlayerData | nu
         item_list: itemList,
         jukebox_info: jukeboxInfo,
         jukebox_request_history: jukeboxRequestHistory, // Cast to any to bypass array mismatch
-        last_information_update_time: nowIso,
+        // the Notices popup reopens whenever this is newer than when the player last opened it
+        last_information_update_time: LAST_INFORMATION_UPDATE_TIME,
         last_select_support_card_deck_id: 1,
         legend_race_playing_info: legendRacePlayingInfo,
         login_trophy_info_array: [],

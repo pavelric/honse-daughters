@@ -985,7 +985,7 @@ Other notes:
 | `/trained_chara/change_lock_multi` | ❌ missing | `TrainedCharaChangeLockMulti` | `trained_chara_id_array`: int[]<br>`lock_flag`: int<br>`icon_type`: int | `{}` (no fields) |
 | `/trained_chara/change_memo` | ❌ missing | `TrainedCharaChangeMemo` | `trained_chara_id`: int<br>`memo`: string | `{}` (no fields) |
 | `/trained_chara/change_nickname` | ❌ missing | `TrainedCharaChangeNickname` | `trained_chara_id`: int<br>`nickname_id`: int | `trained_chara_info`: [TrainedChara](#type-trainedchara) |
-| `/trained_chara/get_succession_history_array` | ❌ missing | `TrainedCharaGetSuccessionHistoryArray` | `target_viewer_id`: long<br>`target_trained_chara_id`: int | `succession_history_array`: [SuccessionHistory](#type-successionhistory)[] |
+| `/trained_chara/get_succession_history_array` | ✅ implemented | `TrainedCharaGetSuccessionHistoryArray` | `target_viewer_id`: long<br>`target_trained_chara_id`: int | `succession_history_array`: [SuccessionHistory](#type-successionhistory)[] |
 | `/trained_chara/load` | ✅ implemented | `TrainedCharaLoad` | — | `trained_chara_array`: [TrainedChara](#type-trainedchara)[]<br>`trained_chara_favorite_array`: [TrainedCharaFavorite](#type-trainedcharafavorite)[]<br>`room_match_entry_chara_id_array`: int[] |
 | `/trained_chara/remove` | ❌ missing | `TrainedCharaRemove` | `trained_chara_id_array`: int[] | `trained_chara_array`: [TrainedChara](#type-trainedchara)[]<br>`reward_summary_info`: [RewardSummaryInfo](#type-rewardsummaryinfo)<br>`transfer_event_info`: [TransferEventInfo](#type-transfereventinfo) |
 
