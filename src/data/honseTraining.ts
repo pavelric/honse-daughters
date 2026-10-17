@@ -104,6 +104,12 @@ interface UraData {
     support_unique_effects: Record<string, { lv: number, effects: [number, number][] }>
     hint_gains: Record<string, [number, number, number][]>
     skill_groups: Record<string, [number, number]>
+    /** factor_group_id per source; factor_id = factor_group_id * 100 + stars */
+    succession_factors: {
+        skills: Record<string, [number, number]>   // skill group_id -> [factor_group_id, hinted (base) skill id]
+        races: Record<string, number>              // race id -> factor_group_id
+        scenario: Record<string, number>           // scenario id -> factor_group_id
+    }
     support_card_levels: Record<string, number[]>
     stories: {
         support_card_chains: Record<string, number[]>
@@ -266,7 +272,7 @@ export function startTrainingRun(req: TrainingStartRequest) {
     return {
         single_mode_start_common: {
             chara_info: toCharaInfo(state),
-            race_condition_array: [],
+            race_condition_array: raceConditions(state),
             home_info: toHomeInfo(state),
             unchecked_event_array: eventInfos(state),
             tp_info: tpInfo,
@@ -289,7 +295,7 @@ export function loadTrainingRun(viewerId: number) {
     return {
         single_mode_load_common: {
             chara_info: toCharaInfo(state),
-            race_condition_array: [],
+            race_condition_array: raceConditions(state),
             unchecked_event_array: eventInfos(state),
             home_info: toHomeInfo(state),
             race_history: state.race_history,
@@ -369,7 +375,7 @@ export function execTrainingCommand(req: ExecCommandRequest) {
 
     return {
         chara_info: toCharaInfo(state),
-        race_condition_array: [],
+        race_condition_array: raceConditions(state),
         not_up_parameter_info: null,
         not_down_parameter_info: null,
         home_info: toHomeInfo(state),
@@ -400,7 +406,7 @@ export function checkTrainingEvent(viewerId: number, eventId: number, choiceNumb
         home_info: toHomeInfo(state),
         unchecked_event_array: eventInfos(state),
         event_effected_factor_array: [],
-        race_condition_array: [],
+        race_condition_array: raceConditions(state),
         race_start_info: state._race ? raceStartInfo(state._race) : null,
         race_running_style: state.race_running_style,
         ura_data_set: uraDataSet(state),
@@ -459,7 +465,7 @@ export function raceEnd(viewerId: number) {
         add_music: null,
         race_history: state.race_history,
         win_saddle_id_array: [],
-        race_condition_array: [],
+        race_condition_array: raceConditions(state),
         add_trophy_info: null,
         trophy_reward_info: null,
         reward_summary_info: emptyRewardSummary(),
@@ -589,7 +595,7 @@ export function finishTrainingRun(viewerId: number, isForceDelete: boolean, fact
 
     if (isForceDelete) {
         db.prepare('DELETE FROM training_runs WHERE viewer_id = ?').run(viewerId)
-        return { single_mode_finish_common: finishCommon(state, null) }
+        return { single_mode_finish_common: finishCommon(state, getUserTrainedCharas(viewerId).map((t: any) => toClientTrainedChara(t, viewerId))) }
     }
 
     const lottery = state._factor_lotteries.find(l => l.lottery_id === factorLotteryId)
@@ -631,8 +637,10 @@ export function finishTrainingRun(viewerId: number, isForceDelete: boolean, fact
     db.prepare('DELETE FROM training_runs WHERE viewer_id = ?').run(viewerId)
 
     state.state = CharaState.FinishComplete
-    const row = getUserTrainedCharas(viewerId).find((t: any) => t.trained_chara_id === trainedCharaId)
-    return { single_mode_finish_common: finishCommon(state, row ? toClientTrainedChara(row, viewerId) : null, trainedCharaId) }
+    // The client replaces its whole trained chara cache with this list (WorkTrainedCharaData.UpdateAll),
+    // then looks the new horse up among the saved ones and throws if it is missing.
+    const trainedCharas = getUserTrainedCharas(viewerId).map((t: any) => toClientTrainedChara(t, viewerId))
+    return { single_mode_finish_common: finishCommon(state, trainedCharas, trainedCharaId) }
 }
 
 // ---------------------------------------------------------------------------
@@ -1142,12 +1150,13 @@ function buildPendingRace(state: TrainingRunState, programId: number): PendingRa
         entrants[x.i].data.popularity_mark_rank_array = [mark, mark, mark]
     })
 
+    const condition = raceCondition(state, programId)
     return {
         program_id: programId,
         race,
         random_seed: seed,
-        weather: 1 + Math.floor(rng() * 2),          // sunny / cloudy
-        ground_condition: 1,                          // good
+        weather: condition.weather,
+        ground_condition: condition.ground_condition,
         race_horse_data: entrants.map(e => e.data),
         player_index: playerGate,
         horses: entrants.map(e => e.horse),
@@ -1155,6 +1164,31 @@ function buildPendingRace(state: TrainingRunState, programId: number): PendingRa
         snapshot: null,
         continue_num: 0,
     }
+}
+
+/**
+ * Weather and going of a race, fixed per account and program. The client won't open the paddock
+ * for a program it has no condition for: SingleModeChangeViewManager.ChangePaddock_Impl looks the
+ * program up in WorkSingleModeData's race conditions and silently does nothing when it's missing.
+ */
+function raceCondition(state: TrainingRunState, programId: number) {
+    const rng = mulberry32((state.viewer_id ^ Math.imul(programId, 2654435761)) >>> 0)
+    return {
+        program_id: programId,
+        weather: 1 + Math.floor(rng() * 2),          // sunny / cloudy
+        ground_condition: 1,                          // good
+    }
+}
+
+/**
+ * race_condition_array: every program dated this turn or next (race_end and race_out come before
+ * the next turn's first response), plus the URA Finals stages in the final year.
+ */
+function raceConditions(state: TrainingRunState) {
+    const dates = [turnInfo(state.turn), turnInfo(state.turn + 1)]
+    return ura().programs
+        .filter(p => p.is_ura_final ? dates.some(d => d.year === 4) : dates.some(d => d.month === p.month && d.half === p.half))
+        .map(p => raceCondition(state, p.id))
 }
 
 /** URA Finals stage 10001-10003: run it at the distance category and ground the horse is best at. */
@@ -1587,18 +1621,29 @@ function rankOf(state: TrainingRunState): { rank_score: number, rank: number } {
     return { rank_score, rank: r?.id ?? 1 }
 }
 
+// Chance that a learned skill / won race / scenario win becomes a spark at the end of a career
+const WHITE_SPARK_PCT = 20
+const DOUBLE_CIRCLE_SPARK_PCT = 25
+const GOLD_SPARK_PCT = 40
+const RACE_SPARK_PCT = 20
+const SCENARIO_SPARK_PCT = 30
+const URA_FINAL_PROGRAM_ID = 10003
+
 /**
- * One blue (stat) factor, one pink (aptitude) factor and, when the card has one, its red
- * (unique) factor. Ids follow succession_factor: stat*100+stars, aptitude_group*100+stars,
- * card_id*100+stars.
+ * Always one blue (stat) factor, one pink (aptitude) factor and, when the card has one, its red
+ * (unique) factor; then a roll per learned skill group (white), won G1 and URA Finale win.
+ * Ids follow succession_factor: factor_group_id * 100 + stars, where blue groups are stat 1..5,
+ * pink are aptitude 11..34 and red is the card id.
  */
 function rollFactors(state: TrainingRunState): { factor_id: number, level: number }[] {
     const stars = () => { const r = randomInt(0, 100); return r < 50 ? 1 : r < 85 ? 2 : 3 }
+    const chance = (pct: number) => randomInt(0, 100) < pct
     const factors: { factor_id: number, level: number }[] = []
+    const add = (groupId: number) => factors.push({ factor_id: groupId * 100 + stars(), level: 1 })
 
     const stats = [state.speed, state.stamina, state.power, state.guts, state.wiz]
     const statIdx = randomInt(0, 100) < 70 ? stats.indexOf(Math.max(...stats)) : randomInt(0, 5)
-    factors.push({ factor_id: (statIdx + 1) * 100 + stars(), level: 1 })
+    add(statIdx + 1)
 
     const apt: [number, number][] = [
         [11, state.proper_ground_turf], [12, state.proper_ground_dirt],
@@ -1606,12 +1651,34 @@ function rollFactors(state: TrainingRunState): { factor_id: number, level: numbe
         [31, state.proper_distance_short], [32, state.proper_distance_mile], [33, state.proper_distance_middle], [34, state.proper_distance_long],
     ]
     const good = apt.filter(([, v]) => v >= 7)
-    const pick = (good.length ? good : apt)[randomInt(0, (good.length ? good : apt).length)]
-    factors.push({ factor_id: pick[0] * 100 + stars(), level: 1 })
+    const pool = good.length ? good : apt
+    add(pool[randomInt(0, pool.length)][0])
 
-    if (ura().unique_factor_cards.includes(state.card_id)) {
-        factors.push({ factor_id: state.card_id * 100 + stars(), level: 1 })
+    if (ura().unique_factor_cards.includes(state.card_id)) add(state.card_id)
+
+    const sf = ura().succession_factors
+    // one roll per skill group, at the best chance among the learned skills of that group
+    const skillChance = new Map<number, number>()
+    for (const { skill_id } of state.skill_array) {
+        const g = ura().skill_groups[String(skill_id)]
+        const factor = g && sf.skills[String(g[0])]
+        if (!factor) continue
+        const pct = g[1] >= 2 ? GOLD_SPARK_PCT : skill_id !== factor[1] ? DOUBLE_CIRCLE_SPARK_PCT : WHITE_SPARK_PCT
+        skillChance.set(factor[0], Math.max(skillChance.get(factor[0]) ?? 0, pct))
     }
+    for (const [groupId, pct] of skillChance) if (chance(pct)) add(groupId)
+
+    const wonRaces = new Set<number>()
+    for (const r of state.race_result_list) {
+        const program = r.result_rank === 1 ? getProgram(r.program_id) : undefined
+        const groupId = program && !program.is_ura_final ? sf.races[String(program.race_id)] : undefined
+        if (groupId) wonRaces.add(groupId)
+    }
+    for (const groupId of wonRaces) if (chance(RACE_SPARK_PCT)) add(groupId)
+
+    const wonFinal = state.race_result_list.some(r => r.program_id === URA_FINAL_PROGRAM_ID && r.result_rank === 1)
+    const scenarioGroup = sf.scenario[String(state.scenario_id)]
+    if (wonFinal && scenarioGroup && chance(SCENARIO_SPARK_PCT)) add(scenarioGroup)
     return factors
 }
 
@@ -1627,9 +1694,9 @@ function factorSelectCommon(state: TrainingRunState) {
     }
 }
 
-function finishCommon(state: TrainingRunState, trainedChara: any | null, trainedCharaId = 0) {
+function finishCommon(state: TrainingRunState, trainedCharas: any[], trainedCharaId = 0) {
     return {
-        trained_chara: trainedChara ? [trainedChara] : [],
+        trained_chara: trainedCharas,
         directory_card_array: [],
         directory_ranking: 0,
         trained_chara_id: trainedCharaId,

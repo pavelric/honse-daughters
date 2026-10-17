@@ -106,6 +106,43 @@ def stories(conn):
     return out
 
 
+def succession_factors(conn):
+    """End-of-career sparks rolled from the trained horse, keyed the way the career engine looks them up.
+
+    skills:   skill group_id -> [factor_group_id, skill id the factor hints] (white sparks; the hinted
+              skill is the base version, so a gold or double-circle skill of the group maps to it too)
+    races:    race id -> factor_group_id (race sparks; succession_factor has no race id, so match on name)
+    scenario: scenario id -> factor_group_id (factor_group_id 30000 + scenario id)
+    factor_id is factor_group_id * 100 + stars for every type.
+    """
+    skill_group = {r['id']: r['group_id'] for r in rows(conn, "SELECT id, group_id FROM skill_data")}
+    skills = {}
+    for r in rows(conn, """SELECT DISTINCT f.factor_group_id, e.value_1 AS skill_id FROM succession_factor f
+                           JOIN succession_factor_effect e ON e.factor_group_id = f.factor_group_id
+                           WHERE f.factor_type = 4 AND e.target_type = 41 ORDER BY f.factor_group_id"""):
+        g = skill_group.get(r['skill_id'])
+        if g is not None and g not in skills:
+            skills[g] = [r['factor_group_id'], r['skill_id']]
+    # some factor names abbreviate the race name ("February S.", "J.D. Derby")
+    abbreviations = {'S.': 'Stakes', 'C.': 'Cup', 'Ch.': 'Championship', 'J.D.': 'Japan Dirt',
+                     'L.': 'Ladies’', 'M.C.': 'Mile Championship', 'J.F.': 'Juvenile Fillies',
+                     'F.S.': 'Futurity Stakes'}
+    aliases = {'Japanese Derby': 'Tokyo Yushun (Japanese Derby)'}
+    race_ids_by_name = defaultdict(list)
+    for r in rows(conn, "SELECT [index] AS race_id, text FROM text_data WHERE category = 32"):
+        race_ids_by_name[r['text']].append(r['race_id'])
+    races = {}
+    for r in rows(conn, """SELECT f.factor_group_id, t.text FROM succession_factor f
+                           JOIN text_data t ON t.category = 147 AND t.[index] = f.factor_id
+                           WHERE f.factor_type = 5 AND f.rarity = 1"""):
+        name = ' '.join(abbreviations.get(w, w) for w in r['text'].split(' '))
+        for race_id in race_ids_by_name[name] + race_ids_by_name[aliases.get(name, '')]:
+            races[race_id] = r['factor_group_id']
+    scenario = {r['factor_group_id'] - 30000: r['factor_group_id'] for r in rows(
+        conn, "SELECT DISTINCT factor_group_id FROM succession_factor WHERE factor_type = 6")}
+    return {'skills': skills, 'races': races, 'scenario': scenario}
+
+
 def build(db_path, output_path):
     if not os.path.exists(db_path):
         print(f"Error: Database file not found at '{db_path}'", file=sys.stderr)
@@ -241,6 +278,7 @@ def build(db_path, output_path):
         'skill_groups': {r['id']: [r['group_id'], r['rarity']] for r in rows(conn, "SELECT id, group_id, rarity FROM skill_data")},
         'support_card_levels': support_card_levels(conn),
         'stories': stories(conn),
+        'succession_factors': succession_factors(conn),
         'succession_initial_factors': rows(
             conn, "SELECT factor_type, value_1, value_2, add_point FROM succession_initial_factor ORDER BY id"),
     }

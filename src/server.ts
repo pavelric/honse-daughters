@@ -31,6 +31,7 @@ import indexApiPlugin from "./routes/api/index";
 import jukeboxApiPlugin from "./routes/api/jukebox";
 import missionApiPlugin from "./routes/api/mission";
 import noteApiPlugin from "./routes/api/note";
+import optionApiPlugin from "./routes/api/option";
 import paymentApiPlugin from "./routes/api/payment";
 import preSingleModeApiPlugin from "./routes/api/pre_single_mode";
 import presentApiPlugin from "./routes/api/present";
@@ -104,6 +105,7 @@ fastify.register(indexApiPlugin, { prefix: `${apiPrefix}/load` })
 fastify.register(jukeboxApiPlugin, { prefix: `${apiPrefix}/jukebox` })
 fastify.register(missionApiPlugin, { prefix: `${apiPrefix}/mission` })
 fastify.register(noteApiPlugin, { prefix: `${apiPrefix}/note` })
+fastify.register(optionApiPlugin, { prefix: `${apiPrefix}/option` })
 fastify.register(paymentApiPlugin, { prefix: `${apiPrefix}/payment` })
 fastify.register(preSingleModeApiPlugin, { prefix: `${apiPrefix}/pre_single_mode` })
 fastify.register(presentApiPlugin, { prefix: `${apiPrefix}/present` })

@@ -53,6 +53,7 @@ Session IDs: `computeResponseSid()` in `src/crypto.ts` hashes `sid + EN_SALT` (s
   - `utils.ts` — assembles the large client-facing payloads (`getClientSerializedData`, `constructClientUserInfo`, `buildSummaryUserInfo`, …).
   - `defaults.ts` — big literal blobs for a freshly created account and hardcoded client constants (`COMMON_DEFINE`, released card array, etc.).
   - `honseTraining.ts` — career/training-mode logic (WIP, not working yet).
+  - `loginBonus.ts` — daily login bonus claims (rewards go to the present box), run by `load/index`.
 - `src/utils.ts` — `generateDataHeaders()` builds the `data_headers` envelope every response needs, plus server-time helpers (server time is overridable via `setServerTime` for testing time-gated content).
 
 Responses follow the game's envelope: `{ data, data_headers: generateDataHeaders({...}), response_code: 1 }`.

@@ -611,7 +611,7 @@ Other notes:
 
 | Path | Status | Client class | Request fields | Response `data` fields |
 |---|---|---|---|---|
-| `/option/change_option` | ❌ missing | `OptionChangeOption` | `option_info_array`: [OptionInfo](#type-optioninfo)[] | `option_info_array`: [OptionInfo](#type-optioninfo)[] |
+| `/option/change_option` | ✅ implemented | `OptionChangeOption` | `option_info_array`: [OptionInfo](#type-optioninfo)[] | `option_info_array`: [OptionInfo](#type-optioninfo)[] |
 
 <a id="prefix-payment"></a>
 ### payment

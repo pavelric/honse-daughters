@@ -416,6 +416,42 @@ export default function init(
         )
     `).run();
 
+    // What the client has already seen, reported through read_info/index and sent back at login
+    // so it stops re-showing it. kind: home_story, short_episode, home_poster, tutorial_guide,
+    // released_episode or home_banner.
+    database.prepare(`
+        CREATE TABLE IF NOT EXISTS user_read_info (
+            viewer_id INTEGER NOT NULL,
+            kind TEXT NOT NULL,
+            id INTEGER NOT NULL,
+            PRIMARY KEY (viewer_id, kind, id),
+            FOREIGN KEY (viewer_id) REFERENCES accounts(viewer_id) ON DELETE CASCADE
+        )
+    `).run();
+
+    // Settings the client stores server-side (Gallop.GameDefine.OptionTypeSavedInServer)
+    database.prepare(`
+        CREATE TABLE IF NOT EXISTS user_options (
+            viewer_id INTEGER NOT NULL,
+            type INTEGER NOT NULL,
+            value INTEGER NOT NULL,
+            PRIMARY KEY (viewer_id, type),
+            FOREIGN KEY (viewer_id) REFERENCES accounts(viewer_id) ON DELETE CASCADE
+        )
+    `).run();
+
+    // Login bonus progress; last_claim_day is the game day (see data/loginBonus.ts) of the last claim
+    database.prepare(`
+        CREATE TABLE IF NOT EXISTS user_login_bonus (
+            viewer_id INTEGER NOT NULL,
+            login_bonus_id INTEGER NOT NULL,
+            total_count INTEGER NOT NULL,
+            last_claim_day INTEGER NOT NULL,
+            PRIMARY KEY (viewer_id, login_bonus_id),
+            FOREIGN KEY (viewer_id) REFERENCES accounts(viewer_id) ON DELETE CASCADE
+        )
+    `).run();
+
     // Create indexes for performance
     database.prepare(`CREATE INDEX IF NOT EXISTS idx_accounts_udid ON accounts(udid)`).run();
     database.prepare(`CREATE INDEX IF NOT EXISTS idx_accounts_viewer_id ON accounts(viewer_id)`).run();

@@ -5,6 +5,7 @@ import { computeResponseSid } from "../../crypto";
 import { pack, unpack } from 'msgpackr';
 import { verifySession } from "../../data/honseData";
 import { getClientSerializedData } from "../../data/utils";
+import { claimLoginBonuses } from "../../data/loginBonus";
 import { writeFileSync } from "fs";
 import { join } from "path";
 
@@ -45,13 +46,16 @@ const routes = async (fastify: FastifyInstance) => {
             "error": "Internal Server Error",
             "message": "Failed to retrieve player data"
         })
+        // Claimed here rather than in getClientSerializedData: it grants presents, once per game day.
+        const loginBonusList = 'login_bonus_list' in playerClientData ? claimLoginBonuses(viewerId) : []
+        if ('login_bonus_list' in playerClientData) playerClientData.login_bonus_list = loginBonusList
         var response = {
             "data": playerClientData,
             "data_headers": generateDataHeaders({
                 sid: request.umaHeader?.sid ? computeResponseSid(request.umaHeader.sid) : undefined,
                 viewer_id: viewerId,
                 notifications: {
-                    add_present_num: 0, //hardcode for now
+                    add_present_num: loginBonusList.length,
                     room_match_race_result_num: 0,
                     unread_information_exists: 1,
                 }

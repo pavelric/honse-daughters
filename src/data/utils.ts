@@ -1,6 +1,6 @@
 import { ChallengeMatchLoadInfo, ChampionsMeetingInfo, CircleInfo, CircleUser, ClientPlayerData, ClientUserInfo, CommonDefine, LegendRacePlayingInfo, TeamStadiumBorderLine, UserCircleData, UserCoinInfo, UserDailyLegendRacePlayingInfo, UserDailyRacePlayingInfo, UserHomePositionInfo, UserHonorInfo, UserJukeboxInfo, UserJukeboxRequestHistory, UserLimitedShopInfo, UserMenuBadgeInfo, UserRpInfo, UserSeasonPackInfo, UserTeamBuildingLoadInfo, UserTeamStadiumRanking, UserTeamStadiumRecord, UserTpInfo, Player, UserCardList, UserCharaList, UserSupportCardList, UserSupportCardDeck, UserTrainedChara, UserTeamStadiumData, UserItemList, UserCharaProfile, RewardItemInfo, SummaryUserInfo } from './types';
 import { trainingCharaLight } from './honseTraining';
-import { getPlayer, getPlayerBorderline, getUserCards, getUserCharas, getUserDecks, getUserItems, getUserProfile, getUserSupportCards, getUserTeamData, getUserTrainedCharas, getUserCharaProfiles, getUserPieces, countUserPresents, getRandomViewerIds, getCircleMembership, getUserSupportCardById, getTpInfo } from './honseData';
+import { getPlayer, getPlayerBorderline, getUserCards, getUserCharas, getUserDecks, getUserItems, getUserProfile, getUserSupportCards, getUserTeamData, getUserTrainedCharas, getUserCharaProfiles, getUserPieces, countUserPresents, getRandomViewerIds, getCircleMembership, getUserSupportCardById, getTpInfo, getReadInfo, getUserOptions } from './honseData';
 import { getServerTime, formatTimestamp, formatServerTimestamp } from '../utils';
 import { RESOURCE_VERSION } from '../config';
 import { COMMON_DEFINE, RELEASED_CARD_ARRAY, SINGLE_MODE_DIFFICULTY_INFO_ARRAY, DEFAULT_PAYMENT_PURCHASED_TIMES_LIST } from './defaults';
@@ -314,6 +314,9 @@ export function getClientSerializedData(viewerId: number): ClientPlayerData | nu
         trained_chara_id: td.trained_chara_id
     }));
 
+    // what the client has already seen / its server-side settings (see routes/api/read_info.ts, option.ts)
+    const readInfo = getReadInfo(viewerId);
+
     const baseData = {
         border_line: [],//getPlayerBorderline(viewerId),
         card_dress_array: [],
@@ -337,8 +340,9 @@ export function getClientSerializedData(viewerId: number): ClientPlayerData | nu
         gacha_banner_info: [],
         gacha_campaign_info_array: [],
         home_position_info: homePositionInfo,
-        home_poster_data_array: [],
-        home_story_data_array: [],
+        home_banner_data_array: readInfo.home_banner,
+        home_poster_data_array: readInfo.home_poster,
+        home_story_data_array: readInfo.home_story,
         honor_info: honorInfo,
         is_linkage: 0,
         item_list: itemList,
@@ -352,6 +356,7 @@ export function getClientSerializedData(viewerId: number): ClientPlayerData | nu
         menu_badge_info: menuBadgeInfo,
         music_list: [],
         notice_data: { button_type: 1, event_id: 0, notice_text: "", notice_title: "" },
+        option_info_array: isSignup ? [] : getUserOptions(viewerId),
         optin_user_birth: playerData.optin_user_birth,
         parental_consent: 0,
         payment_purchased_times_list: DEFAULT_PAYMENT_PURCHASED_TIMES_LIST,
@@ -362,12 +367,12 @@ export function getClientSerializedData(viewerId: number): ClientPlayerData | nu
         ranking: ranking,
         release_card_array: RELEASED_CARD_ARRAY,
         release_item_flag: 0,
-        released_episode_data_array: [],
+        released_episode_data_array: readInfo.released_episode,
         res_version: isSignup ? "" : RESOURCE_VERSION,
         rp_info: rpInfo,
         scenario_record_array: [],
         season_pack_info: seasonPackInfo,
-        short_episode_data_array: [],
+        short_episode_data_array: readInfo.short_episode,
         single_mode_chara_light: (isSignup || isInTutorial ? null : trainingCharaLight(viewerId)) ?? [] as any,
         single_mode_difficulty_info_array: SINGLE_MODE_DIFFICULTY_INFO_ARRAY,
         single_mode_rental_succession_num: 0,
@@ -386,7 +391,7 @@ export function getClientSerializedData(viewerId: number): ClientPlayerData | nu
         trained_chara_favorite_array: [],
         training_challenge_exam_infos: null,
         training_challenge_user_info: null,
-        tutorial_guide_data_array: [],
+        tutorial_guide_data_array: readInfo.tutorial_guide,
         user_birth: null,
         user_info: userInfo,
         user_last_checked_time_list: [],
@@ -406,7 +411,7 @@ export function getClientSerializedData(viewerId: number): ClientPlayerData | nu
         fan_raid_first_flag: true,
         fan_raid_id: 0,
         limited_shop_info: limitedShopInfo,
-        login_bonus_list: [ { login_bonus_id: 20001, total_count: 1 }, { login_bonus_id: 11001, total_count: 1 } ],
+        login_bonus_list: [] as { login_bonus_id: number, total_count: number }[],   // filled by load/index (data/loginBonus.ts)
         recheck_dmm_jewel: "",
         single_mode_scenario_id_array: [1, 2],
         story_event_first_flag: true,

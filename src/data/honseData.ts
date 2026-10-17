@@ -226,6 +226,8 @@ export function getSessionByViewerId(viewerId: string): Session | undefined {
     return db.prepare('SELECT * FROM sessions WHERE viewer_id = ? ORDER BY expires DESC LIMIT 1').get(viewerId) as Session | undefined;
 }
 
+const SESSION_LIFETIME = 60 * 30; // seconds
+
 export function verifySession(viewerId: string): Session | undefined {
     const session = getSessionByViewerId(viewerId);
     if (!session) return undefined;
@@ -235,13 +237,16 @@ export function verifySession(viewerId: string): Session | undefined {
         // Optionally delete it? db.prepare('DELETE FROM sessions WHERE auth_key = ?').run(session.auth_key);
         return undefined;
     }
-    
+
+    // Sliding expiry: an active player (a long race, a career) must not get logged out mid-flow.
+    session.expires = getServerTime() + SESSION_LIFETIME;
+    db.prepare('UPDATE sessions SET expires = ? WHERE auth_key = ?').run(session.expires, session.auth_key);
     return session;
 }
 
 export function createSession(account: Account): Session {
     const authKey = generateAuthKey();
-    const expiresTimestamp = getServerTime() + (60 * 30); // 30 minutes
+    const expiresTimestamp = getServerTime() + SESSION_LIFETIME;
     
     db.prepare(`
         INSERT INTO sessions (auth_key, account_id, viewer_id, expires)
@@ -767,7 +772,8 @@ export function insertTrainedChara(viewerId: number | string, trainedChara: any)
         factor_id_array: JSON.stringify(trainedChara.factor_id_array ?? []),
         fans: trainedChara.fans ?? 0,
         is_locked: 0,
-        is_saved: 0,
+        // the client only lists (and finds, at career end) saved trained charas
+        is_saved: trainedChara.is_saved ?? 1,
         nickname_id: trainedChara.nickname_id ?? 0,
         nickname_id_array: JSON.stringify(trainedChara.nickname_id_array ?? []),
         owner_trained_chara_id: 0,
@@ -1290,3 +1296,37 @@ export function addPresentToAllUsers(
     transaction(users);
 }
 
+export const READ_INFO_KINDS = ['home_story', 'short_episode', 'home_poster', 'tutorial_guide', 'released_episode', 'home_banner'] as const;
+export type ReadInfoKind = typeof READ_INFO_KINDS[number];
+
+export function addReadInfo(viewerId: number | string, kind: ReadInfoKind, ids: number[]): void {
+    const insert = db.prepare('INSERT OR IGNORE INTO user_read_info (viewer_id, kind, id) VALUES (?, ?, ?)');
+    db.transaction(() => { for (const id of ids) insert.run(Number(viewerId), kind, id); })();
+}
+
+/** Every already-read list, shaped like the client's *DataForDisplay arrays ({ id }). */
+export function getReadInfo(viewerId: number | string): Record<ReadInfoKind, { id: number }[]> {
+    const out = Object.fromEntries(READ_INFO_KINDS.map(k => [k, [] as { id: number }[]])) as Record<ReadInfoKind, { id: number }[]>;
+    const rows = db.prepare('SELECT kind, id FROM user_read_info WHERE viewer_id = ? ORDER BY id').all(Number(viewerId)) as { kind: ReadInfoKind, id: number }[];
+    for (const r of rows) out[r.kind]?.push({ id: r.id });
+    return out;
+}
+
+export function getUserOptions(viewerId: number | string): { type: number, value: number }[] {
+    return db.prepare('SELECT type, value FROM user_options WHERE viewer_id = ? ORDER BY type').all(Number(viewerId)) as { type: number, value: number }[];
+}
+
+export function setUserOptions(viewerId: number | string, options: { type: number, value: number }[]): void {
+    const upsert = db.prepare('INSERT INTO user_options (viewer_id, type, value) VALUES (?, ?, ?) ON CONFLICT (viewer_id, type) DO UPDATE SET value = excluded.value');
+    db.transaction(() => { for (const o of options) upsert.run(Number(viewerId), o.type, o.value); })();
+}
+
+export function getUserLoginBonusProgress(viewerId: number | string): { login_bonus_id: number, total_count: number, last_claim_day: number }[] {
+    return db.prepare('SELECT login_bonus_id, total_count, last_claim_day FROM user_login_bonus WHERE viewer_id = ?').all(Number(viewerId)) as any[];
+}
+
+export function setUserLoginBonusProgress(viewerId: number | string, loginBonusId: number, totalCount: number, day: number): void {
+    db.prepare(`INSERT INTO user_login_bonus (viewer_id, login_bonus_id, total_count, last_claim_day) VALUES (?, ?, ?, ?)
+                ON CONFLICT (viewer_id, login_bonus_id) DO UPDATE SET total_count = excluded.total_count, last_claim_day = excluded.last_claim_day`)
+        .run(Number(viewerId), loginBonusId, totalCount, day);
+}
